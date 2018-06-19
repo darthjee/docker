@@ -5,9 +5,8 @@ taa:
 	docker IMAGE=taa build
 
 build:
-	docker build -f Dockerfile.$(IMAGE) . -t $(IMAGE)
+	docker build -f Dockerfile.$(IMAGE) . -t $$DOCKER_ID_USER/$(IMAGE)
 
 push:
 	make build
-	docker tag $(IMAGE) $$DOCKER_ID_USER/$(IMAGE)
 	docker push $$DOCKER_ID_USER/$(IMAGE)
