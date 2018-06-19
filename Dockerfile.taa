@@ -4,6 +4,3 @@ ADD taa/Gemfile* /home/app/
 
 WORKDIR /home/app
 RUN bundle install --clean
-
-USER app
-
