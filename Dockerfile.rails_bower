@@ -1,9 +1,10 @@
 FROM ruby:2.4.0
 
-RUN useradd -u 1000 app
-RUN mkdir -p /home/app
-RUN chown app.app /home/app
+RUN useradd -u 1000 app; \
+    mkdir -p /home/app; \
+    chown app.app /home/app
 
 RUN apt-get update && apt-get install -y netcat nodejs-legacy npm mongodb-clients
+
 RUN npm install bower -g
 RUN gem install bundler
