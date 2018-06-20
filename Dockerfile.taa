@@ -1,6 +1,12 @@
 FROM darthjee/rails_bower:0.0.1
 
-ADD taa/Gemfile* /home/app/
+ADD taa/* /home/app/
 
 WORKDIR /home/app
 RUN bundle install --clean
+
+USER app
+RUN bower install
+
+USER root
+RUN rm -rf bower_components bower.json
