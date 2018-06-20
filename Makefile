@@ -1,8 +1,8 @@
 rails_bower:
-	docker IMAGE=rails_bower build
+	make IMAGE=rails_bower build
 
 taa: rails_bower
-	docker IMAGE=taa build
+	make IMAGE=taa build
 
 build:
 	docker build -f Dockerfile.$(IMAGE) . -t $$DOCKER_ID_USER/$(IMAGE)
