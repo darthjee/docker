@@ -1,8 +1,8 @@
 FROM ruby:2.4.0
 
 RUN useradd -u 1000 app; \
-    mkdir -p /home/app; \
-    chown app.app /home/app
+    mkdir -p /home/app/app; \
+    chown app.app -R /home/app
 
 RUN apt-get update && apt-get install -y netcat nodejs-legacy npm
 
