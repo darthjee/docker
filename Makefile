@@ -5,7 +5,7 @@ all:
 rails_bower: version
 	make IMAGE=rails_bower build
 
-taa: rails_bower version
+taa: version
 	make IMAGE=taa build
 
 build:
