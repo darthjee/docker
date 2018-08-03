@@ -1,6 +1,6 @@
 FROM darthjee/rails_bower:0.0.3
 
-ADD taa/* /home/app/app/
+ADD taa_home/* /home/app/app/
 
 WORKDIR /home/app/app
 RUN bundle install --clean
