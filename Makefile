@@ -16,7 +16,7 @@ build:
 
 tag:
 	VERSION=$$(cat ./version | grep '$(IMAGE)=' | sed s/$(IMAGE)=//g); \
-	make VERSION=$$VERSION $(IMAGE);
+	make VERSION=$$VERSION build;
 
 push:
 	make tag; \
