@@ -1,0 +1,14 @@
+{
+  "name": "Base_node_project",
+  "description": "This is used only to install default packages",
+  "author": "Fernando 'darthjee' Favini",
+  "version": "0.0.1",
+  "dependencies": {
+    "underscore": "~1.6.x"
+  },
+  "devDependencies": {
+    "jasmine": "latest",
+    "express": "latest",
+    "nock": "latest"
+  }
+}

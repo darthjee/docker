@@ -8,6 +8,9 @@ rails_bower: version
 taa: version
 	make IMAGE=taa build
 
+node: version
+	make IMAGE=node build
+
 build:
 	docker build -f Dockerfile.$(IMAGE) . -t $$DOCKER_ID_USER/$(IMAGE)
 	if [ $(VERSION) ]; then \
