@@ -2,7 +2,7 @@ FROM node:10.8
 
 RUN mkdir -p /home/node/app; \
     chown node -R /home/node; \
-    npm install -g jsdoc jasmine
+    npm install -g jsdoc jasmine lint
 
 WORKDIR /home/node/app
 
