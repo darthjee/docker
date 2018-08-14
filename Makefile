@@ -22,6 +22,7 @@ tag:
 	make VERSION=$$VERSION build;
 
 push:
+	VERSION=$$(cat ./version | grep '$(IMAGE)=' | sed s/$(IMAGE)=//g); \
 	make tag; \
 	docker push $$DOCKER_ID_USER/$(IMAGE); \
 	docker push $$DOCKER_ID_USER/$(IMAGE):$$VERSION
