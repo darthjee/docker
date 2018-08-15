@@ -7,8 +7,10 @@
     "underscore": "~1.6.x"
   },
   "devDependencies": {
-    "jasmine": "latest",
-    "express": "latest",
-    "nock": "latest"
+    "eslint": "^5.3.0",
+    "eslint-plugin-jasmine": "^2.10.1",
+    "express": "4.16.3",
+    "jasmine": "3.2.0",
+    "nock": "9.6.1"
   }
 }
