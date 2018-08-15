@@ -2,13 +2,13 @@ FROM node:10.8
 
 RUN mkdir -p /home/node/app; \
     chown node -R /home/node; \
-    npm install -g jsdoc jasmine eslint
+    npm install -g jsdoc jasmine eslint eslint-plugin-jasmine
 
 WORKDIR /home/node/app
 
 ADD node_home/package.json  /home/node/app
 
-RUN npm -g install
+RUN npm -g install; rm -f /home/node/app/package-lock.json
 
 RUN chown node /home/node -R
 
