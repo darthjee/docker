@@ -1,7 +1,6 @@
-FROM node:10.8
+FROM node:10.7
 
 RUN mkdir -p /home/node/app; \
-    useradd -u 1000 node; \
     chown node /home/node -R;
 
 WORKDIR /home/node/app
