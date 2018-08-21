@@ -1,4 +1,4 @@
-FROM darthjee/node:0.0.4
+FROM darthjee/node:0.0.5
 
 USER root
 

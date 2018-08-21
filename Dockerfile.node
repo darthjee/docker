@@ -1,15 +1,14 @@
 FROM node:10.8
 
 RUN mkdir -p /home/node/app; \
-    chown node -R /home/node; \
-    npm install -g jsdoc jasmine eslint eslint-plugin-jasmine
+    useradd -u 1000 node; \
+    chown node /home/node -R;
 
 WORKDIR /home/node/app
 
-ADD node_home/package.json  /home/node/app
+ADD node_home/*  /home/node/app/
 
-RUN npm -g install; rm -f /home/node/app/package-lock.json
-
-RUN chown node /home/node -R
+RUN npm -g install $(sed -f packages_sed.sed package.json -n); \
+    rm /home/node/app/* -f
 
 USER node
