@@ -1,4 +1,4 @@
-FROM darthjee/circleci_node:0.0.6
+FROM darthjee/circleci_node:0.0.7
 
 USER root
 

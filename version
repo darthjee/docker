@@ -1,6 +1,6 @@
 rails_bower=0.0.3
 taa=0.0.3
-node=0.0.6
-node_mongo=0.0.5
-circleci_node=0.0.6
-circleci_node_mongo=0.0.5
+node=0.0.7
+node_mongo=0.0.6
+circleci_node=0.0.7
+circleci_node_mongo=0.0.6
