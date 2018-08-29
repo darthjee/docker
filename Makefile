@@ -18,7 +18,7 @@ build:
 	fi
 
 tag:
-	VERSION=$$(cat ./version | grep '$(IMAGE)=' | sed s/$(IMAGE)=//g); \
+	VERSION=$$(cat ./version | grep '^$(IMAGE)=' | sed s/$(IMAGE)=//g); \
 	make VERSION=$$VERSION build;
 
 push:
