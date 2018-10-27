@@ -1,0 +1,13 @@
+FROM ruby:2.4.0
+
+RUN useradd -u 1000 app; \
+    mkdir -p /home/app/app; \
+    chown app.app -R /home/app
+
+RUN apt-get update && apt-get install -y gnuplot
+
+ADD ruby_plot_home/* /home/app/app/
+
+WORKDIR /home/app/app
+
+RUN bundle install --clean
