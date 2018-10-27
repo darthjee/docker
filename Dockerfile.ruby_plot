@@ -4,10 +4,11 @@ RUN useradd -u 1000 app; \
     mkdir -p /home/app/app; \
     chown app.app -R /home/app
 
-RUN apt-get update && apt-get install -y gnuplot
+RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
 
 ADD ruby_plot_home/* /home/app/app/
 
 WORKDIR /home/app/app
 
+user app
 RUN bundle install --clean
