@@ -1,4 +1,4 @@
-FROM darthjee/taa:0.0.3
+FROM darthjee/taa:0.0.4
 
 RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
 

@@ -1,10 +1,11 @@
-FROM ruby:2.4.0
+FROM ruby:2.5.0
 
 RUN useradd -u 1000 app; \
     mkdir -p /home/app/app; \
     chown app.app -R /home/app
 
-RUN apt-get update && apt-get install -y netcat nodejs-legacy npm
+RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash
+RUN apt-get update && apt-get install -y netcat nodejs
 
 RUN npm install bower -g
 RUN gem install bundler
