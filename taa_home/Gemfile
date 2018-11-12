@@ -1,17 +1,17 @@
 source 'https://rubygems.org'
 ruby '2.4.0'
 
-gem 'rails', '~> 5.1.x'
+gem 'rails', '~> 5.2.x'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
 gem 'nokogiri', '>= 1.8.2'
 
-gem 'darthjee-core_ext'
-gem 'tarquinn'
+gem 'darthjee-core_ext', '>= 1.7.3'
+gem 'tarquinn', '0.1.0'
 gem 'bower-rails', '~> 0.11.0'
-gem 'sinclair'
+gem 'sinclair', '1.1.2'
 gem 'rake', '>= 12.3'
 
 group :development, :test do
