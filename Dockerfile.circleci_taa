@@ -1,0 +1,12 @@
+FROM darthjee/circleci_rails_bower:0.0.4
+
+ADD taa_home/* /home/circleci/app/
+
+WORKDIR /home/circleci/app
+
+USER circleci
+RUN bower install
+
+USER root
+RUN rm -rf bower_components bower.json
+RUN bundle install --clean
