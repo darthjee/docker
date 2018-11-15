@@ -27,3 +27,7 @@ push:
 	docker push $$DOCKER_ID_USER/$(IMAGE); \
 	docker push $$DOCKER_ID_USER/$(IMAGE):$$VERSION
 
+tagall:
+	for IMAGE in $(IMAGES); do \
+		make build tag IMAGE=$$IMAGE; \
+	done
