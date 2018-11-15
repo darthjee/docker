@@ -5,6 +5,7 @@ RUN mkdir -p /home/circleci/app
 USER root
 RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash
 RUN apt-get update && apt-get install -y netcat nodejs
+RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter
 
 RUN npm install bower -g
 RUN gem install bundler
