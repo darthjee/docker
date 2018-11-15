@@ -1,4 +1,4 @@
-FROM circleci/ruby:2.5.0
+FROM darthjee/circleci_ruby_250:0.0.1
 
 RUN mkdir -p /home/circleci/app
 

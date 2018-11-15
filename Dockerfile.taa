@@ -1,4 +1,4 @@
-FROM darthjee/rails_bower:0.0.4
+FROM darthjee/rails_bower:0.1.0
 
 ADD taa_home/* /home/app/app/
 
