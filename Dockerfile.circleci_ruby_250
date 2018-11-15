@@ -1,0 +1,11 @@
+FROM circleci/ruby:2.5.0
+
+RUN mkdir -p /home/circleci/app
+
+USER root
+RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash
+RUN apt-get update && apt-get install -y netcat nodejs
+
+RUN npm install bower -g
+RUN gem install bundler
+USER circleci
