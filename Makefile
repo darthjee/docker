@@ -12,22 +12,24 @@ node: version
 	make IMAGE=node build
 
 build:
-	docker build -f Dockerfile.$(IMAGE) . -t $$DOCKER_ID_USER/$(IMAGE)
-	if [ $(VERSION) ]; then \
-		docker tag $$DOCKER_ID_USER/$(IMAGE) $$DOCKER_ID_USER/$(IMAGE):$(VERSION); \
-	fi
+	for IMAGE in $(IMAGES); do \
+		docker build -f Dockerfile.$$IMAGE . -t $$DOCKER_ID_USER/$$IMAGE; \
+		if [ $(VERSION) ]; then \
+			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
+		fi; \
+	done
 
 tag:
-	VERSION=$$(cat ./version | grep '^$(IMAGE)=' | sed s/$(IMAGE)=//g); \
-	make VERSION=$$VERSION build;
+	for IMAGE in $(IMAGES); do \
+		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
+		make IMAGES=$$IMAGE VERSION=$$VERSION build; \
+	done
 
 push:
-	VERSION=$$(cat ./version | grep '$(^IMAGE)=' | sed s/$(IMAGE)=//g); \
-	make tag; \
-	docker push $$DOCKER_ID_USER/$(IMAGE); \
-	docker push $$DOCKER_ID_USER/$(IMAGE):$$VERSION
-
-tagall:
 	for IMAGE in $(IMAGES); do \
-		make build tag IMAGE=$$IMAGE; \
+		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
+		make IMAGES=$$IMAGE tag; \
+		echo docker push $$DOCKER_ID_USER/$$IMAGE; \
+		echo docker push $$DOCKER_ID_USER/$$IMAGE:$$VERSION; \
 	done
+
