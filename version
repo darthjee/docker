@@ -1,7 +1,7 @@
 circleci_node=0.0.7
 circleci_node_mongo=0.0.6
 circleci_rails_bower=0.1.0
-circleci_ruby_250=0.0.1
+circleci_ruby_250=0.1.0
 circleci_taa=0.1.0
 circleci_taap=0.1.0
 node=0.0.7
