@@ -17,3 +17,5 @@ RUN npm install bower -g
 
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 COPY --from=builder /home/app/app/bower_components /home/app/app/bower_components
+RUN chown app.app /home/app/app/bower_components /usr/local/bundle -R
+USER app
