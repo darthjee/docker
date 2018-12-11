@@ -1,9 +1,19 @@
-FROM darthjee/taa:0.1.0
-
-RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
+FROM darthjee/taa:0.2.0 as builder
 
 ADD taap_home/* /home/app/app/
 
 WORKDIR /home/app/app
 
+USER root
 RUN bundle install --clean
+
+
+FROM darthjee/taa:0.2.0
+
+USER root
+RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
+
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY --from=builder /home/app/app/bower_components /home/app/app/bower_components
+RUN chown app.app /home/app/app/bower_components /usr/local/bundle -R
+USER app
