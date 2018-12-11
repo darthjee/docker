@@ -7,5 +7,6 @@ RUN npm install bower -g
 
 COPY --from=source /usr/local/bundle /usr/local/bundle
 COPY --from=source /home/app/app/bower_components /home/circleci/app/bower_components
+RUN chown circleci.circleci /home/circleci/app/bower_components /usr/local/bundle -R
 
 USER circleci
