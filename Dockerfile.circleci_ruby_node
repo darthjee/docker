@@ -6,3 +6,4 @@ USER root
 RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash
 RUN apt-get update && apt-get install -y netcat nodejs
 USER circleci
+WORKDIR /home/circleci/app
