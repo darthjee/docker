@@ -3,7 +3,7 @@ FROM darthjee/ruby_node:0.1.0 as builder
 RUN npm install bower -g
 RUN gem install bundler
 
-ADD taa_home/* /home/app/app/
+ADD rails_bower_home/* /home/app/app/
 
 WORKDIR /home/app/app
 RUN bundle install --clean
