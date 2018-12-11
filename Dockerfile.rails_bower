@@ -1,11 +1,17 @@
-FROM ruby:2.5.0
-
-RUN useradd -u 1000 app; \
-    mkdir -p /home/app/app; \
-    chown app.app -R /home/app
-
-RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash
-RUN apt-get update && apt-get install -y netcat nodejs
+FROM darthjee/ruby_node:0.1.0 as builder
 
 RUN npm install bower -g
 RUN gem install bundler
+
+ADD taa_home/* /home/app/app/
+
+WORKDIR /home/app/app
+RUN bundle install --clean
+
+USER app
+RUN bower install
+
+FROM darthjee/ruby_node:0.1.0
+
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY --from=builder /home/app/app/bower_components /home/app/app/bower_components
