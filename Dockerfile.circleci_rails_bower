@@ -1,11 +1,11 @@
-FROM darthjee/circleci_ruby_250:0.0.1
+FROM darthjee/rails_bower:0.2.0 as source
 
-RUN mkdir -p /home/circleci/app
+FROM darthjee/circleci_ruby_node:0.2.0
 
 USER root
-RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash
-RUN apt-get update && apt-get install -y netcat nodejs
-
 RUN npm install bower -g
-RUN gem install bundler
+
+COPY --from=source /usr/local/bundle /usr/local/bundle
+COPY --from=source /home/app/app/bower_components /home/circleci/app/bower_components
+
 USER circleci
