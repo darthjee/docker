@@ -13,5 +13,7 @@ RUN bower install
 
 FROM darthjee/ruby_node:0.1.0
 
+RUN npm install bower -g
+
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 COPY --from=builder /home/app/app/bower_components /home/app/app/bower_components
