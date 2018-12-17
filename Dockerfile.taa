@@ -8,9 +8,6 @@ RUN bundle install --clean
 USER app
 RUN bower install
 
-USER root
-RUN rm -rf /usr/local/bundle/gems/*
-
 #FINAL BUILD
 FROM darthjee/rails_bower:0.2.1
 

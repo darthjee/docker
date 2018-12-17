@@ -6,7 +6,6 @@ WORKDIR /home/app/app
 
 USER root
 RUN bundle install --clean
-RUN rm -rf /usr/local/bundle/gems/*
 
 #FINAL BUILD
 FROM darthjee/taa:0.2.1
