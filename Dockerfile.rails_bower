@@ -17,8 +17,7 @@ FROM darthjee/ruby_node:0.2.1
 USER root
 RUN npm install bower -g
 
-COPY --from=builder /usr/local/bundle /usr/local/bundle
-COPY --from=builder /home/app/.cache /home/app/.cache
-RUN chown app.app /home/app/.cache /usr/local/bundle -R
+COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
+COPY --chown=app:app --from=builder /home/app/.cache /home/app/.cache
 
 USER app

@@ -11,7 +11,7 @@ RUN bower install
 FROM darthjee/circleci_rails_bower:0.2.1
 
 USER root
-COPY --from=source /usr/local/bundle /usr/local/bundle
-COPY --from=source /home/circleci/.cache /home/circleci/.cache
-RUN chown circleci.circleci /home/circleci/.cache /usr/local/bundle -R
+COPY --chown=circleci:circleci --from=source /usr/local/bundle /usr/local/bundle
+COPY --chown=circleci:circleci --from=source /home/circleci/.cache /home/circleci/.cache
+
 USER circleci
