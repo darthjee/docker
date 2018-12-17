@@ -1,14 +1,17 @@
-FROM darthjee/rails_bower:0.2.0 as builder
+FROM darthjee/rails_bower:0.2.1 as builder
 
 ADD taa_home/* /home/app/app/
 
-WORKDIR /home/app/app
 RUN bundle install --clean
 
-USER app
 RUN bower install
 
-FROM darthjee/rails_bower:0.2.0
+#######################
+#FINAL BUILD
+FROM darthjee/rails_bower:0.2.1
 
-COPY --from=builder /usr/local/bundle /usr/local/bundle
-COPY --from=builder /home/app/app/bower_components /home/app/app/bower_components
+USER root
+COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
+COPY --chown=app:app --from=builder /home/app/.cache /home/app/.cache
+
+USER app

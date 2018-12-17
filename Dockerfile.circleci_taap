@@ -1,18 +1,18 @@
-FROM darthjee/circleci_taa:0.2.0 as source
-
-WORKDIR /home/circleci/project/
+FROM darthjee/circleci_taa:0.2.1 as source
 
 ADD taap_home/* /home/circleci/project/
+
 RUN bundle install --clean
 RUN bower install
 
-FROM darthjee/circleci_taa:0.2.0
+#FINAL BUILD
+FROM darthjee/circleci_taa:0.2.1
 
 USER root
 RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
 
 USER root
-COPY --from=source /usr/local/bundle /usr/local/bundle
-COPY --from=source /home/circleci/.cache /home/circleci/.cache
-RUN chown circleci.circleci /home/circleci/.cache /usr/local/bundle -R
+COPY --chown=circleci:circleci --from=source /usr/local/bundle /usr/local/bundle
+COPY --chown=circleci:circleci --from=source /home/circleci/.cache /home/circleci/.cache
+
 USER circleci

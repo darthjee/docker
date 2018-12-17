@@ -1,21 +1,23 @@
-FROM darthjee/ruby_node:0.1.0 as builder
+FROM darthjee/ruby_node:0.2.1 as builder
 
+USER root
 RUN npm install bower -g
-RUN gem install bundler
 
 ADD rails_bower_home/* /home/app/app/
 
-WORKDIR /home/app/app
 RUN bundle install --clean
 
 USER app
 RUN bower install
 
-FROM darthjee/ruby_node:0.1.0
+#######################
+#FINAL IMAGE
+FROM darthjee/ruby_node:0.2.1
 
+USER root
 RUN npm install bower -g
 
-COPY --from=builder /usr/local/bundle /usr/local/bundle
-COPY --from=builder /home/app/app/bower_components /home/app/app/bower_components
-RUN chown app.app /home/app/app/bower_components /usr/local/bundle -R
+COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
+COPY --chown=app:app --from=builder /home/app/.cache /home/app/.cache
+
 USER app
