@@ -1,7 +1,7 @@
 FROM darthjee/ruby_node:0.2.1 as builder
 
+USER root
 RUN npm install bower -g
-RUN gem install bundler
 
 ADD rails_bower_home/* /home/app/app/
 
@@ -11,8 +11,13 @@ RUN bundle install --clean
 USER app
 RUN bower install
 
+USER root
+RUN rm -rf /usr/local/bundle/gems/*
+
+#FINAL IMAGE
 FROM darthjee/ruby_node:0.2.1
 
+USER root
 RUN npm install bower -g
 
 COPY --from=builder /usr/local/bundle /usr/local/bundle
