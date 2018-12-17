@@ -2,7 +2,6 @@ FROM darthjee/rails_bower:0.2.1 as builder
 
 ADD taa_home/* /home/app/app/
 
-WORKDIR /home/app/app
 RUN bundle install --clean
 
 USER app

@@ -2,10 +2,10 @@ FROM darthjee/taa:0.2.1 as builder
 
 ADD taap_home/* /home/app/app/
 
-WORKDIR /home/app/app
-
 USER root
 RUN bundle install --clean
+USER app
+RUN bower install
 
 #FINAL BUILD
 FROM darthjee/taa:0.2.1

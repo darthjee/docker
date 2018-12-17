@@ -5,7 +5,6 @@ RUN npm install bower -g
 
 ADD rails_bower_home/* /home/app/app/
 
-WORKDIR /home/app/app
 RUN bundle install --clean
 
 USER app
@@ -20,4 +19,5 @@ RUN npm install bower -g
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 COPY --from=builder /home/app/.cache /home/app/.cache
 RUN chown app.app /home/app/.cache /usr/local/bundle -R
+
 USER app

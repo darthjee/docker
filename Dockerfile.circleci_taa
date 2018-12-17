@@ -1,12 +1,13 @@
-FROM darthjee/circleci_rails_bower:0.2.0 as source
-
-WORKDIR /home/circleci/project/
+FROM darthjee/circleci_rails_bower:0.2.1 as source
 
 ADD taa_home/* /home/circleci/project/
+
 RUN bundle install --clean
+
 RUN bower install
 
-FROM darthjee/circleci_rails_bower:0.2.0
+#FINAL BUILD
+FROM darthjee/circleci_rails_bower:0.2.1
 
 USER root
 COPY --from=source /usr/local/bundle /usr/local/bundle
