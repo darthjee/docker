@@ -10,6 +10,7 @@ RUN bundle install --clean
 USER app
 RUN bower install
 
+#######################
 #FINAL IMAGE
 FROM darthjee/ruby_node:0.2.1
 

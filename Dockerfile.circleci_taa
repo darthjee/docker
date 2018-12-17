@@ -6,6 +6,7 @@ RUN bundle install --clean
 
 RUN bower install
 
+#######################
 #FINAL BUILD
 FROM darthjee/circleci_rails_bower:0.2.1
 

@@ -10,6 +10,7 @@ RUN bundle install --clean
 USER circleci
 RUN bower install
 
+#######################
 #FINAL IMAGE
 FROM darthjee/circleci_ruby_node:0.2.1
 
