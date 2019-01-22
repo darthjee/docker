@@ -1,4 +1,4 @@
-FROM darthjee/taa:0.2.1 as builder
+FROM darthjee/taa:0.2.2 as builder
 
 ADD taap_home/* /home/app/app/
 
@@ -8,7 +8,7 @@ USER app
 RUN bower install
 
 #FINAL BUILD
-FROM darthjee/taa:0.2.1
+FROM darthjee/taa:0.2.2
 
 USER root
 RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
