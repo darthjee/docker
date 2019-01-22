@@ -1,4 +1,8 @@
-FROM darthjee/circleci_ruby_node:0.2.1 as source
+FROM darthjee/circleci_ruby_node:0.2.2 as base
+
+######################################
+
+FROM base as source
 
 USER root
 RUN npm install bower -g
@@ -10,9 +14,9 @@ RUN bundle install --clean
 USER circleci
 RUN bower install
 
-#######################
+######################################
 #FINAL IMAGE
-FROM darthjee/circleci_ruby_node:0.2.1
+FROM base
 
 USER root
 RUN npm install bower -g
