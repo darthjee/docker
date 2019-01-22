@@ -1,4 +1,4 @@
-FROM darthjee/ruby_node:0.2.1 as builder
+FROM darthjee/ruby_node:0.2.2 as builder
 
 USER root
 RUN npm install bower -g
@@ -12,7 +12,7 @@ RUN bower install
 
 #######################
 #FINAL IMAGE
-FROM darthjee/ruby_node:0.2.1
+FROM darthjee/ruby_node:0.2.2
 
 USER root
 RUN npm install bower -g
