@@ -1,14 +1,11 @@
-FROM ruby:2.4.0
+FROM darthjee/ruby_240:0.2.2
 
-RUN useradd -u 1000 app; \
-    mkdir -p /home/app/app; \
-    chown app.app -R /home/app
-
+USER root
 RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
 
 ADD ruby_plot_home/* /home/app/app/
+RUN chown app.app /home/app -R
 
-WORKDIR /home/app/app
+USER app
 
-user app
 RUN bundle install --clean
