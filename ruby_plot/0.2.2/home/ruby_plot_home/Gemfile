@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+ruby '2.4.0'
+
+gem 'darthjee-core_ext', '1.7.3'
+gem 'danica', '2.7.4'
