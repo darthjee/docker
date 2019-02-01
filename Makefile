@@ -13,6 +13,9 @@ node: version
 
 build:
 	for IMAGE in $(IMAGES); do \
+		docker tag $$DOCKER_ID_USER/$$IMAGE:latest $$DOCKER_ID_USER/$$IMAGE:cached; \
+		docker rmi $$DOCKER_ID_USER/$$IMAGE:latest; \
+		docker pull $$DOCKER_ID_USER/$$IMAGE:latest; \
 		docker build -f Dockerfile.$$IMAGE . -t $$DOCKER_ID_USER/$$IMAGE; \
 		if [ $(VERSION) ]; then \
 			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
