@@ -16,7 +16,8 @@ build:
 		docker tag $$DOCKER_ID_USER/$$IMAGE:latest $$DOCKER_ID_USER/$$IMAGE:cached; \
 		docker rmi $$DOCKER_ID_USER/$$IMAGE:latest; \
 		docker pull $$DOCKER_ID_USER/$$IMAGE:latest; \
-		docker build -f Dockerfile.$$IMAGE . -t $$DOCKER_ID_USER/$$IMAGE; \
+		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
+		docker build -f $$IMAGE/$$VERSION/Dockerfile . -t $$DOCKER_ID_USER/$$IMAGE; \
 		if [ $(VERSION) ]; then \
 			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
 		fi; \
