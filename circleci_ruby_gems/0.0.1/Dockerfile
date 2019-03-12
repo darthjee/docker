@@ -4,7 +4,7 @@ FROM darthjee/circleci_ruby_250:0.2.2 as base
 
 FROM base as builder
 
-ADD home/* /home/app/app/
+ADD home/* /home/circleci/project/
 
 RUN bundle install --clean
 
@@ -14,6 +14,6 @@ FROM base
 
 USER root
 
-COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
+COPY --chown=circleci:circleci --from=builder /usr/local/bundle /usr/local/bundle
 
-USER app
+USER circleci
