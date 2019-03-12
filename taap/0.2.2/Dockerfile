@@ -4,7 +4,7 @@ FROM darthjee/taa:0.2.2 as base
 
 FROM base as builder
 
-ADD taap_home/* /home/app/app/
+ADD home/* /home/app/app/
 
 USER root
 RUN bundle install --clean

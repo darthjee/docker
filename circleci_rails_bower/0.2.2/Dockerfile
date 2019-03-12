@@ -7,7 +7,7 @@ FROM base as source
 USER root
 RUN npm install bower -g
 
-ADD rails_bower_home/* /home/circleci/project/
+ADD home/* /home/circleci/project/
 
 RUN bundle install --clean
 

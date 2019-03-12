@@ -4,7 +4,7 @@ FROM darthjee/rails_bower:0.2.2 as base
 
 FROM base as builder
 
-ADD taa_home/* /home/app/app/
+ADD home/* /home/app/app/
 
 RUN bundle install --clean
 

@@ -5,7 +5,7 @@ RUN mkdir -p /home/node/app; \
 
 WORKDIR /home/node/app
 
-ADD node_home/*  /home/node/app/
+ADD home/*  /home/node/app/
 
 RUN npm -g install $(sed -f packages_sed.sed package.json -n); \
     rm /home/node/app/* -f

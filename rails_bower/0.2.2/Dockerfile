@@ -7,7 +7,7 @@ FROM base as builder
 USER root
 RUN npm install bower -g
 
-ADD rails_bower_home/* /home/app/app/
+ADD home/* /home/app/app/
 
 RUN bundle install --clean
 

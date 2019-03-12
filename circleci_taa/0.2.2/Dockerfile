@@ -4,7 +4,7 @@ FROM darthjee/circleci_rails_bower:0.2.2 as base
 
 FROM base as source
 
-ADD taa_home/* /home/circleci/project/
+ADD home/* /home/circleci/project/
 
 RUN bundle install --clean
 
