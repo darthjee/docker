@@ -17,7 +17,7 @@ build:
 		docker rmi $$DOCKER_ID_USER/$$IMAGE:latest; \
 		docker pull $$DOCKER_ID_USER/$$IMAGE:latest; \
 		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		docker build -f $$IMAGE/$$VERSION/Dockerfile . -t $$DOCKER_ID_USER/$$IMAGE; \
+		docker build -f $$IMAGE/$$VERSION/Dockerfile $$IMAGE/$$VERSION/ -t $$DOCKER_ID_USER/$$IMAGE; \
 		if [ $(VERSION) ]; then \
 			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
 		fi; \
