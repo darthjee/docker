@@ -2,7 +2,11 @@ FROM darthjee/circleci_ruby_250:0.2.2 as base
 
 ######################################
 
-FROM darthjee/ruby_gems:0.0.1 as builder
+FROM base as builder
+
+ADD home/* /home/circleci/project/
+
+RUN bundle install --clean
 
 #######################
 #FINAL IMAGE
