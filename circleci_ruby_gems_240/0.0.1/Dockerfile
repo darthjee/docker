@@ -1,4 +1,4 @@
-FROM darthjee/circleci_ruby_250:0.2.2 as base
+FROM darthjee/circleci_ruby_240:0.2.3 as base
 
 ######################################
 
