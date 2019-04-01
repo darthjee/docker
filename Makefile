@@ -21,6 +21,7 @@ build:
 		if [ $(VERSION) ]; then \
 			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
 		fi; \
+		docker rmi $$DOCKER_ID_USER/$$IMAGE:cached; \
 	done
 
 tag:
