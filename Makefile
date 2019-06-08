@@ -40,3 +40,11 @@ push:
 		docker push $$DOCKER_ID_USER/$$IMAGE:$$VERSION; \
 	done
 
+test:
+	for IMAGE in $(IMAGES); do \
+		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
+		docker run \
+	    --mount "type=bind,source=$$(pwd)/$$IMAGE/$$VERSION/test/,destination=/home/test/" \
+	    --mount "type=bind,source=$$(pwd)/$$IMAGE/$$VERSION/home/,destination=/home/test_home/" \
+			$$DOCKER_ID_USER/$$IMAGE:$$VERSION /home/test/test.sh; \
+	done
