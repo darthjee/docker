@@ -1,0 +1,9 @@
+version: '3'
+services:
+  circleci_ruby_250_test: &base
+    image: circleci_ruby_250_test
+    build:
+      dockerfile: Dockerfile.test
+      context: ./
+    working_dir: /home/circleci/project
+    command: /home/test/test.sh

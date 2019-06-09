@@ -1,0 +1,9 @@
+version: '3'
+services:
+  ruby_node_test: &base
+    image: ruby_node_test
+    build:
+      dockerfile: Dockerfile.test
+      context: ./
+    working_dir: /home/app/app
+    command: /home/test/test.sh

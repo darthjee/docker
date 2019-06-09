@@ -43,8 +43,8 @@ push:
 test:
 	for IMAGE in $(IMAGES); do \
 		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		docker run \
-	    --mount "type=bind,source=$$(pwd)/$$IMAGE/$$VERSION/test/,destination=/home/test/" \
-	    --mount "type=bind,source=$$(pwd)/$$IMAGE/$$VERSION/home/,destination=/home/test_home/" \
-			$$DOCKER_ID_USER/$$IMAGE:$$VERSION /home/test/test.sh; \
+		docker-compose \
+	    -f $$IMAGE/$$VERSION/docker-compose.yml \
+			--project-directory $$IMAGE/$$VERSION/ \
+			run $$IMAGE"_test"; \
 	done

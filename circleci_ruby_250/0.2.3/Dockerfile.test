@@ -1,0 +1,4 @@
+FROM darthjee/circleci_ruby_250:0.2.3
+
+COPY --chown=circleci:circleci home /home/test_home
+COPY --chown=circleci:circleci test /home/test

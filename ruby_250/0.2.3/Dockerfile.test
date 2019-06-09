@@ -1,0 +1,4 @@
+FROM darthjee/ruby_250:0.2.3
+
+COPY home /home/test_home
+COPY test /home/test
