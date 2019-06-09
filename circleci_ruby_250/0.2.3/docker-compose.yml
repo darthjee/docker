@@ -1,7 +1,7 @@
 version: '3'
 services:
   circleci_ruby_250_test: &base
-    image: circleci_ruby_250_test
+    image: $IMAGE_NAME
     build:
       dockerfile: Dockerfile.test
       context: ./
