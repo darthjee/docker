@@ -9,5 +9,4 @@ services:
         - VERSION=$VERSION
         - IMAGE=$IMAGE
         - DOCKER_ID_USER=$DOCKER_ID_USER
-    working_dir: /home/circleci/project
     command: /home/test/test.sh
