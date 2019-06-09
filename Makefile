@@ -43,6 +43,8 @@ push:
 test:
 	for IMAGE in $(IMAGES); do \
 		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
+		USER_NAME=$${IMAGE%%_*}; \
+		USER_NAME=$$(echo $$USER_NAME | grep circleci || echo app); \
 	  DOCKER_ID_USER=$$DOCKER_ID_USER IMAGE=$$IMAGE VERSION=$$VERSION \
 		IMAGE_NAME=$$IMAGE"_test"  docker-compose \
 	    -f docker-compose-test.yml \
