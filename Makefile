@@ -49,6 +49,5 @@ test:
 		USER_NAME=$$USER_NAME \
 		IMAGE_NAME=$$IMAGE"_test"  docker-compose \
 	    -f docker-compose-test.yml \
-			--project-directory $$IMAGE/$$VERSION/ \
 			run test; \
 	done
