@@ -19,6 +19,6 @@ FROM base
 USER root
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter
-COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
+COPY --chown=circleci:circleci --from=builder /usr/local/bundle /usr/local/bundle
 
 USER circleci

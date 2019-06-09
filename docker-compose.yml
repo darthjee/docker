@@ -1,0 +1,14 @@
+version: '3'
+services:
+  test:
+    image: $IMAGE_NAME
+    build:
+      dockerfile: Dockerfile.test
+      context: ./
+      args:
+        - VERSION=$VERSION
+        - IMAGE=$IMAGE
+        - DOCKER_ID_USER=$DOCKER_ID_USER
+        - USER_NAME=$USER_NAME
+    command: /home/test/test.sh
+
