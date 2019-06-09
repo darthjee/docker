@@ -4,5 +4,11 @@ ARG VERSION
 
 FROM $DOCKER_ID_USER/$IMAGE:$VERSION
 
-COPY --chown=circleci:circleci home /home/test_home
-COPY --chown=circleci:circleci test /home/test
+ARG USER_NAME
+
+COPY home /home/test_home
+COPY test /home/test
+
+USER root
+RUN chown $USER_NAME:$USER_NAME /home/* -R
+USER $USER_NAME

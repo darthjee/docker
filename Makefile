@@ -46,6 +46,7 @@ test:
 		USER_NAME=$${IMAGE%%_*}; \
 		USER_NAME=$$(echo $$USER_NAME | grep circleci || echo app); \
 	  DOCKER_ID_USER=$$DOCKER_ID_USER IMAGE=$$IMAGE VERSION=$$VERSION \
+		USER_NAME=$$USER_NAME \
 		IMAGE_NAME=$$IMAGE"_test"  docker-compose \
 	    -f docker-compose-test.yml \
 			--project-directory $$IMAGE/$$VERSION/ \
