@@ -8,7 +8,7 @@ ARG USER_NAME
 ARG IMAGE
 ARG VERSION
 
-COPY $IMAGE/$VERSION/home /home/test_home
+COPY $IMAGE/$VERSION/home ./
 COPY $IMAGE/$VERSION/test /home/test
 
 USER root
