@@ -43,7 +43,8 @@ push:
 test:
 	for IMAGE in $(IMAGES); do \
 		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		docker-compose \
+	  DOCKER_ID_USER=$$DOCKER_ID_USER IMAGE=$$IMAGE VERSION=$$VERSION \
+		IMAGE_NAME=$$IMAGE"_test"  docker-compose \
 	    -f $$IMAGE/$$VERSION/docker-compose.yml \
 			--project-directory $$IMAGE/$$VERSION/ \
 			run $$IMAGE"_test"; \

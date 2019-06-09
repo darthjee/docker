@@ -1,4 +1,8 @@
-FROM darthjee/ruby_250:0.2.3
+ARG DOCKER_ID_USER
+ARG IMAGE
+ARG VERSION
+
+FROM $DOCKER_ID_USER/$IMAGE:$VERSION
 
 COPY home /home/test_home
 COPY test /home/test

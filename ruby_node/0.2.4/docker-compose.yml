@@ -5,5 +5,9 @@ services:
     build:
       dockerfile: Dockerfile.test
       context: ./
+      args:
+        - VERSION=$VERSION
+        - IMAGE=$IMAGE
+        - DOCKER_ID_USER=$DOCKER_ID_USER
     working_dir: /home/app/app
     command: /home/test/test.sh
