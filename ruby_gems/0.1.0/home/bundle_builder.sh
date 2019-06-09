@@ -11,5 +11,6 @@ for PATH in /usr/local/bundle/gems/*; do
   if [ ! -x /home/app/bundle_cache/gems/$GEM ]; then
     cp $PATH /home/app/bundle/gems/$GEM -R
     cp /usr/local/bundle/cache/$GEM.gem /home/app/bundle/cache -R
+    cp /usr/local/bundle/specifications/$GEM.gemspec /home/app/bundle/specifications -R
   fi
 done
