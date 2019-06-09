@@ -1,6 +1,6 @@
 version: '3'
 services:
-  ruby_node_test: &base
+  test: 
     image: $IMAGE_NAME
     build:
       dockerfile: Dockerfile.test

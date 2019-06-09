@@ -47,5 +47,5 @@ test:
 		IMAGE_NAME=$$IMAGE"_test"  docker-compose \
 	    -f $$IMAGE/$$VERSION/docker-compose.yml \
 			--project-directory $$IMAGE/$$VERSION/ \
-			run $$IMAGE"_test"; \
+			run test; \
 	done
