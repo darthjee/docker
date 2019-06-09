@@ -10,3 +10,4 @@ services:
         - IMAGE=$IMAGE
         - DOCKER_ID_USER=$DOCKER_ID_USER
     command: /home/test/test.sh
+
