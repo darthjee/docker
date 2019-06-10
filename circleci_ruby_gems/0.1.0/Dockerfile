@@ -1,4 +1,5 @@
 FROM darthjee/circleci_ruby_250:0.2.3 as base
+FROM darthjee/scripts:0.0.1 as scripts
 
 ######################################
 
@@ -6,6 +7,9 @@ FROM base as builder
 
 ADD home/* /home/circleci/project/
 
+COPY --chown=app:app --from=scripts /home/scripts/* ./bundle_builder.sh
+
+ENV HOME_DIR /home/circleci
 RUN /bin/bash bundle_builder.sh
 
 #######################
