@@ -3,6 +3,7 @@
 cp /usr/local/bundle $HOME_DIR/bundle_cache -R
 mkdir -p $HOME_DIR/bundle/gems/
 mkdir -p $HOME_DIR/bundle/cache/
+mkdir -p $HOME_DIR/bundle/specifications/
 
 bundle install --clean
 
