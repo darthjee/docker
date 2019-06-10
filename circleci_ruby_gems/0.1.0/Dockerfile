@@ -18,8 +18,8 @@ FROM base
 
 USER root
 
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/gems/* /usr/local/bundle/gems/
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/cache/* /usr/local/bundle/cache/
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/specifications/* /usr/local/bundle/specifications/
+COPY --chown=circleci:circleci --from=builder /home/app/bundle/gems/ /usr/local/bundle/gems/
+COPY --chown=circleci:circleci --from=builder /home/app/bundle/cache/ /usr/local/bundle/cache/
+COPY --chown=circleci:circleci --from=builder /home/app/bundle/specifications/ /usr/local/bundle/specifications/
 
 USER circleci
