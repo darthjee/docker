@@ -25,9 +25,12 @@ for PATH in /usr/local/bundle/bin/*; do
   fi
 done
 
-for PATH in /usr/local/bundle/extensions/*; do
-  EXT=${PATH##/usr/local/bundle/extensions/}
-  if [ ! -x $HOME_DIR/bundle_cache/extensions/$EXT ]; then
-    cp $PATH $HOME_DIR/bundle/extensions/$EXT -R
+for PATH in /usr/local/bundle/extensions/*/*/*; do
+  EXT_PATH=${PATH##/usr/local/bundle/extensions/}
+  EXT_DIR=${EXT_PATH%/*}
+
+  if [ ! -x $HOME_DIR/bundle_cache/extensions/$EXT_PATH ]; then
+    mkdir -p $HOME_DIR/bundle/extensions/$EXT_DIR
+    cp $PATH $HOME_DIR/bundle/extensions/$EXT_PATH -R
   fi
 done
