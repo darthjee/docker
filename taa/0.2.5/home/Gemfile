@@ -11,7 +11,7 @@ gem 'rake',         '>= 12.3.1'
 gem 'turbolinks',   '~> 5.2.x'
 gem 'newrelic_rpm', '~> 6.2.x'
 gem 'tarquinn',     '0.1.0'
-gem 'sinclair',     '1.1.2'
+gem 'sinclair',     '~> 1.4.1'
 
 gem 'darthjee-core_ext', '>= 1.7.4'
 
