@@ -21,7 +21,12 @@ FROM base
 USER root
 RUN npm install bower -g
 
-COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
+COPY --chown=app:app --from=builder /home/app/bundle/gems/ /usr/local/bundle/gems/
+COPY --chown=app:app --from=builder /home/app/bundle/cache/ /usr/local/bundle/cache/
+COPY --chown=app:app --from=builder /home/app/bundle/specifications/ /usr/local/bundle/specifications/
+COPY --chown=app:app --from=builder /home/app/bundle/bin /usr/local/bundle/bin
+COPY --chown=app:app --from=builder /home/app/bundle/extensions /usr/local/bundle/extensions
+
 COPY --chown=app:app --from=builder /home/app/.cache /home/app/.cache
 
 USER app
