@@ -1,4 +1,5 @@
 FROM darthjee/ruby_node:0.2.4 as base
+FROM darthjee/scripts:0.0.2 as scripts
 
 ######################################
 
@@ -6,12 +7,13 @@ FROM base as builder
 
 USER root
 RUN npm install bower -g
+USER app
 
 ADD home/* /home/app/app/
+COPY --chown=app:app --from=scripts /home/scripts/bundle_builder.sh ./bundle_builder.sh
+ENV HOME_DIR /home/app
+RUN /bin/bash bundle_builder.sh
 
-RUN bundle install --clean
-
-USER app
 RUN bower install
 
 #######################
