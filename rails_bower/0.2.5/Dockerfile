@@ -1,4 +1,4 @@
-FROM darthjee/ruby_node:0.2.5 as base
+FROM darthjee/ruby_node:0.2.4 as base
 FROM darthjee/scripts:0.0.2 as scripts
 
 ######################################
