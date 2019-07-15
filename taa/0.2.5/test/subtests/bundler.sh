@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bundle check --gemfile=/home/circleci/app/Gemfile
+bundle check --gemfile=/home/app/app/Gemfile
