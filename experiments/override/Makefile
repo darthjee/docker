@@ -1,7 +1,7 @@
 DOCKER_ID_USER?=docker_test
 IMAGE=$(DOCKER_ID_USER)/override
 
-build: file.txt
+build: file.txt Dockerfile.*
 	INITIAL_SIZE=$$(df /etc/docker/ | grep "/" | sed -e "s/^\([^ ]* *\)\{3\}//" | sed -e "s/ .*//"); \
 	docker build . -f Dockerfile.1 -t $(IMAGE):1; \
 	docker build . -f Dockerfile.2 -t $(IMAGE):2 --build-arg IMAGE=$(IMAGE); \
