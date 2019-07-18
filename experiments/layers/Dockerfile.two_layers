@@ -1,0 +1,4 @@
+FROM alpine:3.9.4
+
+RUN dd if=/dev/urandom of=/file.txt bs=1048576 count=1024
+RUN dd if=/dev/urandom of=/file.txt bs=1048576 count=1024
