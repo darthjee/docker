@@ -27,10 +27,10 @@ FROM base
 
 USER root
 
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/gems/ /usr/local/bundle/gems/
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/cache/ /usr/local/bundle/cache/
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/specifications/ /usr/local/bundle/specifications/
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/bin /usr/local/bundle/bin
-COPY --chown=circleci:circleci --from=builder /home/app/bundle/extensions /usr/local/bundle/extensions
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/gems/ /usr/local/bundle/gems/
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/cache/ /usr/local/bundle/cache/
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/specifications/ /usr/local/bundle/specifications/
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/bin /usr/local/bundle/bin
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/extensions /usr/local/bundle/extensions
 
 USER circleci
