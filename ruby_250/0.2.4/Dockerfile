@@ -10,7 +10,7 @@ RUN gem install bundler
 RUN chown app.app /usr/local/bundle -R
 USER app
 
-FROM darthjee/scripts:0.0.2 as scripts
+FROM darthjee/scripts:0.0.3 as scripts
 ######################################
 
 FROM base as builder

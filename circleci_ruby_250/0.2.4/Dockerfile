@@ -8,7 +8,7 @@ RUN mkdir /home/circleci/project/
 
 WORKDIR /home/circleci/project/
 
-FROM darthjee/scripts:0.0.2 as scripts
+FROM darthjee/scripts:0.0.3 as scripts
 ######################################
 
 FROM base as builder
