@@ -1,5 +1,5 @@
-FROM darthjee/ruby_250:0.2.4 as base
-FROM darthjee/scripts:0.0.3 as scripts
+FROM darthjee/scripts:0.1.0 as scripts
+FROM darthjee/ruby_250:0.2.5 as base
 
 ######################################
 
@@ -7,10 +7,10 @@ FROM base as builder
 
 ADD home/* /home/app/app/
 
-COPY --chown=app:app --from=scripts /home/scripts/* ./bundle_builder.sh
+COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/
 
 ENV HOME_DIR /home/app
-RUN /bin/bash bundle_builder.sh
+RUN bundle_builder.sh
 
 #######################
 #FINAL IMAGE
