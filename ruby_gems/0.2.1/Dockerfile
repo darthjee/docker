@@ -1,13 +1,14 @@
 FROM darthjee/scripts:0.1.0 as scripts
 FROM darthjee/ruby_250:0.2.5 as base
 
+COPY --chown=app:app --from=scripts /home/scripts/sbin/check_readme.sh /usr/local/sbin/
 ######################################
 
 FROM base as builder
 
 ADD home/* /home/app/app/
 
-COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/
+COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
 ENV HOME_DIR /home/app
 RUN bundle_builder.sh

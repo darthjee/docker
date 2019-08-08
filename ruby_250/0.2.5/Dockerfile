@@ -11,7 +11,7 @@ WORKDIR /home/app/app
 
 RUN gem install bundler
 RUN chown app.app /usr/local/bundle -R
-COPY --chown=app:app --from=scripts /home/scripts/sbin/* /usr/local/sbin/
+COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 
 USER app
 ######################################
@@ -20,7 +20,7 @@ FROM base as builder
 
 ADD home/* /home/app/app/
 
-COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/
+COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
 ENV HOME_DIR /home/app
 RUN bundle_builder.sh
