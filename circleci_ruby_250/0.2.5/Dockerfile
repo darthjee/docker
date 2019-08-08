@@ -11,7 +11,7 @@ RUN mkdir /home/circleci/project/
 
 WORKDIR /home/circleci/project/
 
-COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
+COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 ######################################
 
 FROM base as builder
