@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+
+config = YAML.load_file("./config/check_specs.yml")
+
+def files_from(path)
+  Dir[File.expand_path(path, __dir__)]
+end
+
+files = files_from('lib/**/*.rb')
+
+ignore = []
+Array(config['ignore']).each do |path|
+  ignore += files_from(path)
+end
+
+missing = []
+
+files.each do |file|
+  next if ignore.include?(file)
+  spec = file.gsub(/\/lib\/(.*)\.rb/,'/spec/lib/\1_spec.rb')
+  missing << file unless File.exists?(spec)
+end
+
+exit if missing.empty?
+puts "missing spec files for: \n#{missing.join("\n")}"
+exit!
