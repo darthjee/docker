@@ -9,18 +9,28 @@ def files_from(path)
   Dir[File.expand_path(path, __dir__)]
 end
 
-files = files_from('lib/**/*.rb')
-
-ignore = []
-Array(config['ignore']).each do |path|
-  ignore += files_from(path)
+def all_files(path_config)
+  [].tap do |list|
+    Array(path_config).each do |path|
+      list.concat files_from(path)
+    end
+  end
 end
+
+source = config['source'] || 'lib'
+spec_folder = config['spec_folder'] || 'spec/lib'
+
+files = all_files("#{source}/**/*.rb")
+ignore = all_files(config['ignore'])
 
 missing = []
 
 files.each do |file|
   next if ignore.include?(file)
-  spec = file.gsub(/\/lib\/(.*)\.rb/,'/spec/lib/\1_spec.rb')
+
+  regexp = Regexp.new("/#{source}/(.*)\.rb")
+  spec = file.gsub(regexp, "/#{spec_folder}/\\1_spec.rb")
+
   missing << file unless File.exists?(spec)
 end
 
