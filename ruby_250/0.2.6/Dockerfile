@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.1.0 as scripts
+FROM darthjee/scripts:0.1.1 as scripts
 ######################################
 
 FROM ruby:2.5.0 as base
@@ -12,6 +12,7 @@ WORKDIR /home/app/app
 RUN gem install bundler
 RUN chown app.app /usr/local/bundle -R
 COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
+COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
 
 USER app
 ######################################
