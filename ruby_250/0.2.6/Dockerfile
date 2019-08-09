@@ -39,4 +39,5 @@ COPY --chown=app:app --from=builder /home/app/bundle/extensions /usr/local/bundl
 
 COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
+
 USER app
