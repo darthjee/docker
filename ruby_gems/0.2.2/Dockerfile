@@ -1,7 +1,5 @@
-FROM darthjee/scripts:0.1.0 as scripts
-FROM darthjee/ruby_250:0.2.5 as base
-
-COPY --chown=app:app --from=scripts /home/scripts/sbin/check_readme.sh /usr/local/sbin/
+FROM darthjee/scripts:0.1.1 as scripts
+FROM darthjee/ruby_250:0.2.6 as base
 ######################################
 
 FROM base as builder
@@ -24,5 +22,7 @@ COPY --chown=app:app --from=builder /home/app/bundle/cache/ /usr/local/bundle/ca
 COPY --chown=app:app --from=builder /home/app/bundle/specifications/ /usr/local/bundle/specifications/
 COPY --chown=app:app --from=builder /home/app/bundle/bin /usr/local/bundle/bin
 COPY --chown=app:app --from=builder /home/app/bundle/extensions /usr/local/bundle/extensions
+
+COPY --chown=app:app --from=scripts /home/scripts/sbin/check_readme.sh /usr/local/sbin/
 
 USER app
