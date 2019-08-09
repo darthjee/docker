@@ -11,8 +11,6 @@ WORKDIR /home/app/app
 
 RUN gem install bundler
 RUN chown app.app /usr/local/bundle -R
-COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
-COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
 
 USER app
 ######################################
@@ -39,4 +37,6 @@ COPY --chown=app:app --from=builder /home/app/bundle/specifications/ /usr/local/
 COPY --chown=app:app --from=builder /home/app/bundle/bin /usr/local/bundle/bin
 COPY --chown=app:app --from=builder /home/app/bundle/extensions /usr/local/bundle/extensions
 
+COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
+COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
 USER app
