@@ -49,5 +49,7 @@ test:
 		USER_NAME=$$USER_NAME \
 		IMAGE_NAME=$$IMAGE"_test" docker-compose \
 			build test; \
-		IMAGE_NAME=$$IMAGE"_test" docker-compose run test; \
+	  DOCKER_ID_USER=$$DOCKER_ID_USER IMAGE=$$IMAGE VERSION=$$VERSION \
+		USER_NAME=$$USER_NAME \
+		IMAGE_NAME=$$IMAGE"_test" docker-compose run test pwd; \
 	done
