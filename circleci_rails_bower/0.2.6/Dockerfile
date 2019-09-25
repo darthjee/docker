@@ -9,7 +9,7 @@ USER root
 RUN npm install bower -g
 
 ADD home/* /home/circleci/project/
-COPY --chown=circleci:circleci --from=scripts /home/scripts/bundle_builder.sh ./bundle_builder.sh
+COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 ENV HOME_DIR /home/circleci
 RUN /bin/bash bundle_builder.sh
 
