@@ -3,6 +3,7 @@ circleci_node_mongo=0.0.6
 circleci_python_27=0.2.2
 circleci_python_37=0.2.2
 circleci_rails_bower=0.2.7
+circleci_rails_gems=0.2.3
 circleci_ruby_240=0.2.3
 circleci_ruby_250=0.2.7
 circleci_ruby_gems=0.2.3
