@@ -4,8 +4,9 @@ RUN adduser -u 1000 fly; \
     mkdir -p /home/fly/workdir; \
     chown fly.fly -R /home/fly
 
-COPY ./home/fly-5.5.6-linux-amd64.tgz /tmp
-RUN tar -xzf /tmp/fly-5.5.6-linux-amd64.tgz -C /usr/local/bin
+RUN wget -O /tmp/fly-5.5.6-linux-amd64.tgz https://github.com/concourse/concourse/releases/download/v5.5.6/fly-5.5.6-linux-amd64.tgz; \
+    tar -xzf /tmp/fly-5.5.6-linux-amd64.tgz -C /usr/local/bin; \
+    rm -f /tmp/fly-5.5.6-linux-amd64.tgz
 
 WORKDIR /home/fly/workdir
 
