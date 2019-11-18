@@ -10,4 +10,6 @@ RUN wget -O /tmp/fly-5.5.6-linux-amd64.tgz https://github.com/concourse/concours
 
 WORKDIR /home/fly/workdir
 
+RUN apk update; apk upgrade; apk add bash
+
 USER fly
