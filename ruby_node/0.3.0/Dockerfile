@@ -1,4 +1,4 @@
-FROM darthjee/ruby_250:0.2.7
+FROM darthjee/ruby_250:0.3.0
 
 USER root
 
