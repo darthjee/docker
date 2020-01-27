@@ -11,6 +11,7 @@ circleci_ruby_gems_240=0.0.2
 circleci_ruby_node=0.2.5
 circleci_taa=0.2.7
 circleci_taap=0.2.2
+fly=0.0.1
 node=0.0.7
 node_mongo=0.0.6
 python_27=0.2.2
