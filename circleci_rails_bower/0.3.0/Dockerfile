@@ -3,7 +3,7 @@ FROM darthjee/scripts:0.1.3 as scripts
 
 ######################################
 
-FROM base as source
+FROM base as builder
 
 USER root
 RUN npm install bower -g
@@ -34,5 +34,7 @@ COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/extensions /
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bower/registry/registry.bower.io/lookup/ /home/circleci/.cache/bower/registry/registry.bower.io/lookup/
 COPY --chown=circleci:circleci --from=builder /home/circleci/bower/packages/ /home/circleci/.cache/bower/packages/
+
+RUN chown circleci:circleci /home/circleci/ -R
 
 USER circleci
