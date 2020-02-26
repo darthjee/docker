@@ -1,12 +1,11 @@
-FROM darthjee/circleci_ruby_node:0.2.5 as base
+FROM darthjee/circleci_rails_bower:0.3.0 as base
 FROM darthjee/scripts:0.1.3 as scripts
 
 ######################################
 
-FROM base as source
+FROM base as builder
 
 USER root
-RUN npm install bower -g
 
 ADD home/* /home/circleci/project/
 ENV HOME_DIR /home/circleci
@@ -20,11 +19,10 @@ COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bower_builde
 RUN /bin/bash bower_builder.sh
 
 ######################################
-#FINAL IMAGE
+#FINAL BUILD
 FROM base
 
 USER root
-RUN npm install bower -g
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/gems/ /usr/local/bundle/gems/
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/cache/ /usr/local/bundle/cache/
@@ -34,5 +32,7 @@ COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/extensions /
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bower/registry/registry.bower.io/lookup/ /home/circleci/.cache/bower/registry/registry.bower.io/lookup/
 COPY --chown=circleci:circleci --from=builder /home/circleci/bower/packages/ /home/circleci/.cache/bower/packages/
+
+RUN chown circleci:circleci /home/circleci/ -R
 
 USER circleci

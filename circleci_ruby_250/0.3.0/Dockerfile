@@ -1,30 +1,33 @@
-FROM darthjee/circleci_ruby_node:0.2.5 as base
-FROM darthjee/scripts:0.1.3 as scripts
-
+FROM darthjee/scripts:0.1.2 as scripts
 ######################################
 
-FROM base as source
+FROM circleci/ruby:2.5.0 as base
 
 USER root
-RUN npm install bower -g
-
-ADD home/* /home/circleci/project/
-ENV HOME_DIR /home/circleci
-
+RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter
 USER circleci
 
-COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
-RUN /bin/bash bundle_builder.sh
+RUN mkdir /home/circleci/project/
 
-COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
-RUN /bin/bash bower_builder.sh
+WORKDIR /home/circleci/project/
 
 ######################################
+
+FROM base as builder
+
+ADD home/* /home/circleci/project/
+
+COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
+
+ENV HOME_DIR /home/circleci
+RUN bundle_builder.sh
+
+#######################
 #FINAL IMAGE
+
 FROM base
 
 USER root
-RUN npm install bower -g
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/gems/ /usr/local/bundle/gems/
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/cache/ /usr/local/bundle/cache/
@@ -32,7 +35,7 @@ COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/specificatio
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/bin /usr/local/bundle/bin
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/extensions /usr/local/bundle/extensions
 
-COPY --chown=circleci:circleci --from=builder /home/circleci/bower/registry/registry.bower.io/lookup/ /home/circleci/.cache/bower/registry/registry.bower.io/lookup/
-COPY --chown=circleci:circleci --from=builder /home/circleci/bower/packages/ /home/circleci/.cache/bower/packages/
+COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
+COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
 
 USER circleci
