@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.0'
 
+gem 'azeroth',            '0.3.0'
 gem 'bundler',            '1.16.1'
 gem 'pry',                '0.12.2'
 gem 'pry-nav',            '0.3.0'
