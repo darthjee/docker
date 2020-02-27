@@ -25,7 +25,7 @@ for PATH in /usr/local/bundle/bin/*; do
   fi
 done
 
-if [ ! -x $HOME_DIR/bundle_cache/extensions/*/*/* ]; then
+if [ -x $HOME_DIR/bundle_cache/extensions/*/*/* ]; then
   for PATH in /usr/local/bundle/extensions/*/*/*; do
     EXT_PATH=${PATH##/usr/local/bundle/extensions/}
     EXT_DIR=${EXT_PATH%/*}
