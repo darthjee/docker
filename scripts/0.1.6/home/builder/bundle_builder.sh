@@ -27,7 +27,7 @@ for PATH in /usr/local/bundle/bin/*; do
   fi
 done
 
-for PATH in /usr/local/bundle/extensions/*/*/*; do
+for PATH in $(/usr/bin/find /usr/local/bundle/extensions/ -type f); do
   EXT_PATH=${PATH##/usr/local/bundle/extensions/}
   EXT_DIR=${EXT_PATH%/*}
 
