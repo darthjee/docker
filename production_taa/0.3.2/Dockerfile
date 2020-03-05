@@ -1,32 +1,22 @@
+FROM darthjee/production_rails_bower:0.3.2 as base
 FROM darthjee/scripts:0.1.6 as scripts
-######################################
 
-FROM ruby:2.5.0 as base
-
-RUN useradd -u 1000 app; \
-    mkdir -p /home/app/app; \
-    chown app.app -R /home/app
-
-WORKDIR /home/app/app
-
-RUN gem install bundler
-RUN chown app.app /usr/local/bundle -R
-
-USER app
 ######################################
 
 FROM base as builder
 
 ADD home/* /home/app/app/
 
-COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
-
 ENV HOME_DIR /home/app
-RUN bundle_builder.sh
+
+COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
+RUN /bin/bash bundle_builder.sh
+
+COPY --chown=app:app --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
+RUN bundle_builder.sh --without development test
 
 #######################
-#FINAL IMAGE
-
+#FINAL BUILD
 FROM base
 
 USER root
@@ -37,7 +27,10 @@ COPY --chown=app:app --from=builder /home/app/bundle/specifications/ /usr/local/
 COPY --chown=app:app --from=builder /home/app/bundle/bin /usr/local/bundle/bin
 COPY --chown=app:app --from=builder /home/app/bundle/extensions /usr/local/bundle/extensions
 
-COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
-COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
+COPY --chown=app:app --from=builder /home/app/bower/registry/registry.bower.io/lookup/ /home/app/.cache/bower/registry/registry.bower.io/lookup/
+COPY --chown=app:app --from=builder /home/app/bower/packages/ /home/app/.cache/bower/packages/
+
+RUN chown -R app.app /home/app/.cache
+ADD home/* /home/app/app/
 
 USER app

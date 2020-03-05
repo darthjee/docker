@@ -1,5 +1,5 @@
 FROM darthjee/ruby_node:0.3.1 as base
-FROM darthjee/scripts:0.1.5 as scripts
+FROM darthjee/scripts:0.1.6 as scripts
 
 ######################################
 

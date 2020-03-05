@@ -22,7 +22,7 @@ ADD home/* /home/app/app/
 COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
 ENV HOME_DIR /home/app
-RUN bundle_builder.sh
+RUN bundle_builder.sh --without development test
 
 #######################
 #FINAL IMAGE
