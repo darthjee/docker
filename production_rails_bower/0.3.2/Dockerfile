@@ -13,10 +13,10 @@ ADD home/* /home/app/app/
 ENV HOME_DIR /home/app
 
 COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
-RUN /bin/bash bundle_builder.sh
+RUN bundle_builder.sh --without development test
 
 COPY --chown=app:app --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
-RUN bundle_builder.sh --without development test
+RUN /bin/bash bower_builder.sh
 
 #######################
 #FINAL IMAGE
