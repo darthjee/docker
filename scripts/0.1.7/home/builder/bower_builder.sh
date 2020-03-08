@@ -9,7 +9,7 @@ mkdir -p $HOME_DIR/bower/packages/
 
 bower install $ARGS
 
-for PATH in $HOME_DIR/.cache/bower/registry/registry.bower.io/lookup/*; do
+for PATH in $(/usr/bin/find $HOME_DIR/.cache/bower/registry/registry.bower.io/lookup/ -type f); do
   SOURCE=$HOME_DIR/.cache/bower/registry/registry.bower.io/lookup/
   DEST=$HOME_DIR/bower/registry/registry.bower.io/lookup/
   PACKAGE=${PATH##$SOURCE}
