@@ -17,7 +17,7 @@ WORKDIR /home/circleci/project/
 
 FROM base as builder
 
-ADD home/* /home/circleci/project/
+COPY --chown=circleci:circleci home/* /home/circleci/project/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
@@ -29,11 +29,7 @@ RUN bundle_builder.sh
 
 FROM base
 
-USER root
-
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /usr/local/bundle/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
-
-USER circleci

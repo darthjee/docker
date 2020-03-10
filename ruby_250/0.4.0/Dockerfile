@@ -17,7 +17,7 @@ USER app
 
 FROM base as builder
 
-ADD home/* /home/app/app/
+COPY --chown=app:app home/* /home/app/app/
 
 COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
@@ -29,11 +29,7 @@ RUN bundle_builder.sh
 
 FROM base
 
-USER root
-
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
 
 COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
-
-USER app

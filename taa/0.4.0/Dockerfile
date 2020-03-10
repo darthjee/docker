@@ -5,7 +5,7 @@ FROM darthjee/scripts:0.1.7 as scripts
 
 FROM base as builder
 
-ADD home/* /home/app/app/
+COPY --chown=app:app home/* /home/app/app/
 
 ENV HOME_DIR /home/app
 
@@ -19,9 +19,5 @@ RUN /bin/bash bower_builder.sh
 #FINAL BUILD
 FROM base
 
-USER root
-
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
 COPY --chown=app:app --from=builder /home/app/bower/ /home/app/.cache/bower/
-
-USER app
