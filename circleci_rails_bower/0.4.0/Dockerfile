@@ -1,5 +1,5 @@
-FROM darthjee/circleci_ruby_node:0.3.1 as base
-FROM darthjee/scripts:0.1.6 as scripts
+FROM darthjee/circleci_ruby_node:0.4.0 as base
+FROM darthjee/scripts:0.1.7 as scripts
 
 ######################################
 
