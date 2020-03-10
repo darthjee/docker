@@ -1,15 +1,12 @@
+FROM darthjee/production_rails_bower:0.4.0 as base
 FROM darthjee/scripts:0.1.7 as scripts
-FROM darthjee/production_ruby_node:0.4.0 as base
-
-USER root
-RUN npm install bower -g
-USER app
 
 ######################################
 
 FROM base as builder
 
 COPY --chown=app:app home/* /home/app/app/
+
 ENV HOME_DIR /home/app
 
 COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
@@ -19,7 +16,7 @@ COPY --chown=app:app --from=scripts /home/scripts/builder/bower_builder.sh /usr/
 RUN /bin/bash bower_builder.sh
 
 #######################
-#FINAL IMAGE
+#FINAL BUILD
 FROM base
 
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
