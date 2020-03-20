@@ -1,4 +1,4 @@
-FROM darthjee/production_rails_bower:0.4.0 as base
+FROM darthjee/production_rails_bower:0.4.1 as base
 FROM darthjee/scripts:0.1.7 as scripts
 
 ######################################
