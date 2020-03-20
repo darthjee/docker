@@ -2,7 +2,9 @@ FROM darthjee/scripts:0.1.7 as scripts
 FROM darthjee/ruby_node:0.4.0 as base
 
 USER root
-RUN npm install bower -g
+RUN npm install bower -g; \
+    mkdir /home/app/.cache; \
+    chown app.app /home/app/.cache -R
 USER app
 
 ######################################
