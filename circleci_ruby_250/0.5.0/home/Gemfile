@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.0'
 
-gem 'bundler', '1.16.1'
+gem 'bundler', '2.1.4'
 gem 'rake',    '13.0.1'
 
 group :development, :test do
