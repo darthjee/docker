@@ -11,7 +11,7 @@ group :development, :test do
   gem 'rubycritic', '4.4.1'
   gem 'yard',       '0.9.24'
   gem 'yardstick',  '0.9.9'
-  gem 'sinclair',   '1.6.2'
+  gem 'sinclair',   '1.6.3'
 end
 
 group :development do
