@@ -8,7 +8,7 @@ ADD home/* /home/circleci/project/
 RUN mkdir /home/circleci/sbin
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
-COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_readme.sh /usr/local/sbin/
+COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_readme.sh /home/circleci/sbin/
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/build_gem.sh /home/circleci/sbin/
 
 ENV HOME_DIR /home/circleci
