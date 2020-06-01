@@ -2,8 +2,9 @@ source 'https://rubygems.org'
 ruby '2.5.0'
 
 
-gem 'bundler', '1.16.1'
-gem 'rake',    '13.0.1'
+gem 'bundler',  '1.16.1'
+gem 'rake',     '13.0.1'
+gem 'sinclair', '1.6.7'
 
 gem 'actionpack',               '5.2.4.3'
 gem 'activerecord',             '5.2.4.3'
