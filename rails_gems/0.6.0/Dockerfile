@@ -1,5 +1,5 @@
 FROM darthjee/scripts:0.1.8 as scripts
-FROM darthjee/ruby_gems:0.5.4 as base
+FROM darthjee/ruby_250:0.6.0 as base
 ######################################
 
 FROM base as builder
