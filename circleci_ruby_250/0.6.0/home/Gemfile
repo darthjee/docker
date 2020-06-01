@@ -3,6 +3,7 @@ ruby '2.5.0'
 
 gem 'bundler', '1.16.1'
 gem 'rake',    '13.0.1'
+gem 'sinclair', '1.6.7'
 
 group :development, :test do
   gem 'pry',        '0.12.2'
