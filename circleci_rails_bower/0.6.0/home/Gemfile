@@ -3,7 +3,7 @@ ruby '2.5.0'
 
 gem 'bundler',           '1.16.1'
 gem 'darthjee-core_ext', '2.0.0'
-gem 'puma',              '4.3.3'
+gem 'puma',              '4.3.5'
 gem 'rack',              '2.2.2'
 gem 'rake',              '13.0.1'
 gem 'rails',             '5.2.4.3'
