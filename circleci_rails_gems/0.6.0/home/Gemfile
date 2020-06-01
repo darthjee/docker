@@ -5,10 +5,10 @@ ruby '2.5.0'
 gem 'bundler', '1.16.1'
 gem 'rake',    '13.0.1'
 
-gem 'actionpack',               '5.2.4.2'
-gem 'activerecord',             '5.2.4.2'
+gem 'actionpack',               '5.2.4.3'
+gem 'activerecord',             '5.2.4.3'
 gem 'rack',                     '2.2.2'
-gem 'rails',                    '5.2.4.2'
+gem 'rails',                    '5.2.4.3'
 gem 'rspec-rails',              '3.9.0'
 gem 'factory_bot',              '5.2.0'
 gem 'nokogiri',                 '1.10.9'
@@ -22,7 +22,7 @@ group :development, :test do
   gem 'rubycritic', '4.4.1'
   gem 'yard',       '0.9.24'
   gem 'yardstick',  '0.9.9'
-  gem 'sinclair',   '1.6.5'
+  gem 'sinclair',   '1.6.7'
 end
 
 group :development do
