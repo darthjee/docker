@@ -14,8 +14,6 @@ gem 'bower-rails',       '0.12.0'
 gem 'turbolinks',        '5.2.1'
 gem 'newrelic_rpm',      '6.9.0.363'
 gem 'sinclair',          '1.6.7'
-gem 'magicka',           '0.5.4'
-gem 'azeroth',           '0.7.2'
 
 group :development, :test do
   gem 'pry',        '0.12.2'
