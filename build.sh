@@ -19,6 +19,15 @@ function version() {
   echo $VERSION
 }
 
+function copy() {
+  IMAGE=$1
+  CURRENT_VERSION=$2
+  VERSION=$3
+
+  echo cp -R $IMAGE/$CURRENT_VERSION $IMAGE/$VERSION
+}
+
+
 function build() {
   IMAGE=$2
 
@@ -26,7 +35,9 @@ function build() {
     VERSION=$(version $IMAGE $3)
     CURRENT_VERSION=$(current_version $IMAGE)
 
-    echo cp -R $IMAGE/$CURRENT_VERSION $IMAGE/$VERSION
+    copy $IMAGE $CURRENT_VERSION $VERSION
+    copy circleci_$IMAGE $CURRENT_VERSION $VERSION
+    copy production_$IMAGE $CURRENT_VERSION $VERSION
   else
     help
   fi
