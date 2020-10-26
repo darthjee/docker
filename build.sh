@@ -25,7 +25,7 @@ function copy() {
   VERSION=$3
 
   if [ -d $IMAGE_NAME ]; then
-    echo cp -R $IMAGE_NAME/$CURRENT_VERSION $IMAGE_NAME/$VERSION
+    cp -R $IMAGE_NAME/$CURRENT_VERSION $IMAGE_NAME/$VERSION
   else
     echo skipping $IMAGE_NAME
   fi
@@ -33,7 +33,7 @@ function copy() {
 
 function update_versions() {
   IMAGE_NAME=$1
-  sed -e "s/^$IMAGE_NAME=.*/$IMAGE_NAME=$VERSION/g" version
+  sed -e "s/^$IMAGE_NAME=.*/$IMAGE_NAME=$VERSION/g" -i version
 }
 
 
