@@ -31,6 +31,11 @@ function copy() {
   fi
 }
 
+function update_versions() {
+  IMAGE_NAME=$1
+  sed -e "s/^$IMAGE_NAME=.*/$IMAGE_NAME=$VERSION/g" version
+}
+
 
 function build() {
   IMAGE=$2
@@ -39,9 +44,10 @@ function build() {
     VERSION=$(version $IMAGE $3)
     CURRENT_VERSION=$(current_version $IMAGE)
 
-    copy $IMAGE $CURRENT_VERSION $VERSION
-    copy circleci_$IMAGE $CURRENT_VERSION $VERSION
-    copy production_$IMAGE $CURRENT_VERSION $VERSION
+    for MOD in "" circleci_ production_; do
+      copy $MOD$IMAGE $CURRENT_VERSION $VERSION
+      update_versions $MOD$IMAGE $CURRENT_VERSION $VERSION
+    done
   else
     help
   fi
