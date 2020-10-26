@@ -20,11 +20,15 @@ function version() {
 }
 
 function copy() {
-  IMAGE=$1
+  IMAGE_NAME=$1
   CURRENT_VERSION=$2
   VERSION=$3
 
-  echo cp -R $IMAGE/$CURRENT_VERSION $IMAGE/$VERSION
+  if [ -d $IMAGE_NAME ]; then
+    echo cp -R $IMAGE_NAME/$CURRENT_VERSION $IMAGE_NAME/$VERSION
+  else
+    echo skipping $IMAGE_NAME
+  fi
 }
 
 
