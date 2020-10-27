@@ -1,4 +1,4 @@
-FROM darthjee/rails_bower:0.6.2 as base
+FROM darthjee/rails_bower:0.6.3 as base
 FROM darthjee/scripts:0.1.8 as scripts
 
 ######################################
