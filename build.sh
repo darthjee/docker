@@ -37,7 +37,7 @@ function update_versions() {
 }
 
 
-function build() {
+function init() {
   IMAGE=$2
 
   if [ $IMAGE ]; then
@@ -81,15 +81,15 @@ function copy_deps() {
 
 function help() {
     echo Usage:
-    echo "$0 build # builds a new version"
+    echo "$0 init # inits a new version"
     echo "$0 copy_deps # copy dependencies files"
 }
 
 ACTION=$1
 
 case $ACTION in
-  "build")
-    build $*
+  "init")
+    init $*
     ;;
   "copy_deps")
     copy_deps $*
