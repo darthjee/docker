@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source 'bin/build.sh'
+
 function current_version() {
   IMAGE=$1
   echo $(cat version | grep "^"$IMAGE"=" | sed -e "s/"$IMAGE"=//g")
@@ -36,8 +38,7 @@ function update_versions() {
   sed -e "s/^$IMAGE_NAME=.*/$IMAGE_NAME=$VERSION/g" -i version
 }
 
-
-function build() {
+function init() {
   IMAGE=$2
 
   if [ $IMAGE ]; then
@@ -52,49 +53,3 @@ function build() {
     help
   fi
 }
-
-function copy_home() {
-  IMAGE_NAME=$1
-  VERSION=$2
-
-  if [ -d $IMAGE_NAME ]; then
-    cp -R $IMAGE/$VERSION/home/* $IMAGE_NAME/$VERSION/home/
-  else
-    echo skipping $IMAGE_NAME
-  fi
-}
-
-function copy_deps() {
-  IMAGE=$2
-
-  if [ $IMAGE ]; then
-    VERSION=$(current_version $IMAGE)
-
-    for MOD in circleci_ production_; do
-      copy_home $MOD$IMAGE $VERSION
-    done
-
-  else
-    help
-  fi
-}
-
-function help() {
-    echo Usage:
-    echo "$0 build # builds a new version"
-    echo "$0 copy_deps # copy dependencies files"
-}
-
-ACTION=$1
-
-case $ACTION in
-  "build")
-    build $*
-    ;;
-  "copy_deps")
-    copy_deps $*
-    ;;
-  *)
-    help
-    ;;
-esac
