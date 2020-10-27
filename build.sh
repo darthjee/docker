@@ -82,7 +82,7 @@ function copy_deps() {
 function build_image() {
   IMAGE=$1
   if [ -d $IMAGE ]; then
-    echo building $IMAGE
+    make IMAGES=$IMAGE build tag
   else
     echo skipping $IMAGE
   fi
