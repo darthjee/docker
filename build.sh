@@ -79,10 +79,39 @@ function copy_deps() {
   fi
 }
 
+function build_image() {
+  IMAGE=$1
+  if [ -d $IMAGE ]; then
+    echo building $IMAGE
+  else
+    echo skipping $IMAGE
+  fi
+}
+
+function build_images() {
+  PROJECT=$1
+  for MOD in "" circleci_ production_; do
+    build_image $MOD$PROJECT
+  done
+}
+
+function build() {
+  shift 1
+
+  if [ $1 ]; then
+    for PROJECT in $*; do
+      build_images $PROJECT
+    done
+  else
+    help
+  fi
+}
+
 function help() {
     echo Usage:
-    echo "$0 init # inits a new version"
-    echo "$0 copy_deps # copy dependencies files"
+    echo "$0 init <image> [new_version] # inits a new version"
+    echo "$0 copy_deps <image> # copy dependencies files"
+    echo "$0 build <images> # copy dependencies files"
 }
 
 ACTION=$1
@@ -93,6 +122,9 @@ case $ACTION in
     ;;
   "copy_deps")
     copy_deps $*
+    ;;
+  "build")
+    build $*
     ;;
   *)
     help
