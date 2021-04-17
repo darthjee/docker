@@ -15,7 +15,7 @@ function replace_base_image() {
   BASE=${DOCKER_IMAGE%:*}
   TARGET=$MOD$IMAGE/$VERSION/Dockerfile
   sed -e "s/\(FROM .*\)$BASE:[^ ]*/\1$DOCKER_IMAGE/g" $TARGET > aux
-  mv aux $TARGET
+  mv aux "$TARGET"
 }
 
 function copy_base_image() {
