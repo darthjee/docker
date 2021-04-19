@@ -35,7 +35,8 @@ function copy() {
 
 function update_versions() {
   IMAGE_NAME=$1
-  sed -e "s/^$IMAGE_NAME=.*/$IMAGE_NAME=$VERSION/g" -i version
+  sed -e "s/^$IMAGE_NAME=.*/$IMAGE_NAME=$VERSION/g" version > aux
+  mv aux version
 }
 
 function init() {
