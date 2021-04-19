@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.1.7 as scripts
+FROM darthjee/scripts:0.1.8 as scripts
 ######################################
 
 FROM circleci/ruby:2.5.0 as base
@@ -33,5 +33,5 @@ COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /usr/local/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
-COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_readme.sh /home/circleci/sbin/
-COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/build_gem.sh /home/circleci/sbin/
+COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_readme.sh /usr/local/sbin/
+COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/build_gem.sh /usr/local/sbin/
