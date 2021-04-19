@@ -16,4 +16,3 @@ RUN bundle_builder.sh
 FROM base
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /usr/local/bundle/
-COPY --chown=circleci:circleci --from=builder /home/circleci/sbin/ /usr/local/sbin/
