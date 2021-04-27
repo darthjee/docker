@@ -10,7 +10,7 @@ group :development, :test do
   gem 'pry-nav',    '0.3.0'
   gem 'simplecov',  '0.17.1'
   gem 'rubycritic', '4.6.1'
-  gem 'yard',       '0.9.24'
+  gem 'yard',       '0.9.26'
   gem 'yardstick',  '0.9.9'
 end
 
