@@ -29,8 +29,26 @@ rely on the base images.
 Release can also be accelerated as only the last changed layer is pushed to a server.
 
 ## Images Categories
+
 The project has 3 categories of images
 - Regular images: Images used in development or as a suport tool
 - Circleci images: Images optimized to run on CI (circleci) with extra testing / building tools
 - Production images: Images without develpment dependencies designed to
   be lightweight and run in servers
+
+## Multi-Stage build
+
+Since a lot of dependency instalations generate extra garbage (source files, logs, etc)
+a multi stage build can use an image for all the compilation, instalations and configurations
+having the final result being copied to a final image which will then be released.
+
+And added advantage is the this generates single layers for a lot of joint instalation commands
+and, even though this can be an anti-pattern, this can reduce the layer count, specially when we
+talk about images that rely on a base image already containing a lot of layers as some services
+have a maximum layer limit (40 for Heroku).
+
+Multi-Stage build add an extra hassle that when trying to rebuild the image, if the intermediate
+build image has been deleted, the docker cachec cannot find it, so it has to rebuild it, but
+the added base image advantages can overcome this problem.
+
+
