@@ -19,3 +19,11 @@ new layers / commands needs to stored and when a container needs to be initializ
 the layers are collected and assembled
 
 ![layers](https://raw.githubusercontent.com/darthjee/docker/master/docker_setup.gif)
+
+This can save space as long as 2 different projects share the common layers
+
+This can also speed up tests on CI or deployments, as tests will have 0 or just a few
+seconds for installing dependencies, so will building production images which can
+rely on the base images.
+
+Release can also be accelerated as only the last changed layer is pushed to a server.
