@@ -51,4 +51,8 @@ Multi-Stage build add an extra hassle that when trying to rebuild the image, if 
 build image has been deleted, the docker cachec cannot find it, so it has to rebuild it, but
 the added base image advantages can overcome this problem.
 
+## script image
 
+Sometimes, script files must be shared by images which do not share a base, and sometimes those
+scripts are only used in the build stage of a docker build, so an image was created to be a
+script repository where scripts are copied from during docker build.
