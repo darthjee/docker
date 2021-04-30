@@ -56,3 +56,5 @@ the added base image advantages can overcome this problem.
 Sometimes, script files must be shared by images which do not share a base, and sometimes those
 scripts are only used in the build stage of a docker build, so an image was created to be a
 script repository where scripts are copied from during docker build.
+
+## Images
