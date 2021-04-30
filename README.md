@@ -18,4 +18,4 @@ Docker images store a layer for each command so that any image built on top, onl
 new layers / commands needs to stored and when a container needs to be initialized,
 the layers are collected and assembled
 
-![layers](https://raw.githubusercontent.com/darthjee/docker/master/docker_setup.png)
+![layers](https://raw.githubusercontent.com/darthjee/docker/master/docker_setup.gif)
