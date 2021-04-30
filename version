@@ -1,17 +1,7 @@
-circleci_node=0.0.7
-circleci_node_mongo=0.0.6
-circleci_python_27=0.2.2
-circleci_python_37=0.2.2
-circleci_rails_bower=0.7.0
-circleci_rails_gems=0.6.3
-circleci_ruby_240=0.2.3
-circleci_ruby_250=0.7.0
-circleci_ruby_gems=0.5.4
-circleci_ruby_gems_240=0.0.2
-circleci_ruby_node=0.7.0
-circleci_taa=0.7.0
-circleci_taap=0.7.0
+# Tools
 fly=0.0.1
+scripts=0.1.8
+# Development
 node=0.0.7
 node_mongo=0.0.6
 python_27=0.2.2
@@ -25,9 +15,23 @@ ruby_gems=0.5.4
 ruby_gems_240=0.0.2
 ruby_node=0.7.0
 ruby_plot=0.7.0
-scripts=0.1.8
 taa=0.7.0
 taap=0.7.0
+# Circleci
+circleci_node=0.0.7
+circleci_node_mongo=0.0.6
+circleci_python_27=0.2.2
+circleci_python_37=0.2.2
+circleci_rails_bower=0.7.0
+circleci_rails_gems=0.6.3
+circleci_ruby_240=0.2.3
+circleci_ruby_250=0.7.0
+circleci_ruby_gems=0.5.4
+circleci_ruby_gems_240=0.0.2
+circleci_ruby_node=0.7.0
+circleci_taa=0.7.0
+circleci_taap=0.7.0
+# Production
 production_rails_bower=0.7.0
 production_ruby_250=0.7.0
 production_ruby_node=0.7.0
