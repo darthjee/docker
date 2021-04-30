@@ -27,3 +27,10 @@ seconds for installing dependencies, so will building production images which ca
 rely on the base images.
 
 Release can also be accelerated as only the last changed layer is pushed to a server.
+
+## Images Categories
+The project has 3 categories of images
+- Regular images: Images used in development or as a suport tool
+- Circleci images: Images optimized to run on CI (circleci) with extra testing / building tools
+- Production images: Images without develpment dependencies designed to
+  be lightweight and run in servers
