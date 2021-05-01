@@ -26,6 +26,9 @@ This can also speed up tests on CI or deployments, as tests will have 0 or just 
 seconds for installing dependencies, so will building production images which can
 rely on the base images.
 
+![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
+![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
+
 Release can also be accelerated as only the last changed layer is pushed to a server.
 
 ## Images Categories
