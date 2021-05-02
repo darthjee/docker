@@ -25,15 +25,26 @@ This can save space as long as 2 different projects share the common layers
 This can also speed up tests on CI or deployments, as tests will have 0 or just a few
 seconds for installing dependencies.
 
-![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
-![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
+- Regular build
+
+  ![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
+
+- Improoved build
+
+  ![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
 
 Release can also be accelerated as only the last changed layer is built and pushed to a server which already
 contains the same base.
 
 ![fast release flow](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/build-push.gif)
-![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
-![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
+
+- Regular build
+
+  ![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
+
+- Improoved build
+
+  ![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
 
 ## Images Categories
 
