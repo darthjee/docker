@@ -29,7 +29,8 @@ rely on the base images.
 ![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
 ![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
 
-Release can also be accelerated as only the last changed layer produced and pushed to a server.
+Release can also be accelerated as only the last changed layer is produced and pushed to a server which already
+contains the same base.
 
 ![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
 ![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
@@ -57,6 +58,11 @@ have a maximum layer limit (40 for Heroku).
 Multi-Stage build add an extra hassle that when trying to rebuild the image, if the intermediate
 build image has been deleted, the docker cachec cannot find it, so it has to rebuild it, but
 the added base image advantages can overcome this problem.
+
+### Dangers and pitfalls
+
+Docker does not have a concept of deleting or updating a file, so such actions generate new layers
+which store the file again
 
 ## script image
 
