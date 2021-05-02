@@ -65,6 +65,12 @@ the added base image advantages can overcome this problem.
 Docker does not have a concept of deleting or updating a file, so such actions generate new layers
 which store the file again
 
+![overwritte](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/overwritte.png)
+
+This is specially dangerous when building using multistage as files are copied from the build stage
+image into the final image, so a check of which files are new and which already existed is needed
+and this is done based on the type of dependency (npm files, ruby gems, etc)
+
 ## script image
 
 Sometimes, script files must be shared by images which do not share a base, and sometimes those
