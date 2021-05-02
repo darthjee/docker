@@ -29,12 +29,16 @@ rely on the base images.
 ![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
 ![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
 
-Release can also be accelerated as only the last changed layer is pushed to a server.
+Release can also be accelerated as only the last changed layer produced and pushed to a server.
+
+![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
+![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
 
 ## Images Categories
 
-The project has 3 categories of images
-- Regular images: Images used in development or as a suport tool
+The project has 4 categories of images
+- Tool images: Images used as tools that have no circleci or production counter-parts
+- Dev images: Images used in development which will then have a circleci and production counterpart
 - Circleci images: Images optimized to run on CI (circleci) with extra testing / building tools
 - Production images: Images without develpment dependencies designed to
   be lightweight and run in servers
