@@ -29,8 +29,10 @@ rely on the base images.
 ![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
 ![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
 
-Release can also be accelerated as only the last changed layer produced and pushed to a server.
+Release can also be accelerated as only the last changed layer is produced and pushed to a server which already
+contains the same base.
 
+![fast release flow](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/build-push.gif)
 ![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
 ![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
 
@@ -58,6 +60,17 @@ Multi-Stage build add an extra hassle that when trying to rebuild the image, if 
 build image has been deleted, the docker cachec cannot find it, so it has to rebuild it, but
 the added base image advantages can overcome this problem.
 
+### Dangers and pitfalls
+
+Docker does not have a concept of deleting or updating a file, so such actions generate new layers
+which store the file again
+
+![overwritte](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/overwritte.png)
+
+This is specially dangerous when building using multistage as files are copied from the build stage
+image into the final image, so a check of which files are new and which already existed is needed
+and this is done based on the type of dependency (npm files, ruby gems, etc)
+
 ## script image
 
 Sometimes, script files must be shared by images which do not share a base, and sometimes those
@@ -66,38 +79,42 @@ script repository where scripts are copied from during docker build.
 
 ## Images
 
-[fly:0.0.1](- https://hub.docker.com/repository/docker/darthjee/fly)
-[scripts:0.1.8](- https://hub.docker.com/repository/docker/darthjee/scripts)
-[node:0.0.7](- https://hub.docker.com/repository/docker/darthjee/node)
-[node_mongo:0.0.6](- https://hub.docker.com/repository/docker/darthjee/node_mongo)
-[python_27:0.2.2](- https://hub.docker.com/repository/docker/darthjee/python_27)
-[python_37:0.2.2](- https://hub.docker.com/repository/docker/darthjee/python_37)
-[rails_bower:0.7.0](- https://hub.docker.com/repository/docker/darthjee/rails_bower)
-[rails_gems:0.6.3](- https://hub.docker.com/repository/docker/darthjee/rails_gems)
-[ruby_240:0.2.3](- https://hub.docker.com/repository/docker/darthjee/ruby_240)
-[ruby_250:0.7.0](- https://hub.docker.com/repository/docker/darthjee/ruby_250)
-[ruby_base:0.2.2](- https://hub.docker.com/repository/docker/darthjee/ruby_base)
-[ruby_gems:0.5.4](- https://hub.docker.com/repository/docker/darthjee/ruby_gems)
-[ruby_gems_240:0.0.2](- https://hub.docker.com/repository/docker/darthjee/ruby_gems_240)
-[ruby_node:0.7.0](- https://hub.docker.com/repository/docker/darthjee/ruby_node)
-[ruby_plot:0.7.0](- https://hub.docker.com/repository/docker/darthjee/ruby_plot)
-[taa:0.7.0](- https://hub.docker.com/repository/docker/darthjee/taa)
-[taap:0.7.0](- https://hub.docker.com/repository/docker/darthjee/taap)
-[circleci_node:0.0.7](- https://hub.docker.com/repository/docker/darthjee/circleci_node)
-[circleci_node_mongo:0.0.6](- https://hub.docker.com/repository/docker/darthjee/circleci_node_mongo)
-[circleci_python_27:0.2.2](- https://hub.docker.com/repository/docker/darthjee/circleci_python_27)
-[circleci_python_37:0.2.2](- https://hub.docker.com/repository/docker/darthjee/circleci_python_37)
-[circleci_rails_bower:0.7.0](- https://hub.docker.com/repository/docker/darthjee/circleci_rails_bower)
-[circleci_rails_gems:0.6.3](- https://hub.docker.com/repository/docker/darthjee/circleci_rails_gems)
-[circleci_ruby_240:0.2.3](- https://hub.docker.com/repository/docker/darthjee/circleci_ruby_240)
-[circleci_ruby_250:0.7.0](- https://hub.docker.com/repository/docker/darthjee/circleci_ruby_250)
-[circleci_ruby_gems:0.5.4](- https://hub.docker.com/repository/docker/darthjee/circleci_ruby_gems)
-[circleci_ruby_gems_240:0.0.2](- https://hub.docker.com/repository/docker/darthjee/circleci_ruby_gems_240)
-[circleci_ruby_node:0.7.0](- https://hub.docker.com/repository/docker/darthjee/circleci_ruby_node)
-[circleci_taa:0.7.0](- https://hub.docker.com/repository/docker/darthjee/circleci_taa)
-[circleci_taap:0.7.0](- https://hub.docker.com/repository/docker/darthjee/circleci_taap)
-[production_rails_bower:0.7.0](- https://hub.docker.com/repository/docker/darthjee/production_rails_bower)
-[production_ruby_250:0.7.0](- https://hub.docker.com/repository/docker/darthjee/production_ruby_250)
-[production_ruby_node:0.7.0](- https://hub.docker.com/repository/docker/darthjee/production_ruby_node)
-[production_taa:0.7.0](- https://hub.docker.com/repository/docker/darthjee/production_taa)
-[production_taap:0.7.0](- https://hub.docker.com/repository/docker/darthjee/production_taap)
+- Tools
+  - [fly:0.0.1](https://hub.docker.com/repository/docker/darthjee/fly)
+  - [scripts:0.1.8](https://hub.docker.com/repository/docker/darthjee/scripts)
+- Development
+  - [node:0.0.7](https://hub.docker.com/repository/docker/darthjee/node)
+  - [node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/node_mongo)
+  - [python_27:0.2.2](https://hub.docker.com/repository/docker/darthjee/python_27)
+  - [python_37:0.2.2](https://hub.docker.com/repository/docker/darthjee/python_37)
+  - [rails_bower:0.7.0](https://hub.docker.com/repository/docker/darthjee/rails_bower)
+  - [rails_gems:0.6.3](https://hub.docker.com/repository/docker/darthjee/rails_gems)
+  - [ruby_240:0.2.3](https://hub.docker.com/repository/docker/darthjee/ruby_240)
+  - [ruby_250:0.7.0](https://hub.docker.com/repository/docker/darthjee/ruby_250)
+  - [ruby_base:0.2.2](https://hub.docker.com/repository/docker/darthjee/ruby_base)
+  - [ruby_gems:0.5.4](https://hub.docker.com/repository/docker/darthjee/ruby_gems)
+  - [ruby_gems_240:0.0.2](https://hub.docker.com/repository/docker/darthjee/ruby_gems_240)
+  - [ruby_node:0.7.0](https://hub.docker.com/repository/docker/darthjee/ruby_node)
+  - [ruby_plot:0.7.0](https://hub.docker.com/repository/docker/darthjee/ruby_plot)
+  - [taa:0.7.0](https://hub.docker.com/repository/docker/darthjee/taa)
+  - [taap:0.7.0](https://hub.docker.com/repository/docker/darthjee/taap)
+- Circleci
+  - [circleci_node:0.0.7](https://hub.docker.com/repository/docker/darthjee/circleci_node)
+  - [circleci_node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/circleci_node_mongo)
+  - [circleci_python_27:0.2.2](https://hub.docker.com/repository/docker/darthjee/circleci_python_27)
+  - [circleci_python_37:0.2.2](https://hub.docker.com/repository/docker/darthjee/circleci_python_37)
+  - [circleci_rails_bower:0.7.0](https://hub.docker.com/repository/docker/darthjee/circleci_rails_bower)
+  - [circleci_rails_gems:0.6.3](https://hub.docker.com/repository/docker/darthjee/circleci_rails_gems)
+  - [circleci_ruby_240:0.2.3](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_240)
+  - [circleci_ruby_250:0.7.0](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_250)
+  - [circleci_ruby_gems:0.5.4](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_gems)
+  - [circleci_ruby_gems_240:0.0.2](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_gems_240)
+  - [circleci_ruby_node:0.7.0](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_node)
+  - [circleci_taa:0.7.0](https://hub.docker.com/repository/docker/darthjee/circleci_taa)
+  - [circleci_taap:0.7.0](https://hub.docker.com/repository/docker/darthjee/circleci_taap)
+- Production
+  - [production_rails_bower:0.7.0](https://hub.docker.com/repository/docker/darthjee/production_rails_bower)
+  - [production_ruby_250:0.7.0](https://hub.docker.com/repository/docker/darthjee/production_ruby_250)
+  - [production_ruby_node:0.7.0](https://hub.docker.com/repository/docker/darthjee/production_ruby_node)
+  - [production_taa:0.7.0](https://hub.docker.com/repository/docker/darthjee/production_taa)
+  - [production_taap:0.7.0](https://hub.docker.com/repository/docker/darthjee/production_taap)
