@@ -32,6 +32,7 @@ rely on the base images.
 Release can also be accelerated as only the last changed layer is produced and pushed to a server which already
 contains the same base.
 
+![fast release flow](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/build-push.gif)
 ![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
 ![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
 
