@@ -23,13 +23,12 @@ the layers are collected and assembled
 This can save space as long as 2 different projects share the common layers
 
 This can also speed up tests on CI or deployments, as tests will have 0 or just a few
-seconds for installing dependencies, so will building production images which can
-rely on the base images.
+seconds for installing dependencies.
 
 ![fast build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/speed_build.png)
 ![slow build](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build.png)
 
-Release can also be accelerated as only the last changed layer is produced and pushed to a server which already
+Release can also be accelerated as only the last changed layer is built and pushed to a server which already
 contains the same base.
 
 ![fast release flow](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/build-push.gif)
