@@ -18,4 +18,4 @@ if [ ! $ACTION ]; then
   exit 0
 fi
 
-echo "export PATH=\"\${PATH}:\${HOME}.dt-heroku/\""
+echo "export PATH=\"\${PATH}:\${HOME}/.dt-heroku/\""
