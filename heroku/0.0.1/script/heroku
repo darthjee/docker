@@ -14,7 +14,7 @@ SCRIPT_FOLDER=$HOME/.dt-heroku
 
 case $ACTION in
   "install")
-    cp -R $CMD_FOLDER $SCRIPT_FOLDER
+    cp -R $CMD_FOLDER/ $SCRIPT_FOLDER/
     $SCRIPT_FOLDER/lib/install.sh
     ;;
 esac
