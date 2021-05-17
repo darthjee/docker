@@ -8,13 +8,13 @@ if [ ! $1 ]; then
 fi
 
 ACTION=$1
+shift 1
+
 CMD=$0
 CMD_FOLDER=$(echo $CMD | sed -e "s/\\/[^\\/]*$//g")
-SCRIPT_FOLDER=$HOME/.dt-heroku
 
 case $ACTION in
   "install")
-    cp -R $CMD_FOLDER/ $SCRIPT_FOLDER/
-    $SCRIPT_FOLDER/lib/install.sh
+    $CMD_FOLDER/lib/install.sh $*
     ;;
 esac
