@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [ ! $1 ]; then
+  echo "Usage:"
+  echo "$0 install # install"
+  echo "$0 help    # show help"
+  exit 0
+fi
+
+ACTION=$1
+CMD=$0
+CMD_FOLDER=$(echo $CMD | sed -e "s/\\/[^\\/]*$//g")
+SCRIPT_FOLDER=$HOME/.dt-heroku
+
+case $ACTION in
+  "install")
+    cp -R $CMD_FOLDER $SCRIPT_FOLDER
+    ;;
+esac
