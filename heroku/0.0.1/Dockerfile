@@ -11,5 +11,3 @@ WORKDIR /home/heroku
 
 COPY --chown=heroku:heroku home/* /home/heroku
 USER heroku
-
-ENTRYPOINT ["/home/heroku/entrypoint.sh"]
