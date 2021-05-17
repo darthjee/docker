@@ -11,11 +11,11 @@ if [ ! $ACTION ]; then
   cp -R $CMD_FOLDER/ $SCRIPT_PATH/
 
   if (! grep $SCRIPT_FOLDER $BASH_FILE > /dev/null); then
-    echo "eval \$(\$HOME/$SCRIPT_FOLDER/heroku install -)" >> $BASH_FILE
-    eval $($SCRIPT_PATH/heroku install -)
+    echo "eval \"\$(\$HOME/$SCRIPT_FOLDER/heroku install -)\"" >> $BASH_FILE
+    source ~/.bashrc
   fi
 
   exit 0
 fi
 
-echo "PATH=\"\${PATH}:\${HOME}.dt-heroku/\""
+echo "export PATH=\"\${PATH}:\${HOME}.dt-heroku/\""
