@@ -10,4 +10,7 @@ if [ ! $ACTION ]; then
     echo "eval \$(\$HOME/$SCRIPT_FOLDER/heroku install -)" >> $BASH_FILE
     eval $($SCRIPT_PATH/heroku install -)
   fi
+  exit 0
 fi
+
+echo "PATH=\"\${PATH}:\${HOME}.dt-heroku/\""
