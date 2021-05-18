@@ -14,11 +14,15 @@ shift 1
 CMD=$0
 CMD_FOLDER=$(echo $CMD | sed -e "s/\\/[^\\/]*$//g")
 
+function call_container() {
+  docker run -it --volume=$HOME/.dt-heroku/config:/home/heroku/config darthjee/heroku $*
+}
+
 case $ACTION in
   "install")
     $CMD_FOLDER/lib/install.sh $*
     ;;
   *)
-    docker run -it --volume=$HOME/.dt-heroku/config:/home/heroku/config darthjee/heroku $ACTION $*
+    call_container $ACTION $*
     ;;
 esac
