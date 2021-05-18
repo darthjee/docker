@@ -18,6 +18,7 @@ function call_container() {
   docker run -it \
     --volume=$HOME/.dt-heroku/config:/home/heroku/config \
     --volume=$(pwd):/home/heroku/project \
+    --workdir=/home/heroku/project \
     darthjee/heroku $*
 }
 
