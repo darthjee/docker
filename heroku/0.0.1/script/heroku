@@ -18,7 +18,7 @@ case $ACTION in
   "install")
     $CMD_FOLDER/lib/install.sh $*
     ;;
-  "login")
-    docker run -it --volume=$HOME/.dt-heroku/config:/home/heroku/config darthjee/heroku login $*
+  *)
+    docker run -it --volume=$HOME/.dt-heroku/config:/home/heroku/config darthjee/heroku $ACTION $*
     ;;
 esac
