@@ -15,7 +15,10 @@ CMD=$0
 CMD_FOLDER=$(echo $CMD | sed -e "s/\\/[^\\/]*$//g")
 
 function call_container() {
-  docker run -it --volume=$HOME/.dt-heroku/config:/home/heroku/config darthjee/heroku $*
+  docker run -it \
+    --volume=$HOME/.dt-heroku/config:/home/heroku/config \
+    --volume=$(pwd):/home/heroku/project \
+    darthjee/heroku $*
 }
 
 case $ACTION in
