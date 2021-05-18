@@ -9,7 +9,7 @@ if [ -f $HOME/config/config.json ]; then
   fi
 fi
 
-ACTION = $1
+ACTION=$1
 
 if [ -f $HOME/scripts/$ACTION.sh ]; then
   shift 1
