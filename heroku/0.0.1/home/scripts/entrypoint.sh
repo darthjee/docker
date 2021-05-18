@@ -10,10 +10,12 @@ if [ -f $HOME/config/config.json ]; then
 fi
 
 ACTION=$1
+  shift 1
 
 if [ -f $HOME/scripts/$ACTION.sh ]; then
-  shift 1
   $HOME/scripts/$ACTION.sh $*
+elif (echo $ACTION | grep "^\\/"); then
+  $ACTION $*
 else
-  /bin/sh
+  heroku $ACTION $*
 fi
