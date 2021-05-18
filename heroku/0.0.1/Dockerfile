@@ -4,7 +4,7 @@ RUN mkdir -p /home/heroku; \
     chown 1000.1000 -R /home/heroku; \
     adduser -u 1000 -D -h /home/heroku heroku
 
-RUN apk update; apk add curl bash nodejs npm
+RUN apk update; apk add curl bash nodejs npm git
 RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 WORKDIR /home/heroku
