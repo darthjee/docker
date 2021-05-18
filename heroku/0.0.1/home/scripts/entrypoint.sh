@@ -9,5 +9,11 @@ if [ -f $HOME/config/config.json ]; then
   fi
 fi
 
-#heroku $*
-/bin/sh
+ACTION = $1
+
+if [ -f $HOME/scripts/$ACTION.sh ]; then
+  shift 1
+  $HOME/scripts/$ACTION.sh $*
+else
+  /bin/sh
+fi

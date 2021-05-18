@@ -9,7 +9,7 @@ RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 WORKDIR /home/heroku
 
-COPY --chown=heroku:heroku home/* /home/heroku
+COPY --chown=heroku:heroku home/ /home/heroku
 USER heroku
 
-ENTRYPOINT ["/home/heroku/entrypoint.sh"]
+ENTRYPOINT ["/home/heroku/scripts/entrypoint.sh"]
