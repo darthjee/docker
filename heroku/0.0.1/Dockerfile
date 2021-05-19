@@ -6,6 +6,7 @@ RUN mkdir -p /home/heroku; \
 
 RUN apk update; apk add curl bash nodejs npm git
 RUN curl https://cli-assets.heroku.com/install.sh | sh
+RUN heroku update
 
 WORKDIR /home/heroku
 
