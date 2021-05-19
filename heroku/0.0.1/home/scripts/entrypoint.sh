@@ -1,6 +1,7 @@
 #!/bin/sh
 
 mkdir -p $HOME/.local/share/heroku
+mkdir -p $HOME/.cache
 
 function has_configs() {
   for FILE in $HOME/config/config.json  $HOME/config/.netrc; do
@@ -8,12 +9,18 @@ function has_configs() {
       return 1
     fi
   done
+
+  if [ ! -d $HOME/config/.cache ]; then
+    return 1
+  fi
+
   return 0
 }
 
 if ( has_configs ); then
   cp $HOME/config/config.json $HOME/.local/share/heroku/
   cp $HOME/config/.netrc $HOME
+  cp $HOME/config/.cache $HOME/.cache/heroku
 fi
 
 ACTION=$1
