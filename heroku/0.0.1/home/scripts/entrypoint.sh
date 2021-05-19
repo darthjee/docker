@@ -2,7 +2,16 @@
 
 mkdir -p $HOME/.local/share/heroku
 
-if [ -f $HOME/config/config.json ] && [ -f $HOME/config/.netrc ]; then
+function has_configs() {
+  for FILE in $HOME/config/config.json  $HOME/config/.netrc; do
+    if [ ! -f $FILE ]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
+if ( has_configs ); then
   cp $HOME/config/config.json $HOME/.local/share/heroku/
   cp $HOME/config/.netrc $HOME
 fi
