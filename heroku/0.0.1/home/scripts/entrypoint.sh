@@ -17,7 +17,7 @@ function has_configs() {
 if ( has_configs ); then
   cp $HOME/config/config.json $HOME/.local/share/heroku/
   cp $HOME/config/.netrc $HOME
-  cp $HOME/config/.cache $HOME/.cache/heroku
+  cp -R $HOME/config/.cache $HOME/.cache/heroku
 fi
 
 ACTION=$1
