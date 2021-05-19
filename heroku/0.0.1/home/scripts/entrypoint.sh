@@ -1,8 +1,5 @@
 #!/bin/sh
 
-mkdir -p $HOME/.local/share/heroku
-mkdir -p $HOME/.cache
-
 function has_configs() {
   for FILE in $HOME/config/config.json  $HOME/config/.netrc; do
     if [ ! -f $FILE ]; then
