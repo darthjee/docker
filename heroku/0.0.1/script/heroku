@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ ! $1 ]; then
+  echo "Usage:"
+  echo "$0 install # install"
+  echo "$0 login   # login into heroku"
+  echo "$0 help    # show help"
+  exit 0
+fi
+
+ACTION=$1
+shift 1
+
+CMD=$0
+CMD_FOLDER=$(echo $CMD | sed -e "s/\\/[^\\/]*$//g")
+
+function call_container() {
+  docker run -it \
+    --volume=$HOME/.dt-heroku/config:/home/heroku/config \
+    --volume=$(pwd):/home/heroku/project \
+    --workdir=/home/heroku/project \
+    darthjee/heroku $*
+}
+
+case $ACTION in
+  "install")
+    $CMD_FOLDER/lib/install.sh $*
+    ;;
+  *)
+    call_container $ACTION $*
+    ;;
+esac

@@ -92,6 +92,7 @@ script repository where scripts are copied from during docker build.
 - Tools
   - [fly:0.0.1](https://hub.docker.com/repository/docker/darthjee/fly)
   - [scripts:0.1.8](https://hub.docker.com/repository/docker/darthjee/scripts)
+  - [heroku:0.0.1](https://hub.docker.com/repository/docker/darthjee/heroku)
 - Development
   - [node:0.0.7](https://hub.docker.com/repository/docker/darthjee/node)
   - [node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/node_mongo)
