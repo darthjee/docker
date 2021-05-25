@@ -19,6 +19,7 @@ function call_container() {
     --volume=$HOME/.dt-heroku/config:/home/heroku/config \
     --volume=$(pwd):/home/heroku/project \
     --workdir=/home/heroku/project \
+    --rm \
     darthjee/heroku $*
 }
 
