@@ -19,7 +19,7 @@ gem 'tarquinn',          '0.2.0'
 gem 'turbolinks',        '5.2.1'
 gem 'magicka',           '0.5.5'
 gem 'arstotzka',         '1.6.2'
-gem 'danica',            '2.7.6'
+gem 'danica',            '2.7.7'
 
 group :development, :test do
   gem 'pry',        '0.12.2'
