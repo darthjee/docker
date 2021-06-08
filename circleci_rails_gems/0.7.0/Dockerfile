@@ -1,10 +1,10 @@
+FROM darthjee/circleci_ruby_250:0.7.0 as base
 FROM darthjee/scripts:0.1.8 as scripts
-FROM darthjee/circleci_ruby_250:0.6.2 as base
 ######################################
 
 FROM base as builder
 
-ADD home/* /home/circleci/project/
+COPY --chown=app:app home/* /home/app/app/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
