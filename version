@@ -16,7 +16,7 @@ ruby_gems=0.5.4
 ruby_gems_240=0.0.2
 ruby_node=0.8.0
 ruby_plot=0.7.0
-taa=0.7.1
+taa=0.8.0
 taap=0.7.1
 # Circleci
 circleci_node=0.0.7
@@ -30,11 +30,11 @@ circleci_ruby_250=0.8.0
 circleci_ruby_gems=0.5.4
 circleci_ruby_gems_240=0.0.2
 circleci_ruby_node=0.8.0
-circleci_taa=0.7.1
+circleci_taa=0.8.0
 circleci_taap=0.7.1
 # Production
 production_rails_bower=0.8.0
 production_ruby_250=0.8.0
 production_ruby_node=0.8.0
-production_taa=0.7.1
+production_taa=0.8.0
 production_taap=0.7.1
