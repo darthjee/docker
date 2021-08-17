@@ -1,0 +1,55 @@
+source 'https://rubygems.org'
+ruby '2.5.0'
+
+gem 'azeroth',           '0.8.1'
+gem 'bower-rails',       '0.12.0'
+gem 'bundler',           '1.16.1'
+gem 'darthjee-core_ext', '2.0.0'
+gem 'newrelic_rpm',      '6.9.0.363'
+gem 'nokogiri',          '1.11.4'
+gem 'puma',              '4.3.8'
+gem 'rack',              '2.2.3'
+gem 'rake',              '13.0.3'
+gem 'rails',             '5.2.6'
+gem 'sass-rails',        '5.1.0'
+gem 'sinclair',          '1.6.7'
+gem 'jace',              '0.0.3'
+gem 'uglifier',          '4.2.0'
+gem 'tarquinn',          '0.2.0'
+gem 'turbolinks',        '5.2.1'
+gem 'magicka',           '0.5.5'
+gem 'danica',            '2.7.7'
+gem 'gnuplot',           '2.6.2'
+
+group :development, :test do
+  gem 'pry',        '0.12.2'
+  gem 'pry-nav',    '0.3.0'
+  gem 'pry-rails',  '0.3.9'
+  gem 'simplecov',  '0.17.1'
+  gem 'yard',       '0.9.26'
+  gem 'yardstick',  '0.9.9'
+end
+
+group :development do
+  gem 'rubycritic',    '4.6.1'
+  gem 'reek',          '6.0.3'
+  gem 'rubocop',       '0.80.1'
+  gem 'rubocop-rspec', '1.38.1'
+  gem 'zonebie',       '0.6.1'
+  gem 'web-console',   '3.7.0'
+end
+
+group :test do
+  gem 'factory_bot',               '5.1.1'
+  gem 'rails-controller-testing',  '1.0.4'
+  gem 'rspec',                     '3.9.0'
+  gem 'rspec-collection_matchers', '1.2.0'
+  gem 'rspec-core',                '3.9.3'
+  gem 'rspec-expectations',        '3.9.4'
+  gem 'rspec-mocks',               '3.9.1'
+  gem 'rspec-rails',               '3.9.0'
+  gem 'rspec-support',             '3.9.4'
+  gem 'shoulda-matchers',          '4.3.0'
+  gem 'timecop',                   '0.9.1'
+  gem 'webmock',                   '3.8.2'
+end
