@@ -22,6 +22,7 @@ end
 
 group :test do
   gem 'rspec',                     '3.9.0'
+  gem 'rspec-collection_matchers', '1.2.0'
   gem 'rspec-core',                '3.9.3'
   gem 'rspec-expectations',        '3.9.4'
   gem 'rspec-mocks',               '3.9.1'
