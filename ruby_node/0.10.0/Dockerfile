@@ -13,4 +13,5 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | /bin/bash \
     && curl -Ls https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOM_JS_VERSION}.tar.bz2 \
       | tar -xj --strip-components=1 -C /tmp/phantomjs \
     && mv /tmp/phantomjs/bin/phantomjs /usr/local/bin
+
 USER app
