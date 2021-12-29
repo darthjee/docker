@@ -1,4 +1,4 @@
-FROM darthjee/ruby_250:0.8.0
+FROM darthjee/ruby_270:0.1.0
 
 ENV PHANTOM_JS_VERSION ${PHANTOM_JS_VERSION:-2.1.1-linux-x86_64}
 
