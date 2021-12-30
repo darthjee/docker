@@ -1,5 +1,5 @@
 FROM darthjee/scripts:0.1.8 as scripts
-FROM darthjee/circleci_ruby_node:0.8.0 as base
+FROM darthjee/circleci_ruby_node:0.10.0 as base
 
 USER root
 RUN apt-get install telnet

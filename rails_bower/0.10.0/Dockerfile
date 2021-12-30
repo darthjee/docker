@@ -1,5 +1,5 @@
 FROM darthjee/scripts:0.1.8 as scripts
-FROM darthjee/ruby_node:0.8.0 as base
+FROM darthjee/ruby_node:0.10.0 as base
 
 USER root
 RUN npm install bower -g; \
