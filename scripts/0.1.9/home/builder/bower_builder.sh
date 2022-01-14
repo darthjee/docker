@@ -29,6 +29,6 @@ for PATH in $HOME_DIR/.cache/bower/packages/*/*; do
 
   if [ ! -x $DEST/$PACKAGE/$VERSION ]; then
     mkdir -p $DEST/$PACKAGE
-    cp $PATH $DEST/$PACKAGE -R
+    /bin/cp $PATH $DEST/$PACKAGE -R
   fi
 done
