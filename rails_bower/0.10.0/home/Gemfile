@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.0'
 
-gem 'bundler',           '1.16.1'
+gem 'bundler',           '2.3.4'
 gem 'darthjee-core_ext', '2.0.0'
 gem 'puma',              '4.3.8'
 gem 'rack',              '2.2.3'
