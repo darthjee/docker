@@ -1,4 +1,4 @@
-FROM darthjee/circleci_rails_bower:0.9.0 as base
+FROM darthjee/circleci_rails_bower:0.10.0 as base
 FROM darthjee/scripts:0.1.8 as scripts
 
 ######################################
