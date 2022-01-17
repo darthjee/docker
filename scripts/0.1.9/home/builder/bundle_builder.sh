@@ -3,11 +3,11 @@
 ARGS=$(echo $* | xargs)
 
 /bin/cp /usr/local/bundle $HOME_DIR/bundle_cache -R
-mkdir -p $HOME_DIR/bundle/gems/
-mkdir -p $HOME_DIR/bundle/cache/
-mkdir -p $HOME_DIR/bundle/specifications/
-mkdir -p $HOME_DIR/bundle/bin/
-mkdir -p $HOME_DIR/bundle/extensions/
+/bin/mkdir -p $HOME_DIR/bundle/gems/
+/bin/mkdir -p $HOME_DIR/bundle/cache/
+/bin/mkdir -p $HOME_DIR/bundle/specifications/
+/bin/mkdir -p $HOME_DIR/bundle/bin/
+/bin/mkdir -p $HOME_DIR/bundle/extensions/
 
 bundle install $ARGS
 
@@ -32,7 +32,7 @@ for PATH in $(/usr/bin/find /usr/local/bundle/extensions/ -type f); do
   EXT_DIR=${EXT_PATH%/*}
 
   if [ ! -x $HOME_DIR/bundle_cache/extensions/$EXT_PATH ]; then
-    mkdir -p $HOME_DIR/bundle/extensions/$EXT_DIR
+    /bin/mkdir -p $HOME_DIR/bundle/extensions/$EXT_DIR
     /bin/cp $PATH $HOME_DIR/bundle/extensions/$EXT_PATH -R
   fi
 done
