@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.1.8 as scripts
+FROM darthjee/scripts:0.1.9 as scripts
 ######################################
 
 FROM ruby:2.7 as base
