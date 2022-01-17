@@ -2,7 +2,6 @@ FROM darthjee/scripts:0.1.9 as scripts
 FROM darthjee/circleci_ruby_node:0.10.0 as base
 
 USER root
-RUN apt-get install telnet
 RUN npm install bower -g; \
     mkdir /home/circleci/.cache; \
     chown circleci.circleci /home/circleci/.cache -R
