@@ -3,7 +3,7 @@
 ARGS=$(echo $* | xargs)
 
 mkdir -p $HOME_DIR/.cache/bower 
-cp $HOME_DIR/.cache/bower $HOME_DIR/bower_cache -R
+/bin/cp $HOME_DIR/.cache/bower $HOME_DIR/bower_cache -R
 mkdir -p $HOME_DIR/bower/registry/registry.bower.io/lookup/
 mkdir -p $HOME_DIR/bower/packages/
 
@@ -15,7 +15,7 @@ for PATH in $(/usr/bin/find $HOME_DIR/.cache/bower/registry/registry.bower.io/lo
   PACKAGE=${PATH##$SOURCE}
 
   if [ ! -x $DEST/$PACKAGE ]; then
-    cp $PATH $DEST -R
+    /bin/cp $PATH $DEST -R
   fi
 done
 
