@@ -38,11 +38,11 @@ contains the same base.
 
 ![fast release flow](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/build-push.gif)
 
-- Regular build
+- Regular release
 
   ![slow release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/slow_build_release.png)
 
-- Improoved build
+- Improoved release
 
   ![fast release](https://raw.githubusercontent.com/darthjee/docker/master/readme_files/fast_build_release.png)
 
