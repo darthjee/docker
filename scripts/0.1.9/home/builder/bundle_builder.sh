@@ -1,0 +1,38 @@
+#!/bin/bash
+
+ARGS=$(echo $* | xargs)
+
+/bin/cp /usr/local/bundle $HOME_DIR/bundle_cache -R
+/bin/mkdir -p $HOME_DIR/bundle/gems/
+/bin/mkdir -p $HOME_DIR/bundle/cache/
+/bin/mkdir -p $HOME_DIR/bundle/specifications/
+/bin/mkdir -p $HOME_DIR/bundle/bin/
+/bin/mkdir -p $HOME_DIR/bundle/extensions/
+
+bundle install $ARGS
+
+for PATH in /usr/local/bundle/gems/*; do
+  GEM=${PATH##/usr/local/bundle/gems/}
+  if [ ! -x $HOME_DIR/bundle_cache/gems/$GEM ]; then
+    /bin/cp $PATH $HOME_DIR/bundle/gems/$GEM -R
+    /bin/cp /usr/local/bundle/cache/$GEM.gem $HOME_DIR/bundle/cache -R
+    /bin/cp /usr/local/bundle/specifications/$GEM.gemspec $HOME_DIR/bundle/specifications -R
+  fi
+done
+
+for PATH in /usr/local/bundle/bin/*; do
+  BIN=${PATH##/usr/local/bundle/bin/}
+  if [ ! -x $HOME_DIR/bundle_cache/bin/$BIN ]; then
+    /bin/cp $PATH $HOME_DIR/bundle/bin/$BIN -R
+  fi
+done
+
+for PATH in $(/usr/bin/find /usr/local/bundle/extensions/ -type f); do
+  EXT_PATH=${PATH##/usr/local/bundle/extensions/}
+  EXT_DIR=${EXT_PATH%/*}
+
+  if [ ! -x $HOME_DIR/bundle_cache/extensions/$EXT_PATH ]; then
+    /bin/mkdir -p $HOME_DIR/bundle/extensions/$EXT_DIR
+    /bin/cp $PATH $HOME_DIR/bundle/extensions/$EXT_PATH -R
+  fi
+done

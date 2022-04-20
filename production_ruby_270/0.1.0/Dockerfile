@@ -1,0 +1,32 @@
+FROM darthjee/scripts:0.1.9 as scripts
+######################################
+
+FROM ruby:2.7 as base
+
+RUN useradd -u 1000 app; \
+    mkdir -p /home/app/app; \
+    chown app.app -R /home/app
+
+WORKDIR /home/app/app
+
+RUN gem install bundler; \
+    chown app.app /usr/local/bundle -R
+
+USER app
+######################################
+
+FROM base as builder
+
+COPY --chown=app:app home/* /home/app/app/
+
+COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
+
+ENV HOME_DIR /home/app
+RUN bundle_builder.sh --without development test
+
+#######################
+#FINAL IMAGE
+
+FROM base
+
+COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
