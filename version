@@ -3,7 +3,7 @@ fly=0.0.1
 scripts=0.1.8
 heroku=0.0.1
 # Development
-node=0.0.7
+node=0.1.0
 node_mongo=0.0.6
 python_27=0.2.2
 python_37=0.2.2
@@ -19,7 +19,7 @@ ruby_plot=0.7.0
 taa=0.9.0
 taap=0.8.0
 # Circleci
-circleci_node=0.0.7
+circleci_node=0.1.0
 circleci_node_mongo=0.0.6
 circleci_python_27=0.2.2
 circleci_python_37=0.2.2
