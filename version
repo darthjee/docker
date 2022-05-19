@@ -37,6 +37,7 @@ circleci_taap=0.8.0
 # Production
 production_rails_bower=0.9.0
 production_ruby_250=0.8.0
+production_ruby_270=1.0.0
 production_ruby_node=0.8.0
 production_taa=0.9.0
 production_taap=0.8.0
