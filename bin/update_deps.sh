@@ -7,7 +7,6 @@ function update_gemfile() {
     VERSION=$(echo $LINE | sed -e "s/\\(.*\\):\(.*\)/\\2/g")
     cat $DEST | sed "s/\\('$GEM'.*\\)'.*'/\\1'$VERSION'/g" > tmp.txt
     mv tmp.txt $DEST
-    echo $GEM = $VERSION
   done
 }
 
