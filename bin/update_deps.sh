@@ -2,7 +2,12 @@ function update_gemfile() {
   ORIGIN=$1/home/Gemfile
   DEST=$2/home/Gemfile
 
-  cat $ORIGIN | grep gem | sed -e "s/.*'\\(.*\\)'.*'\(.*\)'/\\1:\\2/g"
+  for LINE in $(cat $ORIGIN | grep "^\\s*gem" | sed -e "s/.*'\\(.*\\)'.*'\(.*\)'.*/\\1:\\2/g" ); do
+    echo $LINE
+    GEM=$(echo $LINE | sed -e "s/\\(.*\\):\(.*\)/\\1/g")
+    VERSION=$(echo $LINE | sed -e "s/\\(.*\\):\(.*\)/\\2/g")
+    echo $GEM -> $VERSION
+  done
 }
 
 function update_deps() {
