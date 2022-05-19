@@ -3,10 +3,11 @@ function update_gemfile() {
   DEST=$2/home/Gemfile
 
   for LINE in $(cat $ORIGIN | grep "^\\s*gem" | sed -e "s/.*'\\(.*\\)'.*'\(.*\)'.*/\\1:\\2/g" ); do
-    echo $LINE
     GEM=$(echo $LINE | sed -e "s/\\(.*\\):\(.*\)/\\1/g")
     VERSION=$(echo $LINE | sed -e "s/\\(.*\\):\(.*\)/\\2/g")
-    echo $GEM -> $VERSION
+    cat $DEST | sed "s/\\('$GEM'.*\\)'.*'/\\1'$VERSION'/g" > tmp.txt
+    mv tmp.txt $DEST
+    echo $GEM = $VERSION
   done
 }
 
