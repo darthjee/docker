@@ -9,7 +9,7 @@ RUN useradd -u 1000 app; \
 
 WORKDIR /home/app/app
 
-RUN gem install bundler; \
+RUN gem install bundler -v '2.3.14'; \
     chown app.app /usr/local/bundle -R
 
 USER app
