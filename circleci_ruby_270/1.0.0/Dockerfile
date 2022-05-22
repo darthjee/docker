@@ -7,7 +7,9 @@ USER root
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter; \
     mkdir /home/circleci/project/; \
-    chown circleci:circleci -R /home/circleci/project/
+    chown circleci:circleci -R /home/circleci/project/; \
+    gem update --system; \
+    gem install bundler:2.3.14 --default
 
 USER circleci
 
