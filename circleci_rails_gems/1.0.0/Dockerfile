@@ -4,6 +4,10 @@ FROM darthjee/scripts:0.2.0 as scripts
 
 FROM base as builder
 
+USER root
+RUN apt-get update && apt-get install -y libsqlite3-dev
+USER circleci
+
 COPY --chown=circleci:circleci home/* /home/circleci/project/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
