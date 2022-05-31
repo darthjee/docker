@@ -4,7 +4,7 @@ FROM darthjee/scripts:0.2.0 as scripts
 
 FROM base as builder
 
-COPY --chown=app:app home/* /home/app/app/
+COPY --chown=circleci:circleci home/* /home/circleci/project/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
