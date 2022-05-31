@@ -2,7 +2,11 @@
 
 ARGS=$(echo $* | xargs)
 
-cp /usr/local/bundle $HOME_DIR/bundle_cache -R
+if [ ! $BUNDLE_FOLDER ]; then
+  BUNDLE_FOLDER=/usr/local/bundle
+fi
+
+cp $BUNDLE_FOLDER $HOME_DIR/bundle_cache -R
 mkdir -p $HOME_DIR/bundle/gems/
 mkdir -p $HOME_DIR/bundle/cache/
 mkdir -p $HOME_DIR/bundle/specifications/
@@ -11,24 +15,24 @@ mkdir -p $HOME_DIR/bundle/extensions/
 
 bundle install $ARGS
 
-for PATH in /usr/local/bundle/gems/*; do
-  GEM=${PATH##/usr/local/bundle/gems/}
+for PATH in $BUNDLE_FOLDER/gems/*; do
+  GEM=${PATH##$BUNDLE_FOLDER/gems/}
   if [ ! -x $HOME_DIR/bundle_cache/gems/$GEM ]; then
     cp $PATH $HOME_DIR/bundle/gems/$GEM -R
-    cp /usr/local/bundle/cache/$GEM.gem $HOME_DIR/bundle/cache -R
-    cp /usr/local/bundle/specifications/$GEM.gemspec $HOME_DIR/bundle/specifications -R
+    cp $BUNDLE_FOLDER/cache/$GEM.gem $HOME_DIR/bundle/cache -R
+    cp $BUNDLE_FOLDER/specifications/$GEM.gemspec $HOME_DIR/bundle/specifications -R
   fi
 done
 
-for PATH in /usr/local/bundle/bin/*; do
-  BIN=${PATH##/usr/local/bundle/bin/}
+for PATH in $BUNDLE_FOLDER/bin/*; do
+  BIN=${PATH##$BUNDLE_FOLDER/bin/}
   if [ ! -x $HOME_DIR/bundle_cache/bin/$BIN ]; then
     cp $PATH $HOME_DIR/bundle/bin/$BIN -R
   fi
 done
 
-for PATH in $(/usr/bin/find /usr/local/bundle/extensions/ -type f); do
-  EXT_PATH=${PATH##/usr/local/bundle/extensions/}
+for PATH in $(/usr/bin/find $BUNDLE_FOLDER/extensions/ -type f); do
+  EXT_PATH=${PATH##$BUNDLE_FOLDER/extensions/}
   EXT_DIR=${EXT_PATH%/*}
 
   if [ ! -x $HOME_DIR/bundle_cache/extensions/$EXT_PATH ]; then
