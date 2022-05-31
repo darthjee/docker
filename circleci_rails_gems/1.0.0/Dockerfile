@@ -9,10 +9,11 @@ COPY --chown=app:app home/* /home/app/app/
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
 ENV HOME_DIR /home/circleci
+ENV BUNDLE_FOLDER /home/circleci/.rubygems
 RUN bundle_builder.sh
 
 #######################
 #FINAL IMAGE
 FROM base
 
-COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /usr/local/bundle/
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /home/circleci/.rubygems/
