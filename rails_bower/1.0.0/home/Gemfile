@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.0'
+ruby '2.7.0'
 
 gem 'bundler',           '2.3.15'
 gem 'darthjee-core_ext', '2.0.0'

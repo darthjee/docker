@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.5.0'
+ruby '2.7.0'
 
 gem 'azeroth',           '0.10.0'
 gem 'bower-rails',       '0.12.0'
