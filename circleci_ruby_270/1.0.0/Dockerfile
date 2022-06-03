@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.1.8 as scripts
+FROM darthjee/scripts:0.2.1 as scripts
 ######################################
 
 FROM cimg/ruby:2.7.0 as base
@@ -22,6 +22,7 @@ COPY --chown=circleci:circleci home/* /home/circleci/project/
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
 ENV HOME_DIR /home/circleci
+ENV BUNDLE_FOLDER /home/circleci/.rubygems
 RUN bundle_builder.sh
 
 #######################
@@ -29,7 +30,7 @@ RUN bundle_builder.sh
 
 FROM base
 
-COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /usr/local/bundle/
+COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /home/circleci/.rubygems/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=circleci:circleci --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
