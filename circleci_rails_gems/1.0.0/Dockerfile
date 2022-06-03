@@ -1,5 +1,5 @@
 FROM darthjee/circleci_ruby_270:1.0.0 as base
-FROM darthjee/scripts:0.2.1 as scripts
+FROM darthjee/scripts:0.2.0 as scripts
 ######################################
 
 FROM base as builder
