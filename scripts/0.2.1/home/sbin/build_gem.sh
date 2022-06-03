@@ -6,7 +6,7 @@ function version() {
 
 function isTagged() {
   VERSION=$(version)
-  TAG=$(git tag | tail -n 1)
+  TAG=$(git describe --abbrev=0 --tags)
 
   if [ $VERSION = $TAG ]; then
     return 0
