@@ -11,6 +11,8 @@ function isTagged() {
   if [ $VERSION = $TAG ]; then
     return 0
   else
+    echo "Gem Version: $VERSION"
+    echo "Git tag:     $TAG"
     return 1
   fi
 }
