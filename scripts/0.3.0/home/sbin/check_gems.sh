@@ -46,12 +46,16 @@ case $ACTION in
   "check")
     check_bundle
     ;;
+  "list_missing")
+    missing_gems
+    ;;
   "upgrade")
     upgrade_all
     ;;
   *)
     echo "Usage:"
     echo "$0 check # checks if gems have been installed"
+    echo "$0 list_missing # shows list of missing / wrng version gems"
     echo "$0 upgrade gems from gemfile when they are outdated # checks if gems have been installed"
     ;;
 esac
