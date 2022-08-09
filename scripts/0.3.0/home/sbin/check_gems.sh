@@ -23,11 +23,12 @@ function upgrade_all() {
     NEW_VERSION=$(latest_version $NAME)
 
     if [[ $NEW_VERSION ]]; then
-      sed -e "s/gem ['\"]$NAME['\"] *$/gem '$NAME', '$NEW_VERSION'/g" -i Gemfile
-    else
-      echo "$NAME -- $VERSION -- |$NEW_VERSION|"
+      sed -e "s/gem *['\"]$NAME['\"] *$/gem '$NAME', '$NEW_VERSION'/g" -i Gemfile
+      sed -e "s/gem *['\"]$NAME['\"],\( *\)['\"].*['\"]$/gem '$NAME',\\1'$NEW_VERSION'/g" -i Gemfile
     fi
   done
+
+  bundle install
 }
 
 function latest_version() {
