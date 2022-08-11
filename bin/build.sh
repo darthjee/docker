@@ -8,7 +8,7 @@ function fetch_bases() {
   IMAGE=$1
   VERSION=$(cat version | grep "^"$IMAGE"=" | sed -e "s/"$IMAGE"=//g")
 
-  BASES=$(cat $IMAGE/$VERSION/Dockerfile | grep FROM | grep darthjee | sed -e "s/.*darthjee/darthjee/g" | sed -e "s/:\([^ ]*\)/:\\1/g")
+  BASES=$(cat $IMAGE/$VERSION/Dockerfile | grep FROM | grep darthjee | sed -e "s/.*darthjee/darthjee/g" | sed -e "s/:\([^ ]*\) .*/:\\1/g")
 
   for BASE in $BASES; do
     BUILDABLE=$(echo $BASE | sed -e "s/:.*//g" | sed -e "s/.*\\///g")
