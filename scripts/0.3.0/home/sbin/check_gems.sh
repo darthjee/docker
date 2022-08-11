@@ -15,7 +15,7 @@ function check_bundle() {
 }
 
 function upgrade_all() {
-  LIST=$(missing_gems)
+  LIST=$(list_upgrades)
 
   for MATCH in $LIST; do
     NAME=${MATCH%%:*}
@@ -40,6 +40,20 @@ function latest_version() {
   fi
 }
 
+function list_upgrades() {
+  LIST=$(missing_gems)
+
+  for MATCH in $LIST; do
+    NAME=${MATCH%%:*}
+    VERSION=${MATCH##*:}
+    NEW_VERSION=$(latest_version $NAME)
+
+    if [[ $NEW_VERSION ]]; then
+      echo "$NAME:$VERSION:$NEW_VERSION"
+    fi
+  done
+}
+
 ACTION=$1
 
 case $ACTION in
@@ -52,10 +66,14 @@ case $ACTION in
   "upgrade")
     upgrade_all
     ;;
+  "list_upgrades")
+    list_upgrades
+    ;;
   *)
     echo "Usage:"
     echo "$0 check # checks if gems have been installed"
     echo "$0 list_missing # shows list of missing / wrng version gems"
-    echo "$0 upgrade gems from gemfile when they are outdated # checks if gems have been installed"
+    echo "$0 upgrade # upgrade gems from gemfile when they are outdated # checks if gems have been installed"
+    echo "$0 list_upgrades # list all gems to be upgraded by the upgrade"
     ;;
 esac
