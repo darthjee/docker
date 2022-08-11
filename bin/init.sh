@@ -54,9 +54,11 @@ function update_dependency() {
   DOCKER_FILE=$1
   BASE=$2
   IMAGE=$(echo $BASE | sed -e "s/darthjee\///g" -e "s/:.*//g")
-  VERSION=$(cat version | grep $IMAGE | sed -e "s/.*=//g")
+  OLD_VERSION=$(echo $BASE | sed -e "s/.*://g")
+  VERSION=$(cat version | grep "^$IMAGE=" | sed -e "s/.*=//g")
 
-  sed -e "s/$BASE/$IMAGE:$VERSION/g" $DOCKER_FILE > aux;
+  echo sed -e "s/darthjee/$IMAGE:$OLD_VERSION\\/$IMAGE:$VERSION/g" $DOCKER_FILE > aux;
+  sed -e "s/darthjee/$IMAGE:$OLD_VERSION\\/$IMAGE:$VERSION/g" $DOCKER_FILE > aux;
   mv aux $DOCKER_FILE
 }
 
