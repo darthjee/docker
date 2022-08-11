@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.2.1 as scripts
+FROM darthjee/scripts:0.3.0 as scripts
 ######################################
 
 FROM cimg/ruby:2.7.0 as base

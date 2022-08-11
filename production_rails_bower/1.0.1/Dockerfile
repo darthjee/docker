@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.2.1 as scripts
+FROM darthjee/scripts:0.3.0 as scripts
 FROM darthjee/production_ruby_node:1.0.1 as base
 
 USER root
