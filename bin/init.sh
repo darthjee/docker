@@ -39,6 +39,28 @@ function update_versions() {
   mv aux version
 }
 
+function update_dependencies() {
+  IMAGE_NAME=$1
+  VERSION=$2
+  DOCKER_FILE=$IMAGE_NAME/$VERSION/Dockerfile
+  BASES=$(cat $DOCKER_FILE | grep FROM | grep darthjee | grep : | sed -e "s/[^:]* \\([^ ]*:[^ ]*\\) *[^:]*/\\1/g")
+
+  for BASE in  $BASES; do
+    update_dependency $DOCKER_FILE $BASE
+  done
+}
+
+function update_dependency() {
+  DOCKER_FILE=$1
+  BASE=$2
+  IMG=$(echo $BASE | sed -e "s/darthjee\///g" -e "s/:.*//g")
+  OLD_VERS=$(echo $BASE | sed -e "s/.*://g")
+  VERS=$(cat version | grep "^$IMG=" | sed -e "s/.*=//g")
+
+  sed -e "s/darthjee\\/$IMG:$OLD_VERS/darthjee\\/$IMG:$VERS/g" $DOCKER_FILE > aux
+  mv aux $DOCKER_FILE
+}
+
 function init() {
   IMAGE=$2
 
@@ -49,6 +71,7 @@ function init() {
     for MOD in "" circleci_ production_; do
       copy $MOD$IMAGE $CURRENT_VERSION $VERSION
       update_versions $MOD$IMAGE $CURRENT_VERSION $VERSION
+      update_dependencies $MOD$IMAGE $VERSION
     done
   else
     help
