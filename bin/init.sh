@@ -43,7 +43,7 @@ function update_dependencies() {
   IMAGE_NAME=$1
   VERSION=$2
   DOCKER_FILE=$IMAGE_NAME/$VERSION/Dockerfile
-  BASES=$(cat $DOCKER_FILE | grep : | sed -e "s/[^:]* \\([^ ]*:[^ ]*\\) *[^:]*/\\1/g")
+  BASES=$(cat $DOCKER_FILE | grep FROM | grep : | sed -e "s/[^:]* \\([^ ]*:[^ ]*\\) *[^:]*/\\1/g")
 
   for BASE in  $BASES; do
     update_dependency $DOCKER_FILE $BASE
@@ -53,12 +53,11 @@ function update_dependencies() {
 function update_dependency() {
   DOCKER_FILE=$1
   BASE=$2
-  IMAGE=$(echo $BASE | sed -e "s/darthjee\///g" -e "s/:.*//g")
+  IMG=$(echo $BASE | sed -e "s/darthjee\///g" -e "s/:.*//g")
   OLD_VERSION=$(echo $BASE | sed -e "s/.*://g")
-  VERSION=$(cat version | grep "^$IMAGE=" | sed -e "s/.*=//g")
+  VERSION=$(cat version | grep "^$IMG=" | sed -e "s/.*=//g")
 
-  echo sed -e "s/darthjee/$IMAGE:$OLD_VERSION\\/$IMAGE:$VERSION/g" $DOCKER_FILE > aux;
-  sed -e "s/darthjee/$IMAGE:$OLD_VERSION\\/$IMAGE:$VERSION/g" $DOCKER_FILE > aux;
+  sed -e "s/darthjee\\/$IMG:$OLD_VERSION/darthjee\\/$IMG:$VERSION/g" $DOCKER_FILE > aux
   mv aux $DOCKER_FILE
 }
 
