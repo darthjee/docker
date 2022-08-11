@@ -39,6 +39,27 @@ function update_versions() {
   mv aux version
 }
 
+function update_dependencies() {
+  IMAGE_NAME=$1
+  VERSION=$2
+  DOCKER_FILE=$IMAGE_NAME/$VERSION/Dockerfile
+  BASES=$(grep FROM ruby_270/1.1.0/Dockerfile | grep : | sed -e "s/[^:]* \\([^ ]*:[^ ]*\\) *[^:]*/\\1/g")
+
+  for BASE in  $BASES do
+    update_dependency $DOCKER_FILE $BASE
+  done
+}
+
+function update_dependency() {
+  DOCKER_FILE=$1
+  BASE=$2
+  IMAGE=$(echo $BASE | sed -e "s/darthjee\///g" -e "s/:.*//g")
+  VERSION=$(cat version | grep $IMAGE | sed -e "s/.*=//g")
+
+  sed -e "s/$BASE/$IMAGE:$VERSION/g" $DOCKER_FILE > aux;
+  mv aux $DOCKER_FILE
+}
+
 function init() {
   IMAGE=$2
 
