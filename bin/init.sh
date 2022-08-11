@@ -43,9 +43,9 @@ function update_dependencies() {
   IMAGE_NAME=$1
   VERSION=$2
   DOCKER_FILE=$IMAGE_NAME/$VERSION/Dockerfile
-  BASES=$(grep FROM ruby_270/1.1.0/Dockerfile | grep : | sed -e "s/[^:]* \\([^ ]*:[^ ]*\\) *[^:]*/\\1/g")
+  BASES=$(cat $DOCKER_FILE | grep : | sed -e "s/[^:]* \\([^ ]*:[^ ]*\\) *[^:]*/\\1/g")
 
-  for BASE in  $BASES do
+  for BASE in  $BASES; do
     update_dependency $DOCKER_FILE $BASE
   done
 }
@@ -70,6 +70,7 @@ function init() {
     for MOD in "" circleci_ production_; do
       copy $MOD$IMAGE $CURRENT_VERSION $VERSION
       update_versions $MOD$IMAGE $CURRENT_VERSION $VERSION
+      update_dependencies $MOD$IMAGE $VERSION
     done
   else
     help
