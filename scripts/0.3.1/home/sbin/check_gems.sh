@@ -25,6 +25,11 @@ function upgrade_all() {
     if [[ $NEW_VERSION ]]; then
       sed -e "s/gem *['\"]$NAME['\"] *$/gem '$NAME', '$NEW_VERSION'/g" -i Gemfile
       sed -e "s/gem *['\"]$NAME['\"],\( *\)['\"].*['\"]$/gem '$NAME',\\1'$NEW_VERSION'/g" -i Gemfile
+
+      if [ -r *.gemspec ]; then
+        sed -e "s/_dependency *['\"]$NAME['\"] *$/_dependency '$NAME', '$NEW_VERSION'/g" -i *.gemspec
+        sed -e "s/_dependency *['\"]$NAME['\"],\( *\)['\"].*['\"]$/_dependency '$NAME',\\1'$NEW_VERSION'/g" -i *.gemspec
+      fi
     fi
   done
 
