@@ -1,19 +1,19 @@
 source 'https://rubygems.org'
 ruby '2.7.0'
 
-gem 'azeroth',           '0.10.0'
+gem 'azeroth',           '0.10.1'
 gem 'bower-rails',       '0.12.0'
 gem 'bundler',           '2.3.20'
 gem 'darthjee-core_ext', '2.0.0'
 gem 'newrelic_rpm',      '6.9.0.363'
-gem 'nokogiri',          '1.13.6'
+gem 'nokogiri',          '1.13.8'
 gem 'puma',              '4.3.12'
 gem 'rack',              '2.2.4'
 gem 'rake',              '13.0.6'
 gem 'rails',             '5.2.8.1'
 gem 'sass-rails',        '6.0.0'
 gem 'sinclair',          '1.6.7'
-gem 'jace',              '0.0.3'
+gem 'jace',              '0.1.1'
 gem 'uglifier',          '4.2.0'
 gem 'tarquinn',          '0.2.0'
 gem 'turbolinks',        '5.2.1'
@@ -26,6 +26,7 @@ group :development, :test do
   gem 'simplecov',  '0.21.2'
   gem 'yard',       '0.9.27'
   gem 'yardstick',  '0.9.9'
+  gem 'zyra',       '1.1.0'
 end
 
 group :development do
