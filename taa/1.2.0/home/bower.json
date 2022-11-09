@@ -3,9 +3,9 @@
   "dependencies": {
     "angular": "1.4.8",
     "angular-route": "1.4.8",
-    "underscore": "1.8.3",
-    "bootstrap": "4.4.1",
-    "jquery": "2.2.0",
+    "underscore": "1.13.6",
+    "bootstrap": "5.2.2",
+    "jquery": "3.6.1",
     "js-cookie": "2.2.1",
     "querystring": "3.46.1",
     "kanto": "0.0.2",
