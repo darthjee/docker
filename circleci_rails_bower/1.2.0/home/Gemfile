@@ -13,7 +13,7 @@ gem 'nokogiri',          '1.13.9'
 gem 'bower-rails',       '0.12.0'
 gem 'turbolinks',        '5.2.1'
 gem 'newrelic_rpm',      '8.12.0'
-gem 'sinclair',          '1.6.7'
+gem 'sinclair',          '1.8.0'
 gem 'tzinfo-data'
 
 group :development, :test do
