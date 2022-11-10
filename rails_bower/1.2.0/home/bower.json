@@ -2,7 +2,7 @@
   "name": "bower_files",
   "dependencies": {
     "underscore": "1.13.6",
-    "bootstrap": "5.2.2",
+    "bootstrap": "4.6.2",
     "jquery": "3.6.1",
     "querystring": "3.46.1"
   }
