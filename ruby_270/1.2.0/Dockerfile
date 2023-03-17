@@ -30,7 +30,7 @@ RUN bundle_builder.sh
 
 FROM base
 
-COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
+COPY --chown=app:app --from=builder /home/circleci/.rubygems/ /home/circleci/.rubygems/
 
 COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=app:app --from=scripts /home/scripts/sbin/check_gems.sh /usr/local/sbin/

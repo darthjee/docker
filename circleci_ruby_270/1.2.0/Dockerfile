@@ -5,9 +5,10 @@ FROM cimg/ruby:2.7.0 as base
 
 USER root
 
-RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter; \
-    chown circleci:circleci -R /home/circleci/project/; \
-    gem update --system
+RUN gem install bundler:2.3.25; \
+    chown circleci.circleci /home/circleci/.rubygems/ -R ; \
+    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter; \
+    chown circleci:circleci -R /home/circleci/project/
 
 USER circleci
 
