@@ -6,6 +6,7 @@ gem 'bundler',  '2.4.8'
 gem 'rake',     '13.0.6'
 gem 'sinclair', '2.0.1'
 
+gem 'activesupport',            '7.0.4.3'
 gem 'actionpack',               '7.0.4.3'
 gem 'activerecord',             '7.0.4.3'
 gem 'actionview',               '7.0.4.3'
