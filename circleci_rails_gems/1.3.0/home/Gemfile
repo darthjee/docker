@@ -1,0 +1,43 @@
+source 'https://rubygems.org'
+ruby '2.7.0'
+
+
+gem 'bundler',  '2.4.8'
+gem 'rake',     '13.0.6'
+gem 'sinclair', '2.0.1'
+
+gem 'activesupport',            '7.0.4.3'
+gem 'actionpack',               '7.0.4.3'
+gem 'activerecord',             '7.0.4.3'
+gem 'actionview',               '7.0.4.3'
+gem 'rack',                     '2.2.6.3'
+gem 'rails',                    '7.0.4.3'
+gem 'nokogiri',                 '1.14.4'
+gem 'rails-controller-testing', '1.0.5'
+gem 'sqlite3',                  '1.4.2'
+
+group :development, :test do
+  gem 'factory_bot', '6.2.1'
+  gem 'pry',         '0.14.2'
+  gem 'pry-nav',     '1.0.0'
+  gem 'simplecov',   '0.22.0'
+  gem 'rubycritic',  '4.8.0'
+  gem 'yard',        '0.9.34'
+  gem 'yardstick',   '0.9.9'
+end
+
+group :development do
+  gem 'reek',          '6.1.4'
+  gem 'rubocop',       '1.51.0'
+  gem 'rubocop-rspec', '2.22.0'
+end
+
+group :test do
+  gem 'minitest',           '5.18.0'
+  gem 'rspec',              '3.12.0'
+  gem 'rspec-core',         '3.12.2'
+  gem 'rspec-expectations', '3.12.3'
+  gem 'rspec-mocks',        '3.12.5'
+  gem 'rspec-rails',        '6.0.2'
+  gem 'rspec-support',      '3.12.0'
+end
