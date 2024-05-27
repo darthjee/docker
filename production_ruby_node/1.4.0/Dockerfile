@@ -1,4 +1,4 @@
-FROM darthjee/production_ruby_270:1.3.0
+FROM darthjee/production_ruby_270:1.4.0
 
 USER root
 
