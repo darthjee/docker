@@ -12,6 +12,7 @@ rails_gems=1.3.0
 ruby_240=0.2.3
 ruby_250=0.8.0
 ruby_270=1.4.0
+ruby_340=1.0.0
 ruby_base=0.2.2
 ruby_gems=0.5.4
 ruby_gems_240=0.0.2
