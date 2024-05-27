@@ -16,8 +16,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'reek',          '6.3.0'
-  gem 'rubocop',       '1.64.0'
+  gem 'reek',          '6.1.4'
+  gem 'rubocop',       '1.59.0'
   gem 'rubocop-rspec', '2.29.2'
 end
 

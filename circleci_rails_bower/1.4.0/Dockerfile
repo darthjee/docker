@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.3.1 as scripts
+FROM darthjee/scripts:0.3.2 as scripts
 FROM darthjee/circleci_ruby_node:1.4.0 as base
 
 USER root

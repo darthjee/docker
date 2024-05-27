@@ -1,7 +1,7 @@
-FROM darthjee/scripts:0.3.1 as scripts
+FROM darthjee/scripts:0.3.2 as scripts
 ######################################
 
-FROM ruby:2.7.0 as base
+FROM ruby:3.3.1 as base
 
 RUN useradd -u 1000 app; \
     mkdir -p /home/app/app; \
