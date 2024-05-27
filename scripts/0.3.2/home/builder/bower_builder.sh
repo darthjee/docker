@@ -9,19 +9,19 @@ mkdir -p $HOME_DIR/bower/packages/
 
 bower install $ARGS
 
-for PATH in $(/usr/bin/find $HOME_DIR/.cache/bower/registry/registry.bower.io/lookup/ -type f); do
+for FILE_PATH in $(/usr/bin/find $HOME_DIR/.cache/bower/registry/registry.bower.io/lookup/ -type f); do
   SOURCE=$HOME_DIR/.cache/bower/registry/registry.bower.io/lookup/
   DEST=$HOME_DIR/bower/registry/registry.bower.io/lookup/
-  PACKAGE=${PATH##$SOURCE}
+  PACKAGE=${FILE_PATH##$SOURCE}
 
   if [ ! -x $DEST/$PACKAGE ]; then
-    cp $PATH $DEST -R
+    cp $FILE_PATH $DEST -R
   fi
 done
 
-for PATH in $HOME_DIR/.cache/bower/packages/*/*; do
+for FILE_PATH in $HOME_DIR/.cache/bower/packages/*/*; do
   SOURCE=$HOME_DIR/.cache/bower/packages/
-  PAKAGE_FULL_PATH=${PATH##$SOURCE}
+  PAKAGE_FULL_PATH=${FILE_PATH##$SOURCE}
   DEST=$HOME_DIR/bower/packages/
 
   PACKAGE=${PAKAGE_FULL_PATH%%/*}
@@ -29,6 +29,6 @@ for PATH in $HOME_DIR/.cache/bower/packages/*/*; do
 
   if [ ! -x $DEST/$PACKAGE/$VERSION ]; then
     mkdir -p $DEST/$PACKAGE
-    cp $PATH $DEST/$PACKAGE -R
+    cp $FILE_PATH $DEST/$PACKAGE -R
   fi
 done
