@@ -1,5 +1,5 @@
 FROM darthjee/circleci_rails_bower:1.4.0 as base
-FROM darthjee/scripts:0.3.1 as scripts
+FROM darthjee/scripts:0.3.2 as scripts
 
 ######################################
 
