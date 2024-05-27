@@ -1,4 +1,4 @@
-FROM darthjee/circleci_ruby_270:1.4.0
+FROM darthjee/circleci_ruby_331:1.0.0
 
 USER root
 
