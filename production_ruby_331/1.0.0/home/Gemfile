@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '3.3.1'
 
-gem 'bundler',       '2.5.9'
+gem 'bundler',       '2.5.11'
 gem 'rake',          '13.1.0'
 gem 'sinclair'     , '2.1.1'
 gem 'activesupport', '7.0.4.3'
