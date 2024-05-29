@@ -10,7 +10,7 @@ RUN useradd -u 1000 app; \
 WORKDIR /home/app/app
 
 RUN gem update --system; \
-    gem install bundler:2.3.15 --default; \
+    gem install bundler:2.5.11 --default; \
     chown app.app /usr/local/bundle -R
 
 USER app
