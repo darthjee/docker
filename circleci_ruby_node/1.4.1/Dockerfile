@@ -1,0 +1,9 @@
+FROM darthjee/circleci_ruby_331:1.0.1
+
+USER root
+
+RUN curl -sL https://deb.nodesource.com/setup_20.x | /bin/bash ; \
+    apt-get update && apt-get install -y nodejs ncat; \
+    curl -L https://npmjs.org/install.sh | /bin/bash
+
+USER circleci
