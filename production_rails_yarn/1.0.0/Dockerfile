@@ -17,12 +17,8 @@ ENV HOME_DIR /home/app
 COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 RUN /bin/bash bundle_builder.sh --without development test
 
-COPY --chown=app:app --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
-RUN /bin/bash bower_builder.sh
-
 #######################
 #FINAL IMAGE
 FROM base
 
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
-COPY --chown=app:app --from=builder /home/app/bower/ /home/app/.cache/bower/

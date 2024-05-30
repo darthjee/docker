@@ -20,12 +20,8 @@ COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_build
 ENV BUNDLE_FOLDER /home/circleci/.rubygems
 RUN /bin/bash bundle_builder.sh
 
-COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
-RUN /bin/bash bower_builder.sh
-
 ######################################
 #FINAL IMAGE
 FROM base
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /home/circleci/.rubygems/
-COPY --chown=circleci:circleci --from=builder /home/circleci/bower/ /home/circleci/.cache/bower/
