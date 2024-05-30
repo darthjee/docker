@@ -2,7 +2,7 @@ FROM darthjee/scripts:0.4.0 as scripts
 FROM darthjee/production_ruby_node:1.4.1 as base
 
 USER root
-RUN npm install bower -g; \
+RUN npm install yarn -g; \
     mkdir /home/app/.cache; \
     chown app.app /home/app/.cache -R
 USER app

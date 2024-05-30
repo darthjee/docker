@@ -3,7 +3,7 @@ FROM darthjee/circleci_ruby_node:1.4.1 as base
 
 USER root
 RUN apt-get install telnet
-RUN npm install bower -g; \
+RUN npm install yarn -g; \
     mkdir /home/circleci/.cache; \
     chown circleci.circleci /home/circleci/.cache -R
 
