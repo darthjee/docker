@@ -31,7 +31,7 @@ files.each do |file|
   regexp = Regexp.new("/#{source}/(.*)\.rb")
   spec = file.gsub(regexp, "/#{spec_folder}/\\1_spec.rb")
 
-  missing << file unless File.exists?(spec)
+  missing << file unless File.exist?(spec)
 end
 
 exit if missing.empty?
