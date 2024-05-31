@@ -1,6 +1,7 @@
 {
   "name": "bower_files",
   "dependencies": {
+    "yarn":"1.22.22",
     "underscore": "1.13.6",
     "bootstrap": "4.6.2",
     "jquery": "3.6.1",
