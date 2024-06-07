@@ -13,9 +13,9 @@ npm install -g $(sed -f /tmp/package_sed.sed package.json -n)
 
 for FILE_PATH in $MODULES_FOLDER/*; do
   PACKAGE=${FILE_PATH##$MODULES_FOLDER/}
-  if [ ! -x $HOME_DIR/node_modules/$PACKAGE ]; then
-    cp $FILE_PATH $HOME_DIR/bundle/gems/$GEM -R
-    cp $MODULES_FOLDER/cache/$GEM.gem $HOME_DIR/bundle/cache -R
-    cp $MODULES_FOLDER/specifications/$GEM.gemspec $HOME_DIR/bundle/specifications -R
+  echo package $PACKAGE
+  echo PATH $HOME_DIR/modules_cache/$PACKAGE
+  if [ ! -x $HOME_DIR/modules_cache/$PACKAGE ]; then
+    echo NEW PACKAGE $PACKAGE
   fi
 done
