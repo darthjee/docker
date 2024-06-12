@@ -43,7 +43,7 @@ function copyNewInstalled() {
     if [ ! -x $PACKAGE_CACHE_PATH ]; then
        cp -R $FILE_PATH $NEW_PACKAGE_PATH
     elif ( isNewVersion $FILE_PATH $PACKAGE_CACHE_PATH ); then
-      echo NEW VERSION FOR $PACKAGE
+       cp -R $FILE_PATH $NEW_PACKAGE_PATH
     fi
   done
 }
