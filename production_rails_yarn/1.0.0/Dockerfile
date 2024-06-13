@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.4.0 as scripts
+FROM darthjee/scripts:0.4.1 as scripts
 FROM darthjee/production_ruby_node:1.4.1 as base
 
 USER root
@@ -27,3 +27,4 @@ RUN /bin/bash bundle_builder.sh --without development test
 FROM base
 
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
+COPY --chown=app:app --from=builder /home/app/node_modules/ /usr/lib/node_modules
