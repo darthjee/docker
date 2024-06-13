@@ -1,11 +1,5 @@
-FROM darthjee/scripts:0.4.1 as scripts
-FROM darthjee/circleci_rails_yarn:1.0.0 as base
-
-USER root
-
-RUN npm install yarn -g;
-
-USER circleci
+FROM darthjee/circleci_rails_bower:1.0.0 as base
+FROM darthjee/scripts:0.2.1 as scripts
 
 ######################################
 
@@ -18,14 +12,12 @@ COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_build
 ENV BUNDLE_FOLDER /home/circleci/.rubygems
 RUN /bin/bash bundle_builder.sh
 
-USER root
-COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
-RUN /bin/bash yarn_builder.sh
-USER app
+COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
+RUN /bin/bash bower_builder.sh
 
 ######################################
-#FINAL IMAGE
+#FINAL BUILD
 FROM base
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /home/circleci/.rubygems/
-COPY --chown=circleci:circleci --from=builder /home/circleci/node_modules/ /usr/lib/node_modules
+COPY --chown=circleci:circleci --from=builder /home/circleci/bower/ /home/app/.cache/bower/
