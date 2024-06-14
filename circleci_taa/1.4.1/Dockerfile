@@ -1,12 +1,6 @@
 FROM darthjee/scripts:0.4.1 as scripts
 FROM darthjee/circleci_rails_yarn:1.0.0 as base
 
-USER root
-
-RUN npm install yarn -g;
-
-USER circleci
-
 ######################################
 
 FROM base as builder
