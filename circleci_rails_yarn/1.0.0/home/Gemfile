@@ -29,7 +29,7 @@ group :development do
   gem 'rubycritic',    '4.9.1'
   gem 'reek',          '6.1.4'
   gem 'rubocop',       '1.59.0'
-  gem 'rubocop-rspec', '2.29.2'
+  gem 'rubocop-rspec', '3.0.0'
   gem 'zonebie',       '0.6.1'
   gem 'web-console',   '4.2.0'
 end
