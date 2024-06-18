@@ -3,7 +3,8 @@ FROM darthjee/production_ruby_node:1.4.1 as base
 
 USER root
 
-RUN npm install yarn -g;
+RUN apt-get install telnet; \
+    npm install yarn -g;
 
 USER app
 
