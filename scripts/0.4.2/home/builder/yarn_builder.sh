@@ -4,18 +4,17 @@ if [ ! $MODULES_FOLDER ]; then
   MODULES_FOLDER=/usr/lib/node_modules
 fi
 
-CACHE_DIR=$HOME_DIR/modules_cache
 NEW_MODULES_DIR=$HOME_DIR/node_modules
+APP_DIR=$HOME_DIR/app
+APP_MODULES_DIR=$APP_DIR/node_modules
 
 function createFolders() {
-  cp $MODULES_FOLDER $CACHE_DIR -R
   mkdir -p $NEW_MODULES_DIR
+  mkdir -p $APP_MODULES_DIR
 }
 
 function installPackages() {
-  SED='/[dD]ependencies": {/,/}/ {s/    "\([^"]*\)": *"\(.*\)",\?/\1@\2/gp}'
-  echo $SED > /tmp/package_sed.sed
-  npm install -g $(sed -f /tmp/package_sed.sed package.json -n)
+  cd $APP_DIR; yarn install
 }
 
 function extractVersion() {
@@ -35,15 +34,16 @@ function isNewVersion() {
 }
 
 function copyNewInstalled() {
-  for FILE_PATH in $MODULES_FOLDER/*; do
-    PACKAGE=${FILE_PATH##$MODULES_FOLDER/}
-    PACKAGE_CACHE_PATH=$CACHE_DIR/$PACKAGE
+  for FILE_PATH in $APP_MODULES_DIR/*; do
+    PACKAGE=${FILE_PATH##$APP_MODULES_DIR/}
+    ORIGIN_PATH_DIR=$MODULES_FOLDER/$PACKAGE
     NEW_PACKAGE_PATH=$NEW_MODULES_DIR/$PACKAGE
 
-    if [ ! -x $PACKAGE_CACHE_PATH ]; then
+    if [ ! -x $ORIGIN_PATH_DIR ]; then
        cp -R $FILE_PATH $NEW_PACKAGE_PATH
-    elif ( isNewVersion $FILE_PATH $PACKAGE_CACHE_PATH ); then
-       cp -R $FILE_PATH $NEW_PACKAGE_PATH
+    elif ( isNewVersion $FILE_PATH $ORIGIN_PATH_DIR ); then
+       rm -rf $ORIGIN_PATH_DIR
+       cp -R $FILE_PATH $NEW_PACKAGE_PATHH
     fi
   done
 }
