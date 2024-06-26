@@ -1,0 +1,16 @@
+{
+  "name": "Base_node_project",
+  "description": "This is used only to install default packages",
+  "author": "Fernando 'darthjee' Favini",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "4.17.3",
+    "underscore": "~1.13.x"
+  },
+  "devDependencies": {
+    "express-generator": "latest",
+    "jasmine": "4.1.0",
+    "eslint": "^8.13.0",
+    "eslint-plugin-jasmine": "^4.1.3"
+  }
+}
