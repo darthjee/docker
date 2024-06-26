@@ -2,19 +2,20 @@ FROM darthjee/scripts:0.4.1 as scripts
 FROM node:22 as base
 
 USER root
-RUN mkdir -p /home/app/app; \
-    chown node /home/app -R; \
-    rm /home/node/app/* -f
+RUN mkdir -p /home/node/app; \
+    chown node /home/node/app -R
 
-WORKDIR /home/app/app
+WORKDIR /home/node/app
 
 ######################################
 
 FROM base as builder
 
-ADD home/*  /home/app/app/
+ADD home/*  /home/node/app/
 
 USER root
+ENV MODULES_FOLDER=/usr/local/lib/node_modules
+ENV HOME_DIR=/home/node
 COPY --chown=node:node --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
 RUN /bin/bash yarn_builder.sh
 USER node
@@ -23,4 +24,4 @@ USER node
 #FINAL IMAGE
 FROM base
 
-COPY --chown=app:app --from=builder /home/app/node_modules/ /usr/lib/node_modules
+COPY --chown=app:app --from=builder /home/node/node_modules/ /usr/local/lib/node_modules
