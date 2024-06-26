@@ -24,4 +24,4 @@ USER node
 #FINAL IMAGE
 FROM base
 
-COPY --chown=app:app --from=builder /home/node/node_modules/ /usr/local/lib/node_modules
+COPY --chown=node:node --from=builder /home/node/node_modules/ /usr/local/lib/node_modules

@@ -4,8 +4,11 @@ if [ ! $MODULES_FOLDER ]; then
   MODULES_FOLDER=/usr/lib/node_modules
 fi
 
+if [ ! $APP_DIR ]; then
+  APP_DIR=$HOME_DIR/app
+fi
+
 NEW_MODULES_DIR=$HOME_DIR/node_modules
-APP_DIR=$HOME_DIR/app
 APP_MODULES_DIR=$APP_DIR/node_modules
 
 function createFolders() {
