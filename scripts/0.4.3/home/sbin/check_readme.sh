@@ -1,5 +1,13 @@
 #! /bin/bash
 
-VERSION=$(grep VERSION lib/$PROJECT/version.rb  | sed -e "s/.*'\(.*\)'/\1/g")
+if [ ! $VERSION_PATH ]; then
+  VERSION_PATH="lib/$(echo $PROJECT | sed -e "s/-/\\//g")/version.rb"
+fi
 
-grep https://www.rubydoc.info/gems/$PROJECT/$VERSION README.md
+if [ ! $GEM_NAME ]; then
+  GEM_NAME=$PROJECT
+fi
+
+VERSION=$(grep VERSION $VERSION_PATH  | sed -e "s/.*'\(.*\)'/\1/g")
+
+grep https://www.rubydoc.info/gems/$GEM_NAME/$VERSION README.md
