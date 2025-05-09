@@ -1,4 +1,4 @@
-FROM darthjee/circleci_ruby_270:1.4.0 as base
+FROM darthjee/circleci_ruby_331:1.0.2 as base
 FROM darthjee/scripts:0.4.3 as scripts
 ######################################
 
