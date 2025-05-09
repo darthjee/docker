@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '3.3.1'
 
-gem 'azeroth',           '1.1.0'
+gem 'azeroth',           '2.0.0'
 gem 'bundler',           '2.6.8'
 gem 'darthjee-core_ext', '2.0.0'
 gem 'newrelic_rpm',      '8.12.0'
