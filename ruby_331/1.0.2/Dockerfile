@@ -35,4 +35,3 @@ COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
 COPY --chown=app:app --from=scripts /home/scripts/sbin/rubycritic.sh /usr/local/sbin/
 COPY --chown=app:app --from=scripts /home/scripts/sbin/check_gems.sh /usr/local/sbin/
 COPY --chown=app:app --from=scripts /home/scripts/sbin/check_specs /usr/local/sbin/
-COPY --chown=app:app home/* /home/app/app/
