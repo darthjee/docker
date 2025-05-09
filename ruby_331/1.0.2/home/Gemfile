@@ -10,15 +10,15 @@ group :development, :test do
   gem 'pry',        '0.14.2'
   gem 'pry-nav',    '1.0.0'
   gem 'simplecov',  '0.22.0'
-  gem 'rubycritic', '4.9.1'
+  gem 'rubycritic', '4.9.2'
   gem 'yard',       '0.9.37'
   gem 'yardstick',  '0.9.9'
 end
 
 group :development do
-  gem 'reek',          '6.1.4'
-  gem 'rubocop',       '1.73.1'
-  gem 'rubocop-rspec', '3.5.0'
+  gem 'reek',          '6.4.0'
+  gem 'rubocop',       '1.75.5'
+  gem 'rubocop-rspec', '3.6.0'
 end
 
 group :test do
