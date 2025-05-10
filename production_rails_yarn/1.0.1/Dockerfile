@@ -29,6 +29,7 @@ FROM base
 
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
 COPY --chown=app:app --from=builder /home/app/node_modules/ /usr/lib/node_modules
+
 USER root
-RUN mkdir tmp/pids
-FROM base
+RUN mkdir tmp/pids; chown app.app tmp/pids
+USER app
