@@ -4,7 +4,7 @@ FROM darthjee/circleci_ruby_node:1.4.2 as base
 USER root
 
 RUN apt-get install telnet; \
-    npm install yarn -g;
+    npm install yarn -g
 
 USER circleci
 
@@ -21,6 +21,7 @@ RUN /bin/bash bundle_builder.sh
 
 USER root
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
+ENV APP_DIR /home/circleci/project
 RUN /bin/bash yarn_builder.sh
 USER app
 
