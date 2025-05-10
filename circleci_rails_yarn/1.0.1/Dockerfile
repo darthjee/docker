@@ -3,7 +3,7 @@ FROM darthjee/circleci_ruby_node:1.4.2 as base
 
 USER root
 
-RUN apt-get install telnet; \
+RUN apt-get install -y telnet; \
     npm install yarn -g
 
 USER circleci
