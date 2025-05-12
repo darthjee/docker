@@ -1,5 +1,5 @@
 FROM darthjee/scripts:0.4.3 as scripts
-FROM darthjee/rails_yarn:1.0.1 as base
+FROM darthjee/production_rails_yarn:1.0.1 as base
 
 ######################################
 
