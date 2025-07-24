@@ -23,7 +23,7 @@ USER app
 FROM base
 
 USER root
-RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
+RUN apt-get update && apt-get install -y gnuplot
 
 COPY --chown=circleci:circleci --from=builder /usr/local/bundle /usr/local/bundle
 COPY --chown=circleci:circleci --from=builder /home/circleci/.cache /home/circleci/.cache

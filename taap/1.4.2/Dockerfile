@@ -21,7 +21,7 @@ RUN /bin/bash bundle_builder.sh
 FROM base
 
 USER root
-RUN apt-get update && apt-get install -y gnuplot texlive-math-extra
+RUN apt-get update && apt-get install -y gnuplot
 
 COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
 COPY --chown=app:app --from=builder /home/app/.cache /home/app/.cache
