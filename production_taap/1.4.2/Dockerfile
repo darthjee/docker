@@ -6,14 +6,15 @@ FROM darthjee/scripts:0.4.3 as scripts
 FROM base as builder
 
 COPY --chown=app:app home/* /home/app/app/
-
 ENV HOME_DIR /home/app
 
-COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
-RUN bundle_builder.sh --without development test
+USER root
+COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
+RUN /bin/bash yarn_builder.sh
+USER app
 
-COPY --chown=app:app --from=scripts /home/scripts/builder/bower_builder.sh /usr/local/sbin/bower_builder.sh
-RUN /bin/bash bower_builder.sh
+COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
+RUN /bin/bash bundle_builder.sh --without development test
 
 #######################
 #FINAL BUILD
