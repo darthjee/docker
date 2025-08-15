@@ -9,14 +9,13 @@ RUN apt-get update && apt-get install -y libsqlite3-dev
 USER circleci
 
 COPY --chown=circleci:circleci home/* /home/circleci/project/
+ENV HOME_DIR /home/circleci
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
-
-ENV HOME_DIR /home/circleci
 ENV BUNDLE_FOLDER /home/circleci/.rubygems
-RUN bundle_builder.sh
+RUN /bin/bash bundle_builder.sh
 
-#######################
+######################################
 #FINAL IMAGE
 FROM base
 
