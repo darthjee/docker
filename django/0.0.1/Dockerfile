@@ -31,7 +31,6 @@ ENV HOME_DIR /home/app
 USER root
 COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
 RUN /bin/bash yarn_builder.sh
-USER app
 
 #######################
 # FINAL IMAGE
@@ -40,3 +39,4 @@ FROM base
 # RUN poetry install --no-root --no-interaction --no-ansi
 COPY --chown=app:app --from=builder /home/app/yarn/new/ /usr/local/share/.cache/yarn/v6/
 COPY --chown=app:app home/* /home/app/app/
+USER app
