@@ -1,15 +1,5 @@
 {
-  "name": "weave",
-  "version": "1.0.0",
-  "description": "Weave Node.js Proxy",
-  "main": "index.js",
-  "scripts": {
-    "test": "nyc npx jasmine spec/**/*.js",
-    "lint": "eslint .",
-    "lint_fix": "eslint . --fix",
-    "coverage": "nyc jasmine",
-    "report": "plato -r --exclude '^(static|node_modules)/.*' -d report ."
-  },
+  "description": "Base Django Image",
   "author": "darthjee",
   "license": "MIT",
   "devDependencies": {
@@ -23,11 +13,5 @@
     "jasmine": "^5.0.0",
     "nyc": "^15.0.0",
     "plato": "^1.7.0"
-  },
-  "jasmine": {
-    "spec_dir": "spec",
-    "spec_files": [
-      "**/*[sS]pec.js"
-    ]
   }
 }
