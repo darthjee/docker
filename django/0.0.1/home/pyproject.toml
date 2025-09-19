@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "weave"
+version = "0.1.0"
+description = "Weave Project"
+authors = [ "Darthjee" ]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+django = "5.2.5"
+django-admin = "2.0.2"
+mysqlclient = "2.2.7"
+gunicorn = "23.0.0"
+jinja2 = "^3.1.6"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "8.4.2"
+pytest-django = "4.11.1"
+ruff = "0.13.0"
+radon = "^6.0.1"
+xenon = "^0.9.3"
+lizard = "^1.17.31"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

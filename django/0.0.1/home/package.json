@@ -1,0 +1,33 @@
+{
+  "name": "weave",
+  "version": "1.0.0",
+  "description": "Weave Node.js Proxy",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc npx jasmine spec/**/*.js",
+    "lint": "eslint .",
+    "lint_fix": "eslint . --fix",
+    "coverage": "nyc jasmine",
+    "report": "plato -r --exclude '^(static|node_modules)/.*' -d report ."
+  },
+  "author": "darthjee",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-complexity": "^1.0.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jasmine": "^4.1.3",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "jasmine": "^5.0.0",
+    "nyc": "^15.0.0",
+    "plato": "^1.7.0"
+  },
+  "jasmine": {
+    "spec_dir": "spec",
+    "spec_files": [
+      "**/*[sS]pec.js"
+    ]
+  }
+}
