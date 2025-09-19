@@ -22,5 +22,5 @@ function createCache() {
 }
 
 createFolders
-installPackages
 createCache
+installPackages
