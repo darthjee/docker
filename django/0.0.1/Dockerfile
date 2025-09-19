@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.4.3 as scripts
+FROM darthjee/scripts:0.5.0 as scripts
 FROM python:3.12-slim-bullseye as base
 
 RUN useradd -u 1000 app; \
@@ -38,7 +38,7 @@ USER app
 FROM base
 
 # RUN poetry install --no-root --no-interaction --no-ansi
-COPY --chown=app:app --from=builder /home/app/node_modules/ /usr/lib/node_modules
+COPY --chown=app:app --from=builder /usr/local/share/.cache/yarn/ /usr/local/share/.cache/yarn/
 COPY --chown=app:app home/* /home/app/app/
 
 RUN yarn install; rm -rf node_modules
