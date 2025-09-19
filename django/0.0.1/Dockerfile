@@ -40,5 +40,3 @@ FROM base
 # RUN poetry install --no-root --no-interaction --no-ansi
 COPY --chown=app:app --from=builder /usr/local/share/.cache/yarn/ /usr/local/share/.cache/yarn/
 COPY --chown=app:app home/* /home/app/app/
-
-RUN yarn install; rm -rf node_modules
