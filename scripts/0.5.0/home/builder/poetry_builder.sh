@@ -4,7 +4,7 @@ if [ ! $APP_DIR ]; then
   APP_DIR=$HOME_DIR/app
 fi
 
-GLOBAL_CACHE_PATH=/home/app/.cache/pypoetry
+GLOBAL_CACHE_PATH=/home/app/.cache/pypoetry/artifacts
 USER_CACHE_PATH=$HOME_DIR/poetry/cached
 NEW_PACKAGES_PATH=$HOME_DIR/poetry/new
 

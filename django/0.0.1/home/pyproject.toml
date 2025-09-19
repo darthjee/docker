@@ -1,10 +1,9 @@
 [tool.poetry]
-name = "weave"
-version = "0.1.0"
-description = "Weave Project"
+name = "Django Image"
+version = "0.0.1"
+description = "Django Image Project"
 authors = [ "Darthjee" ]
 license = "MIT"
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.12"
