@@ -23,10 +23,22 @@ RUN pip install --no-cache-dir poetry
 
 ######################################
 
+FROM base as builder
+
+COPY --chown=app:app home/* /home/app/app/
+ENV HOME_DIR /home/app
+
+USER root
+COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
+RUN /bin/bash yarn_builder.sh
+USER app
+
+#######################
+#FINAL IMAGE
+FROM base
+
+# RUN poetry install --no-root --no-interaction --no-ansi
+COPY --chown=app:app --from=builder /home/app/node_modules/ /usr/lib/node_modules
 COPY --chown=app:app home/* /home/app/app/
 
-USER app
-RUN poetry install --no-root --no-interaction --no-ansi
-RUN yarn install
-
-CMD ["bin/server.sh"]
+RUN yarn install; rm -rf node_modules
