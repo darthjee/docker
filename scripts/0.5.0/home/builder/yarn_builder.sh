@@ -5,16 +5,28 @@ if [ ! $APP_DIR ]; then
 fi
 
 GLOBAL_CACHE_PATH=/usr/local/share/.cache/yarn/v6
-USER_CACHE_PATH=$HOME_DIR/yarn/cached/
+USER_CACHE_PATH=$HOME_DIR/yarn/cached
+NEW_PACKAGES_PATH=$HOME_DIR/yarn/new
 
 function createFolders() {
   mkdir -p $GLOBAL_CACHE_PATH
   mkdir -p $USER_CACHE_PATH
+  mkdir -p $NEW_PACKAGES_PATH
 }
 
 function installPackages() {
   cd $APP_DIR
   yarn install
+}
+
+function copyNewPackages() {
+  for PACKAGE_PATH in $GLOBAL_CACHE_PATH/*; do
+    PACKAGE_NAME=${PACKAGE_PATH##$GLOBAL_CACHE_PATH/}
+    
+    if [ ! -d "$USER_CACHE_PATH/$PACKAGE_NAME" ]; then
+      cp -R $PACKAGE_PATH $NEW_PACKAGES_PATH/
+    fi
+  done
 }
 
 function createCache() {
@@ -24,3 +36,4 @@ function createCache() {
 createFolders
 createCache
 installPackages
+copyNewPackages
