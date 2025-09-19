@@ -1,31 +1,26 @@
 #!/bin/bash
 
-if [ ! $CACHE_FOLDER ]; then
-  CACHE_FOLDER=/usr/local/share/.cache/yarn
-fi
-
 if [ ! $APP_DIR ]; then
   APP_DIR=$HOME_DIR/app
 fi
 
-NEW_CACHE_DIR=$HOME_DIR/.cache/yarn
-APP_MODULES_DIR=$APP_DIR/node_modules
+GLOBAL_CACHE_PATH=/usr/local/share/.cache/yarn
+USER_CACHE_PATH=$HOME_DIR/yarn/cached/
 
 function createFolders() {
-  mkdir -p $NEW_CACHE_DIR
-  mkdir -p $APP_MODULES_DIR
+  mkdir -p $GLOBAL_CACHE_PATH
+  mkdir -p $USER_CACHE_PATH
 }
 
 function installPackages() {
-  cd $APP_DIR; yarn install
+  cd $APP_DIR
+  yarn install
 }
 
-function copyCache() {
-  if [ -d "$NEW_CACHE_DIR" ]; then
-    cp -R $NEW_CACHE_DIR/* $CACHE_FOLDER/
-  fi
+function createCache() {
+  cp -R $GLOBAL_CACHE_PATH/* $USER_CACHE_PATH/
 }
 
 createFolders
 installPackages
-copyCache
+createCache
