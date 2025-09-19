@@ -4,7 +4,7 @@ if [ ! $APP_DIR ]; then
   APP_DIR=$HOME_DIR/app
 fi
 
-GLOBAL_CACHE_PATH=/usr/local/share/.cache/yarn
+GLOBAL_CACHE_PATH=/usr/local/share/.cache/yarn/v6
 USER_CACHE_PATH=$HOME_DIR/yarn/cached/
 
 function createFolders() {
