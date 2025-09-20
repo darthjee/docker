@@ -1,3 +1,9 @@
+# Docker platform architecture options:
+# linux/amd64 - Intel/AMD 64-bit (most common)
+# linux/arm64 - ARM 64-bit (Apple Silicon M1/M2, ARM servers)
+# linux/arm/v7 - ARM 32-bit (Raspberry Pi, older ARM devices)
+PLATFORM=linux/amd64
+
 all:
 	make IMAGE=rails_bower tag
 	make IMAGE=taa tag
@@ -16,7 +22,7 @@ build:
 		docker tag $$DOCKER_ID_USER/$$IMAGE:latest $$DOCKER_ID_USER/$$IMAGE:cached; \
 		docker rmi $$DOCKER_ID_USER/$$IMAGE:latest; \
 		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		docker build -f $$IMAGE/$$VERSION/Dockerfile $$IMAGE/$$VERSION/ -t $$DOCKER_ID_USER/$$IMAGE; \
+		docker build --platform $(PLATFORM) -f $$IMAGE/$$VERSION/Dockerfile $$IMAGE/$$VERSION/ -t $$DOCKER_ID_USER/$$IMAGE; \
 		if [ $(VERSION) ]; then \
 			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
 		fi; \

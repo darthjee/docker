@@ -1,6 +1,6 @@
 # Tools
 fly=0.0.1
-scripts=0.4.3
+scripts=0.5.0
 heroku=0.0.1
 # Development
 node=0.2.0
@@ -21,6 +21,7 @@ ruby_node=1.4.2
 ruby_plot=0.7.0
 taa=1.4.2
 taap=1.4.2
+django=0.0.1
 # Circleci
 circleci_node=0.2.0
 circleci_node_mongo=0.0.6
