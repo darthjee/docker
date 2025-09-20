@@ -39,6 +39,7 @@ circleci_ruby_gems_240=0.0.2
 circleci_ruby_node=1.4.2
 circleci_taa=1.4.2
 circleci_taap=1.4.2
+circleci_django=0.0.1
 # Production
 production_rails_bower=1.4.0
 production_rails_yarn=1.0.1
