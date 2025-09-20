@@ -1,32 +1,28 @@
 FROM darthjee/scripts:0.5.0 as scripts
-FROM python:3.12-slim-bullseye as base
+FROM cimg/python:3.12 as base
 
-RUN useradd -u 1000 app; \
-    mkdir -p /home/app/app; \
-    chown app.app -R /home/app
+USER root
 
-WORKDIR /home/app/app/
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
-    pkg-config \
-    iputils-ping \
     default-mysql-client \
-    telnet curl ; \
+    nodejs; \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - ; \
     apt-get install -y nodejs; \
     npm install yarn -g; \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* ; \
+    chown circleci:circleci -R /home/circleci/project/
 
-RUN pip install --no-cache-dir poetry
+USER circleci
+
+WORKDIR /home/circleci/project/
 
 ######################################
 
 FROM base as builder
 
-COPY --chown=app:app home/* /home/app/app/
-ENV HOME_DIR /home/app
+COPY --chown=app:app home/* /home/circleci/project
+ENV HOME_DIR /home/circleci
 
 USER root
 COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
@@ -39,11 +35,10 @@ RUN /bin/bash poetry_builder.sh
 #######################
 # FINAL IMAGE
 FROM base
-ENV HOME_DIR /home/app
 
 # RUN poetry install --no-root --no-interaction --no-ansi
-COPY --chown=app:app --from=builder /home/app/yarn/new/ /usr/local/share/.cache/yarn/v6/
-COPY --chown=app:app --from=builder /home/app/poetry/new/ /home/app/.cache/pypoetry/artifacts/
+COPY --chown=app:app --from=builder /home/circleci/yarn/new/ /usr/local/share/.cache/yarn/v6/
+COPY --chown=app:app --from=builder /home/circleci/poetry/new/ /home/circleci/.cache/pypoetry/artifacts/
 USER app
 
 
