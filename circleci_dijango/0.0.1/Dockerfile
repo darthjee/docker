@@ -36,7 +36,6 @@ RUN /bin/bash poetry_builder.sh
 # FINAL IMAGE
 FROM base
 
-# RUN poetry install --no-root --no-interaction --no-ansi
 COPY --chown=app:app --from=builder /home/circleci/yarn/new/ /usr/local/share/.cache/yarn/v6/
 COPY --chown=app:app --from=builder /home/circleci/poetry/new/ /home/circleci/.cache/pypoetry/artifacts/
 USER app
