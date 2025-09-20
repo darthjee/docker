@@ -39,9 +39,7 @@ RUN /bin/bash poetry_builder.sh
 #######################
 # FINAL IMAGE
 FROM base
-ENV HOME_DIR /home/app
 
-# RUN poetry install --no-root --no-interaction --no-ansi
 COPY --chown=app:app --from=builder /home/app/yarn/new/ /usr/local/share/.cache/yarn/v6/
 COPY --chown=app:app --from=builder /home/app/poetry/new/ /home/app/.cache/pypoetry/artifacts/
 USER app
