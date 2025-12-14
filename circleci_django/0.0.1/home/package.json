@@ -1,0 +1,17 @@
+{
+  "description": "Base Django Image",
+  "author": "darthjee",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-complexity": "^1.0.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jasmine": "^4.1.3",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.0.1",
+    "jasmine": "^5.0.0",
+    "nyc": "^15.0.0",
+    "plato": "^1.7.0"
+  }
+}
