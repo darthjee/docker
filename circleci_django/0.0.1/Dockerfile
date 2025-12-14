@@ -30,7 +30,7 @@ USER root
 COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
 RUN /bin/bash yarn_builder.sh
 
-USER app
+USER circleci
 COPY --chown=app:app --from=scripts /home/scripts/builder/poetry_builder.sh /usr/local/sbin/poetry_builder.sh
 RUN /bin/bash poetry_builder.sh
 
