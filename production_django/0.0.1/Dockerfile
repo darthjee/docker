@@ -30,11 +30,11 @@ ENV HOME_DIR /home/app
 
 USER root
 COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
-RUN /bin/bash yarn_builder.sh
+RUN /bin/bash yarn_builder.sh --production --frozen-lockfile
 
 USER app
 COPY --chown=app:app --from=scripts /home/scripts/builder/poetry_builder.sh /usr/local/sbin/poetry_builder.sh
-RUN /bin/bash poetry_builder.sh
+RUN /bin/bash poetry_builder.sh --only main
 
 #######################
 # FINAL IMAGE

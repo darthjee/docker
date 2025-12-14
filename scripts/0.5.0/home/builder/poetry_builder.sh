@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ARGS=$(echo $* | xargs)
+
 if [ ! $APP_DIR ]; then
   APP_DIR=$HOME_DIR/app
 fi
@@ -16,7 +18,7 @@ function createFolders() {
 
 function installPackages() {
   cd $APP_DIR
-  poetry install --no-root --no-interaction --no-ansi
+  poetry install --no-root --no-interaction --no-ansi $ARGS
 }
 
 function copyNewPackages() {

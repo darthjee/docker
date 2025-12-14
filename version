@@ -49,3 +49,4 @@ production_ruby_331=1.0.2
 production_ruby_node=1.4.2
 production_taa=1.4.2
 production_taap=1.4.2
+production_django=0.0.1
