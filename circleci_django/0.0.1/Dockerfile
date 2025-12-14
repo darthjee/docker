@@ -5,6 +5,8 @@ USER root
 
 RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
+    pkg-config \
+    iputils-ping \
     default-mysql-client \
     nodejs; \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - ; \
