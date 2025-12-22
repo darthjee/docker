@@ -1,5 +1,5 @@
 FROM darthjee/scripts:0.5.0 as scripts
-FROM circleci/node:12.22.7-bullseye-browsers-legacy as base
+FROM cimg/node:22.14.0 as base
 
 USER root
 
