@@ -14,9 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     default-mysql-client \
     telnet curl ; \
-    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - ; \
-    apt-get install -y nodejs; \
-    npm install yarn -g; \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip install --no-cache-dir poetry
@@ -28,10 +25,6 @@ FROM base as builder
 COPY --chown=app:app home/* /home/app/app/
 ENV HOME_DIR /home/app
 
-USER root
-COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
-RUN /bin/bash yarn_builder.sh --production --frozen-lockfile
-
 USER app
 COPY --chown=app:app --from=scripts /home/scripts/builder/poetry_builder.sh /usr/local/sbin/poetry_builder.sh
 RUN /bin/bash poetry_builder.sh --only main
@@ -40,7 +33,6 @@ RUN /bin/bash poetry_builder.sh --only main
 # FINAL IMAGE
 FROM base
 
-COPY --chown=app:app --from=builder /home/app/yarn/new/ /usr/local/share/.cache/yarn/v6/
 COPY --chown=app:app --from=builder /home/app/poetry/new/ /home/app/.cache/pypoetry/artifacts/
 USER app
 
