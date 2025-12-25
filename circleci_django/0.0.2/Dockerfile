@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     default-libmysqlclient-dev \
     pkg-config \
     iputils-ping \
-    default-mysql-client \
+    default-mysql-client; \
     rm -rf /var/lib/apt/lists/* ; \
     chown circleci:circleci -R /home/circleci/project/
 
