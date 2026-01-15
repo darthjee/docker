@@ -2,8 +2,8 @@
 
 ARGS=$(echo "$*" | xargs)
 
-if [ ! $APP_DIR ]; then
-  APP_DIR=$HOME_DIR/app
+if [ ! "$APP_DIR" ]; then
+  APP_DIR="$HOME_DIR"/app
 fi
 
 GLOBAL_CACHE_PATH="$HOME_DIR"/.cache/pypoetry/artifacts
