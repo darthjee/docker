@@ -7,7 +7,7 @@ function missing_gems() {
 function check_bundle() {
   LIST=$(missing_gems)
 
-  if [[ $LIST ]]; then
+  if [[ "$LIST" ]]; then
     exit 1
   else
     exit 0
@@ -20,9 +20,9 @@ function upgrade_all() {
   for MATCH in $LIST; do
     NAME=${MATCH%%:*}
     VERSION=${MATCH##*:}
-    NEW_VERSION=$(latest_version $NAME)
+    NEW_VERSION=$(latest_version "$NAME")
 
-    if [[ $NEW_VERSION ]]; then
+    if [[ "$NEW_VERSION" ]]; then
       sed -e "s/gem *['\"]$NAME['\"] *$/gem '$NAME', '$NEW_VERSION'/g" -i Gemfile
       sed -e "s/gem *['\"]$NAME['\"],\( *\)['\"].*['\"]$/gem '$NAME',\\1'$NEW_VERSION'/g" -i Gemfile
 
@@ -51,17 +51,17 @@ function list_upgrades() {
   for MATCH in $LIST; do
     NAME=${MATCH%%:*}
     VERSION=${MATCH##*:}
-    NEW_VERSION=$(latest_version $NAME)
+    NEW_VERSION=$(latest_version "$NAME")
 
-    if [[ $NEW_VERSION ]]; then
+    if [[ "$NEW_VERSION" ]]; then
       echo "$NAME:$VERSION:$NEW_VERSION"
     fi
   done
 }
 
-ACTION=$1
+ACTION="$1"
 
-case $ACTION in
+case "$ACTION" in
   "check")
     check_bundle
     ;;
