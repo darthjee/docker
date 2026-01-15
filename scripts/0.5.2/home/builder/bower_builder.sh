@@ -7,7 +7,7 @@ cp "$HOME_DIR"/.cache/bower "$HOME_DIR"/bower_cache -R
 mkdir -p "$HOME_DIR"/bower/registry/registry.bower.io/lookup/
 mkdir -p "$HOME_DIR"/bower/packages/
 
-bower install $ARGS
+bower install "$ARGS"
 
 for FILE_PATH in $(/usr/bin/find "$HOME_DIR"/.cache/bower/registry/registry.bower.io/lookup/ -type f); do
   SOURCE="$HOME_DIR"/.cache/bower/registry/registry.bower.io/lookup/
