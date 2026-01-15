@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function version() {
-  echo $(cat lib/$PROJECT/version.rb | grep VERSION | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
+  echo $(cat lib/"$PROJECT"/version.rb | grep VERSION | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
 }
 
 function isTagged() {
   VERSION=$(version)
   TAG=$(git describe --abbrev=0 --tags)
 
-  if [ $VERSION = $TAG ]; then
+  if [ "$VERSION" = "$TAG" ]; then
     return 0
   else
     echo "Gem Version: $VERSION"
@@ -19,9 +19,9 @@ function isTagged() {
 
 function isLatestCommit() {
   VERSION=$(version)
-  DIFF=$(git diff HEAD $VERSION)
+  DIFF=$(git diff HEAD "$VERSION")
 
-  if [[ $DIFF ]]; then
+  if [[ "$DIFF" ]]; then
     return 1
   else
     return 0

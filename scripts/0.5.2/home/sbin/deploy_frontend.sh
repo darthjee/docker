@@ -25,7 +25,7 @@ function run_release() {
     "$SSH_COMMAND" "$SSH_USER"@"$SSH_HOST" "$COMMANDS"
 }
 
-ACTION=$1
+ACTION="$1"
 
 case "$ACTION" in
   "build")
