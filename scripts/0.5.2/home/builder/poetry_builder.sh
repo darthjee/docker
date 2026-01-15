@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARGS=$(echo $* | xargs)
+ARGS=$(echo "$*" | xargs)
 
 if [ ! $APP_DIR ]; then
   APP_DIR=$HOME_DIR/app
