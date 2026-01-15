@@ -10,4 +10,4 @@ fi
 
 VERSION=$(grep VERSION "$VERSION_PATH"  | sed -e "s/.*'\(.*\)'/\1/g")
 
-grep https://www.rubydoc.info/gems/"$GEM_NAME"/"$VERSION" README.md
+grep "https://www.rubydoc.info/gems/$GEM_NAME/$VERSION" README.md
