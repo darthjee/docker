@@ -12,10 +12,14 @@ function run_generate_ssh_key_file() {
     chmod 600 "$SSH_KEY_FILE_PATH"
 }
 
-function run_upload() {
+function run_generate_folder() {
     SSH_COMMAND="ssh -i $SSH_KEY_FILE_PATH -p $SSH_PORT -o StrictHostKeyChecking=no"
 
     "$SSH_COMMAND" "$SSH_USER"@"$SSH_HOST" "mkdir -p $SSH_REMOTE_TEMP_DIR"
+}
+
+function run_upload() {
+    SSH_COMMAND="ssh -i $SSH_KEY_FILE_PATH -p $SSH_PORT -o StrictHostKeyChecking=no"
 
     rsync -avz -e "$SSH_COMMAND" "$SOURCE" "$SSH_USER"@"$SSH_HOST":"$SSH_REMOTE_TEMP_DIR"
 }
@@ -36,6 +40,9 @@ case "$ACTION" in
     ;;
   "generate_key_file")
     run_generate_ssh_key_file
+    ;;
+  "generate_folder")
+    run_generate_folder
     ;;
   "upload")
     run_upload
