@@ -7,12 +7,11 @@ if [ ! $BUNDLE_FOLDER ]; then
 fi
 
 cp $BUNDLE_FOLDER $HOME_DIR/bundle_cache -R
-mkdir -p "$HOME_DIR/bundle/gems/"
-mkdir -p "$HOME_DIR/bundle/cache/"
-mkdir -p "$HOME_DIR/bundle/specifications/"
-mkdir -p "$HOME_DIR/bundle/bin/"
-mkdir -p "$HOME_DIR/bundle/extensions/"
-
+mkdir -p "$HOME_DIR"/bundle/gems/
+mkdir -p "$HOME_DIR"/bundle/cache/
+mkdir -p "$HOME_DIR"/bundle/specifications/
+mkdir -p "$HOME_DIR"/bundle/bin/
+mkdir -p "$HOME_DIR"/bundle/extensions/
 bundle install "$ARGS"
 
 for FILE_PATH in $BUNDLE_FOLDER/gems/*; do
