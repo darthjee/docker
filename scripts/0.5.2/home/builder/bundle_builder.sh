@@ -2,7 +2,7 @@
 
 ARGS=$(echo $* | xargs)
 
-if [ ! $BUNDLE_FOLDER ]; then
+if [ ! "$BUNDLE_FOLDER" ]; then
   BUNDLE_FOLDER=/usr/local/bundle
 fi
 
