@@ -36,6 +36,6 @@ for FILE_PATH in $(/usr/bin/find "$BUNDLE_FOLDER"/extensions/ -type f); do
 
   if [ ! -x "$HOME_DIR"/bundle_cache/extensions/"$EXT_PATH" ]; then
     mkdir -p "$HOME_DIR"/bundle/extensions/"$EXT_DIR"
-    cp $FILE_PATH $HOME_DIR/bundle/extensions/$EXT_PATH -R
+    cp "$FILE_PATH" "$HOME_DIR"/bundle/extensions/"$EXT_PATH" -R
   fi
 done
