@@ -13,7 +13,7 @@ mkdir -p $HOME_DIR/bundle/specifications/
 mkdir -p $HOME_DIR/bundle/bin/
 mkdir -p $HOME_DIR/bundle/extensions/
 
-bundle install $ARGS
+bundle install "$ARGS"
 
 for FILE_PATH in $BUNDLE_FOLDER/gems/*; do
   GEM=${FILE_PATH##$BUNDLE_FOLDER/gems/}
