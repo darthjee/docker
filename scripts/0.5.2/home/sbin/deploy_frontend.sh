@@ -15,7 +15,7 @@ function run_generate_ssh_key_file() {
 function run_generate_folder() {
     SSH_COMMAND="ssh -i $SSH_KEY_FILE_PATH -p $SSH_PORT -o StrictHostKeyChecking=no"
 
-    "$SSH_COMMAND" "$SSH_USER"@"$SSH_HOST" "mkdir -p $SSH_REMOTE_TEMP_DIR"
+    $SSH_COMMAND "$SSH_USER"@"$SSH_HOST" "mkdir -p $SSH_REMOTE_TEMP_DIR"
 }
 
 function run_upload() {
