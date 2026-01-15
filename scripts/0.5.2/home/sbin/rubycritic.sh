@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIFF_LIST=$(git diff --name-only $CIRCLE_SHA1 $(git merge-base $CIRCLE_SHA1 origin/master) | grep "^lib/")
+DIFF_LIST=$(git diff --name-only "$CIRCLE_SHA1" $(git merge-base "$CIRCLE_SHA1" origin/master) | grep "^lib/")
 
 if [ ! -z "$DIFF_LIST" ]; then
   mkdir -p tmp/rubycritic/compare
