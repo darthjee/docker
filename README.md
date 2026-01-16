@@ -3,6 +3,9 @@ Docker
 
 ![docker](https://raw.githubusercontent.com/darthjee/docker/master/docker.png)
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c7cc9a38259d405084aada297796684f)](https://app.codacy.com/gh/darthjee/docker/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
+
 This project has build base images for serveral projects
 
 ## Motivation
