@@ -1,9 +1,0 @@
-{
-  "name": "bower_files",
-  "dependencies": {
-    "underscore": "1.8.3",
-    "bootstrap": "4.4.1",
-    "jquery": "2.2.0",
-    "querystring": "3.46.1"
-  }
-}
