@@ -18,6 +18,12 @@ function run_generate_folder() {
     $SSH_COMMAND "$SSH_USER"@"$SSH_HOST" "mkdir -p $SSH_REMOTE_TEMP_DIR"
 }
 
+function run_copy_files() {
+    SSH_COMMAND="ssh -i $SSH_KEY_FILE_PATH -p $SSH_PORT -o StrictHostKeyChecking=no"
+
+    $SSH_COMMAND "$SSH_USER"@"$SSH_HOST" "cp -R  $SSH_REMOTE_DIR/$TARGET $SSH_REMOTE_TEMP_DIR/$TARGET"
+}
+
 function run_upload() {
     SSH_COMMAND="ssh -i $SSH_KEY_FILE_PATH -p $SSH_PORT -o StrictHostKeyChecking=no"
 
@@ -43,6 +49,9 @@ case "$ACTION" in
     ;;
   "generate_folder")
     run_generate_folder
+    ;;
+  "copy_files")
+    run_copy_files
     ;;
   "upload")
     run_upload
