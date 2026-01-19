@@ -20,7 +20,7 @@ function run_push_description() {
     -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
     -H "Content-Type: application/json" \
     -d '{
-        "full_description": "'"$(echo $CONTENT)"'"
+        "full_description": "'"$(echo "$CONTENT")"'"
     }' > /dev/null
 }
 
@@ -37,9 +37,9 @@ case "$ACTION" in
     run_login
     ;;
   "push_description")
-    run_push_description $*
+    run_push_description "$1"
     ;;
   "push")
-    run_push $*
+    run_push "$1" "$2"
     ;;
 esac
