@@ -25,7 +25,7 @@ function run_push_description() {
 }
 
 function run_push() {
-    docker push $*
+    docker push $1
 }
 
 ACTION="$1"
