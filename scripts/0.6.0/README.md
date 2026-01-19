@@ -20,11 +20,16 @@ The scripts image is a collection of auxiliary scripts, organized to facilitate 
   - `yarn_builder.sh`: Installs Node.js dependencies using Yarn, managing both global and user-level cache for faster and reproducible builds.
 
 
+
 - **sbin/**  
-  Scripts added to the final images for use during development. Examples:
-  - `build_gem`: automates the process of building Ruby gems.
-  - `check_specs`: runs automated tests.
-  - Other utility scripts for common development tasks.
+  Scripts added to the final images for use during development. Below is a list of available sbin scripts:
+  - `build_gem.sh`: Automates the process of building and releasing Ruby gems, ensuring version and tag consistency.
+  - `check_gems.sh`: Checks for missing or outdated Ruby gems and can upgrade all gems as needed.
+  - `check_readme.sh`: Verifies if the README contains a link to the correct RubyDoc documentation for the current gem version.
+  - `check_specs`: Runs automated tests based on configuration, supporting custom test file discovery.
+  - `deploy_frontend.sh`: Builds frontend assets and deploys them to a remote server using SSH and rsync.
+  - `docker_hub.sh`: Handles Docker Hub authentication and allows pushing updated repository descriptions via the Docker Hub API.
+  - `rubycritic.sh`: Runs RubyCritic on changed files to provide code quality reports for Ruby projects.
 
 ## How to use
 
