@@ -12,11 +12,21 @@ function run_login() {
     export DOCKER_HUB_TOKEN=$(fetchDockerHubToken)
 }
 
+function run_push_description() {
+    DOCKERHUB_REPOSITORY="$1"
+
+    curl -X PATCH "https://hub.docker.com/v2/repositories/$DOCKERHUB_REPOSITORY" \
+    -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "description": "Brief description",
+        "full_description": "Full description with **markdown** support"
+    }'
+}
+
 function run_push() {
     docker push $*
 }
-
-
 
 ACTION="$1"
 
@@ -25,6 +35,9 @@ shift 1
 case "$ACTION" in
   "login")
     run_login
+    ;;
+  "push_description")
+    run_push_description $*
     ;;
   "push")
     run_push $*
