@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function version() {
-  echo $(cat lib/"$PROJECT"/version.rb | grep VERSION | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
+  echo $(grep VERSION lib/"$PROJECT"/version.rb | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
 }
 
 function isTagged() {
