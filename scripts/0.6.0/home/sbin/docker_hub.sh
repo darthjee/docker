@@ -20,7 +20,6 @@ function run_push_description() {
     -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
     -H "Content-Type: application/json" \
     -d '{
-        "description": "Brief description",
         "full_description": "'"$(echo $CONTENT)"'"
     }'
 }
