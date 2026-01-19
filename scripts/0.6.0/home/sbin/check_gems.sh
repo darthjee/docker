@@ -40,8 +40,8 @@ function latest_version() {
   NAME=$1
   LINE=$(gem list | grep "^$NAME ")
 
-  if [[ $LINE ]]; then
-    echo $LINE | sed -e "s/.* (//g" | sed -e "s/) *//g" | sed -e "s/,//g" | sed -e "s/ /\\n/g" | head -n 1
+  if [[ "$LINE" ]]; then
+    echo "$LINE" | sed -e "s/.* (//g" | sed -e "s/) *//g" | sed -e "s/,//g" | sed -e "s/ /\\n/g" | head -n 1
   fi
 }
 
