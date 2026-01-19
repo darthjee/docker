@@ -7,4 +7,7 @@ RUN useradd -u 1000 app; \
     mkdir -p /home/app/app; \
     chown app.app -R /home/app
 
+WORKDIR /home/app/app
+USER app
+
 COPY --chown=app:app --from=scripts /home/scripts/sbin/docker_hub.sh /usr/local/sbin/docker_hub.sh
