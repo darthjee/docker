@@ -21,7 +21,7 @@ function run_push_description() {
     -H "Content-Type: application/json" \
     -d '{
         "full_description": "'"$(echo $CONTENT)"'"
-    }'
+    }' > /dev/null
 }
 
 function run_push() {
