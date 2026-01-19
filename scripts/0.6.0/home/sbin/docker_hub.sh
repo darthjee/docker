@@ -14,13 +14,14 @@ function run_login() {
 
 function run_push_description() {
     DOCKERHUB_REPOSITORY="$1"
+    CONTENT=$(cat "$2")
 
     curl -X PATCH "https://hub.docker.com/v2/repositories/$DOCKERHUB_REPOSITORY" \
     -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
     -H "Content-Type: application/json" \
     -d '{
         "description": "Brief description",
-        "full_description": "Full description with **markdown** support"
+        "full_description": "'"$CONTENT"'"
     }'
 }
 
