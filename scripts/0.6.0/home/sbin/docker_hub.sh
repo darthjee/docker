@@ -37,9 +37,9 @@ case "$ACTION" in
     run_login
     ;;
   "push_description")
-    run_push_description "$1"
+    run_push_description "$1" "$2"
     ;;
   "push")
-    run_push "$1" "$2"
+    run_push "$1"
     ;;
 esac
