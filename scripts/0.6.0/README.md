@@ -9,10 +9,16 @@ This repository contains several Docker images, each organized in its own folder
 
 The scripts image is a collection of auxiliary scripts, organized to facilitate both the building of other Docker images and development inside containers.
 
+
 ### Scripts structure
 
 - **builder/**  
-  Scripts mainly used during the build process of other Docker images. Examples include dependency installers like `yarn_installer` and other utilities needed to prepare build environments.
+  Scripts mainly used during the build process of other Docker images. Below is a list of available builder scripts:
+  - `bower_builder.sh`: Installs Bower dependencies and manages Bower cache for reproducible builds.
+  - `bundle_builder.sh`: Installs Ruby gems using Bundler and manages gem cache for efficient builds.
+  - `poetry_builder.sh`: Installs Python dependencies using Poetry, handling cache and new package management for Python projects.
+  - `yarn_builder.sh`: Installs Node.js dependencies using Yarn, managing both global and user-level cache for faster and reproducible builds.
+
 
 - **sbin/**  
   Scripts added to the final images for use during development. Examples:
