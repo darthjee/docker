@@ -7,6 +7,8 @@ RUN adduser -D -u 1000 app \
     && mkdir -p /home/app/app \
     && chown app:app -R /home/app
 
+RUN apk add --no-cache curl
+
 WORKDIR /home/app/app
 USER app
 
