@@ -8,7 +8,6 @@ function fetchDockerHubToken() {
 }
 
 function run_login() {
-    echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
     export DOCKER_HUB_TOKEN=$(fetchDockerHubToken)
 }
 
@@ -37,6 +36,10 @@ case "$ACTION" in
     run_login
     ;;
   "push_description")
+    run_push_description "$1" "$2"
+    ;;
+  "login_and_push_description")
+    run_login
     run_push_description "$1" "$2"
     ;;
   "push")
