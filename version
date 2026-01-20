@@ -2,7 +2,6 @@
 fly=0.0.1
 scripts=0.6.0
 heroku=0.0.1
-docker=0.1.0
 # Development
 node=0.2.1
 node_mongo=0.0.6
