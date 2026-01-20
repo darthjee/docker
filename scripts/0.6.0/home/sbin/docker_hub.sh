@@ -14,14 +14,14 @@ function run_login() {
 
 function run_push_description() {
     DOCKERHUB_REPOSITORY="$1"
-    CONTENT=$(sed -e "s/$/\\\n/g" "$2")
+    CONTENT=$(sed -e "s/^/\\\\n/g" "$2")
+    CONTENT=$(echo $CONTENT | sed -e "s/\\\\ /\\\\\\\\ /g")
+    CONTENT=$(echo "$CONTENT" | sed -e 's/"/\\"/g')
 
     curl -X PATCH "https://hub.docker.com/v2/repositories/$DOCKERHUB_REPOSITORY" \
-    -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -d '{
-        "full_description": "'"$(echo "$CONTENT")"'"
-    }' > /dev/null
+      -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
+      -H "Content-Type: application/json" \
+      -d '{ "full_description": "'"$(echo $CONTENT)"'" }'
 }
 
 function run_push() {
@@ -37,9 +37,9 @@ case "$ACTION" in
     run_login
     ;;
   "push_description")
-    run_push_description "$1"
+    run_push_description "$1" "$2"
     ;;
   "push")
-    run_push "$1" "$2"
+    run_push "$1"
     ;;
 esac
