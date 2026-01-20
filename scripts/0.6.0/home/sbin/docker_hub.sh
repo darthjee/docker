@@ -15,12 +15,12 @@ function run_login() {
 function run_push_description() {
     DOCKERHUB_REPOSITORY="$1"
     CONTENT=$(sed -e "s/^/\\\n/g" "$2")
-    CONTENT=$(echo $CONTENT | sed -e "s/\\\\$/\\\\\\\\/g")
-    CONTENT=$(echo $CONTENT | sed -e "s/\\\\ /\\\\\\\\ /g")
-    CONTENT=$(echo $CONTENT | sed -e 's/"/\\"/g')
-    echo $CONTENT;
+    CONTENT=$(echo "$CONTENT" | sed -e "s/\\\\$/\\\\\\\\/g")
+    CONTENT=$(echo "$CONTENT" | sed -e "s/\\\\ /\\\\\\\\ /g")
+    CONTENT=$(echo "$CONTENT" | sed -e 's/"/\\"/g')
+    echo "$CONTENT";
     echo ""
-    CONTENT=$(echo $CONTENT)
+    CONTENT=$(echo "$CONTENT")
 
     set -x
     curl -X PATCH "https://hub.docker.com/v2/repositories/$DOCKERHUB_REPOSITORY" \
