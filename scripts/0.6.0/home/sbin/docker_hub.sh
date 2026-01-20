@@ -14,7 +14,7 @@ function run_login() {
 
 function run_push_description() {
     DOCKERHUB_REPOSITORY="$1"
-    CONTENT=$(sed -e "s/$/\\\n/g" "$2")
+    CONTENT=$(sed -e "s/^/\\\n/g" "$2")
     CONTENT=$(echo $CONTENT | sed -e "s/\\\\$/\\\\\\\\/g")
     CONTENT=$(echo $CONTENT | sed -e "s/\\\\ /\\\\\\\\ /g")
     CONTENT=$(echo $CONTENT | sed -e 's/"/\\"/g')
