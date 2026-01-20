@@ -38,6 +38,10 @@ case "$ACTION" in
   "push_description")
     run_push_description "$1" "$2"
     ;;
+  "login_and_push_description")
+    run_login
+    run_push_description "$1" "$2"
+    ;;
   "push")
     run_push "$1"
     ;;
