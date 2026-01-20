@@ -8,7 +8,6 @@ function fetchDockerHubToken() {
 }
 
 function run_login() {
-    echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
     export DOCKER_HUB_TOKEN=$(fetchDockerHubToken)
 }
 
