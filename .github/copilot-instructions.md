@@ -94,3 +94,25 @@ Each image folder contains one sub-directory per released version. Each version 
 - `Dockerfile` – Multi-stage build definition.
 - `home/` – Files and dependencies to be copied into the image.
 - `test/` – Tests and a `test.sh` script for validating the image.
+- `README.md` – (optional) Documentation for the image version, published to Docker Hub as the repository's full description.
+
+## Docker Hub Description Publishing
+
+Each image version may include a `README.md` file (e.g. `scripts/0.6.0/README.md`). This file is published to Docker Hub as the repository's full description using the `docker_hub.sh` script provided by the `scripts` image.
+
+The script is located at `scripts/<version>/home/sbin/docker_hub.sh` and supports the following actions:
+
+| Action | Description |
+|---|---|
+| `docker_hub.sh login` | Authenticates with Docker Hub and exports a JWT token |
+| `docker_hub.sh push_description <repo> <readme_file>` | Pushes the README to Docker Hub (requires prior login) |
+| `docker_hub.sh login_and_push_description <repo> <readme_file>` | Authenticates and pushes the README in one step |
+| `docker_hub.sh push <image>` | Pushes a Docker image to the registry |
+
+To publish a README, the `DOCKER_HUB_USERNAME` and `DOCKER_HUB_PASSWORD` environment variables must be set. Example usage:
+
+```bash
+docker_hub.sh login_and_push_description darthjee/scripts scripts/0.6.0/README.md
+```
+
+> **Note:** Neither the `bin/` scripts nor the `Makefile` publish the Docker Hub description. This step is performed separately using `docker_hub.sh`.
