@@ -1,5 +1,9 @@
 # GitHub Copilot Instructions
 
+## Language
+
+All code, comments, descriptions, pull requests, and documentation in this repository must be written in **English**.
+
 ## Project Overview
 
 This repository is a collection of Docker images used across multiple projects. The images come pre-installed with common dependencies so that individual projects only need to install their own specific additions on top of a shared base.
