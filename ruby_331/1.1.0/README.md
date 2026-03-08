@@ -21,6 +21,8 @@ The following gems are pre-installed in the image:
 - `pry`
 - `pry-nav`
 - `simplecov`
+- `simplecov-html`
+- `simplecov-lcov`
 - `rubycritic`
 - `yard`
 - `yardstick`
@@ -33,7 +35,6 @@ The following gems are pre-installed in the image:
 
 ### Test
 
-- `minitest`
 - `rspec`
 - `rspec-collection_matchers`
 - `rspec-core`
