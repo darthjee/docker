@@ -1,11 +1,9 @@
-darthjee/ruby_331:1.0.2
-=======================
-
-This repository contains several Docker images, each organized in its own folder and version. This documentation refers to the `ruby_331` image.
+darthjee/ruby_331
+=================
 
 ## About the image
 
-The `ruby_331` image is a base Docker image built on top of the official `ruby:3.3.1` image. It is designed to be a shared foundation for various Ruby projects, providing a common set of gems and development utilities so that individual projects only need to install their own specific additions on top of it.
+The `darthjee/ruby_331` image is a base Docker image built on top of the official `ruby:3.3.1` image. It is designed to be a shared foundation for various Ruby projects, coming pre-installed with common gems and development utilities so that individual projects only need to install their own specific additions on top of it.
 
 ## Pre-installed gems
 
