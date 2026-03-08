@@ -9,9 +9,9 @@ This repository is a collection of Docker images used across multiple projects. 
 There are four categories of images:
 
 - **Tool images** – Utility images (e.g. `fly`, `scripts`, `heroku`) that have no CircleCI or production counterparts.
-- **Development images** – Full development environments (e.g. `ruby_270`, `rails_gems`, `node`, `django`, `taa`, `taap`). These are the base from which CircleCI and production variants are derived.
-- **CircleCI images** – Variants prefixed with `circleci_` (e.g. `circleci_ruby_270`), optimized for running tests on circleci.com. They include extra testing and building tools on top of the development image.
-- **Production images** – Variants prefixed with `production_` (e.g. `production_ruby_270`), stripped of development dependencies to be lightweight and suitable for running in production servers.
+- **Development images** – Full development environments (e.g. `ruby_270`, `rails_gems`, `node`, `django`, `taa`, `taap`).
+- **CircleCI images** – Variants prefixed with `circleci_` (e.g. `circleci_ruby_270`), optimized for running tests on circleci.com. They are **parallel** images based on `cimg` (CircleCI base images), not built on top of the development image.
+- **Production images** – Variants prefixed with `production_` (e.g. `production_ruby_270`), stripped of development dependencies to be lightweight and suitable for running in production servers. They are **parallel** images that share the same base image as their development counterpart but do not install development dependencies.
 
 Not every development image has a CircleCI or production counterpart.
 
@@ -21,9 +21,8 @@ Images are layered so that each image only installs the **difference** relative 
 
 - Ruby images install rspec and common Ruby gems.
 - Rails images are built **on top of** Ruby images and add Rails-specific dependencies.
-- CircleCI and production images are built on top of their corresponding development image and add or remove only what is needed.
-
-This design allows projects to share common Docker layers, minimising disk usage and speeding up CI pipelines and production deployments.
+- CircleCI and production images **mirror** this same hierarchy in parallel. For example, `ruby_node` is based on `ruby_331`, while `production_ruby_node` is based on `production_ruby_331`. Both `ruby_331` and `production_ruby_331` share the same upstream base image (e.g. `ruby:3.3.1`).
+- Each image in a hierarchy only installs the **difference** relative to its parent, so projects share common Docker layers.
 
 ## `scripts` Image
 
