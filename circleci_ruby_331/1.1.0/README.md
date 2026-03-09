@@ -56,7 +56,7 @@ The following helper scripts are available inside the image:
 This image is intended to be used as a base for CircleCI pipelines in Ruby projects. To build on top of it, reference it in your `.circleci/config.yml` or `Dockerfile`:
 
 ```dockerfile
-FROM darthjee/circleci_ruby_331:1.0.2
+FROM darthjee/circleci_ruby_331:1.1.0
 ```
 
 Projects can then install their own specific gems on top of the shared base, taking advantage of Docker layer caching to speed up CI pipelines.
