@@ -9,7 +9,10 @@ function push_description_image() {
       echo "Error: README not found at $README"
       exit 1
     fi
-    REPO="$DOCKER_ID_USER/$IMAGE"
+    REPO="darthjee/$IMAGE"
+    if [ -z "${DOCKER_HUB_TOKEN:-}" ]; then
+      docker_login
+    fi
     CONTENT=""
     while IFS= read -r LINE; do
       LINE=$(echo "$LINE" | sed 's/\\/\\\\/g')
