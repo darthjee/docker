@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARGS=$(echo $* | xargs)
+ARGS=("$@")
 
 if [ ! "$APP_DIR" ]; then
   APP_DIR="$HOME_DIR"/app
@@ -18,7 +18,7 @@ function createFolders() {
 
 function installPackages() {
   cd "$APP_DIR"
-  yarn install "$ARGS"
+  yarn install "${ARGS[@]}"
 }
 
 function copyNewPackages() {
