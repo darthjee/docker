@@ -1,7 +1,12 @@
 #!/bin/bash
 
+function versionPath() {
+  PROJECT_PATH=$(echo $PROJECT | tr '-' '/')
+  echo "lib/$PROJECT_PATH/version.rb"
+}
+
 function version() {
-  echo $(grep VERSION lib/"$PROJECT"/version.rb | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
+  echo $(grep VERSION $(versionPath) | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
 }
 
 function isTagged() {
