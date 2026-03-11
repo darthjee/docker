@@ -3,7 +3,7 @@ ruby '3.3.1'
 
 gem 'bundler',       '2.5.13'
 gem 'rake',          '13.2.1'
-gem 'sinclair'     , '3.0.1'
+gem 'sinclair'     , '3.1.0'
 gem 'activesupport', '7.2.2.1'
 
 group :development, :test do
@@ -21,10 +21,11 @@ group :development do
   gem 'reek',          '6.5.0'
   gem 'rubocop',       '1.85.1'
   gem 'rubocop-rspec', '3.9.0'
+  gem 'rubocop-rake',  '0.7.1'
 end
 
 group :test do
-  gem 'rspec',                   '3.13.2'
+  gem 'rspec',                     '3.13.2'
   gem 'rspec-collection_matchers', '1.2.1'
   gem 'rspec-core',                '3.13.6'
   gem 'rspec-expectations',        '3.13.5'
