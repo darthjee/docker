@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function versionPath() {
-  PROJECT_PATH=$(echo $PROJECT | tr '-' '/')
+  PROJECT_PATH=$(echo "$PROJECT" | tr '-' '/')
   echo "lib/$PROJECT_PATH/version.rb"
 }
 
