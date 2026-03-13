@@ -32,7 +32,9 @@ function copyNewPackages() {
 }
 
 function createCache() {
-  cp -R "$GLOBAL_CACHE_PATH"/* "$USER_CACHE_PATH"/
+  if compgen -G "$GLOBAL_CACHE_PATH/*" > /dev/null; then
+    cp -R "$GLOBAL_CACHE_PATH"/* "$USER_CACHE_PATH"/
+  fi
 }
 
 createFolders
