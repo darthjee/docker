@@ -13,7 +13,7 @@ On top of everything provided by `darthjee/circleci_rails_yarn`, this image inst
 
 - **azeroth** (2.0.0) – Opinionated resource routing helpers for fast Rails API development.
 - **tarquinn** (0.3.0) – Simplified redirect rules for Rails controllers.
-- **jace** (0.1.1) – JavaScript events helper for Rails.
+- **jace** (0.1.1) – Ruby gem for managing event triggers with before/after handlers.
 - **magicka** (1.1.0) – Form and input component helpers for Rails views.
 
 ### Additional front-end packages (via Yarn)
