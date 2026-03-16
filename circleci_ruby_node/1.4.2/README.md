@@ -12,7 +12,8 @@ This image is intended for use in CircleCI pipelines where both Ruby tests and f
 On top of everything provided by `darthjee/circleci_ruby_331`, this image installs:
 
 - **Node.js** (v20.x) – JavaScript runtime for running front-end build tools.
-- **npm** – Node package manager, used to install packages like `yarn`.
+- **npm** – Node package manager.
+- **yarn** – JavaScript package manager for front-end dependencies.
 
 ## How to use
 

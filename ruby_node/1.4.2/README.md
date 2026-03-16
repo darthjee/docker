@@ -12,7 +12,8 @@ This image is intended for development environments where both Ruby and front-en
 On top of everything provided by `darthjee/ruby_331`, this image installs:
 
 - **Node.js** (v20.x) – JavaScript runtime for running front-end build tools.
-- **npm** – Node package manager, used to install packages like `yarn`.
+- **npm** – Node package manager.
+- **yarn** – JavaScript package manager for front-end dependencies.
 
 ## How to use
 
@@ -22,12 +23,11 @@ Reference this image in your `Dockerfile`:
 FROM darthjee/ruby_node:1.4.2
 ```
 
-You can then install your project-specific Node packages on top of the shared base:
+You can then run yarn or install your project-specific Node packages on top of the shared base:
 
 ```dockerfile
 FROM darthjee/ruby_node:1.4.2
 
-RUN npm install -g yarn
 RUN yarn install
 ```
 

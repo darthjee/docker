@@ -13,6 +13,7 @@ On top of everything provided by `darthjee/production_ruby_331`, this image inst
 
 - **Node.js** (v20.x) – JavaScript runtime for running front-end build tools and serving assets.
 - **npm** – Node package manager.
+- **yarn** – JavaScript package manager for front-end dependencies.
 
 ## How to use
 
