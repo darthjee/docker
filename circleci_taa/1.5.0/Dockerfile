@@ -23,4 +23,4 @@ USER app
 FROM base
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /home/circleci/.rubygems/
-COPY --chown=circleci:circleci --from=builder /home/circleci/node_modules/ /usr/lib/node_modules
+COPY --chown=circleci:circleci --from=builder /home/circleci/yarn/new/ /usr/local/share/.cache/yarn/v6/
