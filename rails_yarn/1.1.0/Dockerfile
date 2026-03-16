@@ -1,9 +1,11 @@
 FROM darthjee/scripts:0.8.0 as scripts
-FROM darthjee/ruby_node:1.5.0 as base
+FROM darthjee/ruby_331:1.1.1 as base
 
 USER root
 
-RUN apt-get install -y telnet; \
+RUN curl -sL https://deb.nodesource.com/setup_22.x | /bin/bash ; \
+    apt-get update && apt-get install -y nodejs ncat telnet; \
+    curl -L https://npmjs.org/install.sh | /bin/bash; \
     npm install yarn -g;
 
 USER app
