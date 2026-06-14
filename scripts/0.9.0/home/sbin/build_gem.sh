@@ -1,15 +1,15 @@
 #!/bin/bash
 
-function versionPath() {
+function version_path() {
   PROJECT_PATH=$(echo "$PROJECT" | tr '-' '/')
   echo "lib/$PROJECT_PATH/version.rb"
 }
 
 function version() {
-  echo $(grep VERSION $(versionPath) | sed -e "s/.*'\\(.*\\)'.*/\\1/g")
+  grep VERSION "$(version_path)" | sed -e "s/.*'\\(.*\\)'.*/\\1/g"
 }
 
-function isTagged() {
+function is_tagged() {
   VERSION=$(version)
   TAG=$(git describe --abbrev=0 --tags)
 
@@ -22,7 +22,7 @@ function isTagged() {
   fi
 }
 
-function isLatestCommit() {
+function is_latest_commit() {
   VERSION=$(version)
   DIFF=$(git diff HEAD "$VERSION")
 
@@ -33,8 +33,8 @@ function isLatestCommit() {
   fi
 }
 
-function isLatestTagAndCommit() {
-  if ( isTagged && isLatestCommit ); then
+function is_latest_tag_and_commit() {
+  if ( is_tagged && is_latest_commit ); then
     return 0
   else
     return 1
@@ -51,14 +51,14 @@ case $ACTION in
     chmod 600 ~/.gem/credentials
     ;;
   "build")
-    if $(isLatestTagAndCommit); then
+    if $(is_latest_tag_and_commit); then
       rake build
     else
       echo version did not change
     fi
     ;;
   "push")
-    if $(isLatestTagAndCommit); then
+    if $(is_latest_tag_and_commit); then
       VERSION=$(version)
       gem push "pkg/$PROJECT-$VERSION.gem"
     else

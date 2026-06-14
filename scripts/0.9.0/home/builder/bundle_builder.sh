@@ -17,16 +17,16 @@ bundle install "${ARGS[@]}"
 for FILE_PATH in "$BUNDLE_FOLDER"/gems/*; do
   GEM=${FILE_PATH##"$BUNDLE_FOLDER"/gems/}
   if [ ! -x "$HOME_DIR"/bundle_cache/gems/"$GEM" ]; then
-    cp "$FILE_PATH" "$HOME_DIR"/bundle/gems/"$GEM" -R
-    cp "$BUNDLE_FOLDER"/cache/"$GEM".gem "$HOME_DIR"/bundle/cache -R
-    cp "$BUNDLE_FOLDER"/specifications/"$GEM".gemspec "$HOME_DIR"/bundle/specifications -R
+    cp -R "$FILE_PATH" "$HOME_DIR"/bundle/gems/"$GEM"
+    cp -R "$BUNDLE_FOLDER"/cache/"$GEM".gem "$HOME_DIR"/bundle/cache
+    cp -R "$BUNDLE_FOLDER"/specifications/"$GEM".gemspec "$HOME_DIR"/bundle/specifications
   fi
 done
 
 for FILE_PATH in "$BUNDLE_FOLDER"/bin/*; do
   BIN=${FILE_PATH##"$BUNDLE_FOLDER"/bin/}
   if [ ! -x "$HOME_DIR"/bundle_cache/bin/"$BIN" ]; then
-    cp "$FILE_PATH" "$HOME_DIR"/bundle/bin/"$BIN" -R
+    cp -R "$FILE_PATH" "$HOME_DIR"/bundle/bin/"$BIN"
   fi
 done
 
@@ -36,6 +36,6 @@ for FILE_PATH in $(/usr/bin/find "$BUNDLE_FOLDER"/extensions/ -type f); do
 
   if [ ! -x "$HOME_DIR"/bundle_cache/extensions/"$EXT_PATH" ]; then
     mkdir -p "$HOME_DIR"/bundle/extensions/"$EXT_DIR"
-    cp "$FILE_PATH" "$HOME_DIR"/bundle/extensions/"$EXT_PATH" -R
+    cp -R "$FILE_PATH" "$HOME_DIR"/bundle/extensions/"$EXT_PATH"
   fi
 done

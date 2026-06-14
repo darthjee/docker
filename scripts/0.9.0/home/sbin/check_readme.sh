@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 if [ ! "$VERSION_PATH" ]; then
   VERSION_PATH="lib/$(echo "$PROJECT" | sed -e "s/-/\\//g")/version.rb"
