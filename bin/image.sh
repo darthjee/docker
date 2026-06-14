@@ -7,34 +7,71 @@ function image_version() {
   cat version | grep "^${image}=" | sed -e "s/${image}=//g"
 }
 
-function build() {
+function skip_if_unchanged() {
   local image=$1
   local version
   version=$(image_version "$image")
 
-  docker tag "$DOCKER_ID_USER/$image:latest" "$DOCKER_ID_USER/$image:cached" 2>/dev/null || true
-  docker rmi "$DOCKER_ID_USER/$image:latest" 2>/dev/null || true
-  docker build --platform "$PLATFORM" \
+  local prev_tag
+  prev_tag=$(git tag --sort=-creatordate | awk 'NR==2{print; exit}')
+
+  if [ -z "$prev_tag" ]; then
+    echo "No previous tag found, proceeding with release of $image."
+    return 0
+  fi
+
+  if git diff --quiet "$prev_tag"..HEAD -- "$image/$version/"; then
+    echo "No changes in $image/$version/ since $prev_tag, skipping."
+    exit 0
+  fi
+}
+
+function build() {
+  local image=$1
+  local arch=$2
+  local version
+  version=$(image_version "$image")
+
+  local platform tag_suffix
+  if [ -n "$arch" ]; then
+    platform="linux/$arch"
+    tag_suffix="-$arch"
+  else
+    platform="$PLATFORM"
+    tag_suffix=""
+  fi
+
+  local latest_tag="$DOCKER_ID_USER/$image:latest${tag_suffix}"
+  local cached_tag="$DOCKER_ID_USER/$image:cached${tag_suffix}"
+  local version_tag="$DOCKER_ID_USER/$image:${version}${tag_suffix}"
+
+  docker tag "$latest_tag" "$cached_tag" 2>/dev/null || true
+  docker rmi "$latest_tag" 2>/dev/null || true
+  docker build --platform "$platform" \
     -f "$image/$version/Dockerfile" "$image/$version/" \
-    -t "$DOCKER_ID_USER/$image"
-  docker tag "$DOCKER_ID_USER/$image" "$DOCKER_ID_USER/$image:$version"
-  if docker images | grep -q "$DOCKER_ID_USER/$image.*cached"; then
-    docker rmi "$DOCKER_ID_USER/$image:cached"
+    -t "$latest_tag"
+  docker tag "$latest_tag" "$version_tag"
+  if docker images | grep -q "$cached_tag"; then
+    docker rmi "$cached_tag"
   fi
 }
 
 function tag() {
-  build "$1"
+  build "$1" "$2"
 }
 
 function push() {
   local image=$1
-  local version
+  local arch=$2
+  local version tag_suffix
   version=$(image_version "$image")
+  [ -n "$arch" ] && tag_suffix="-$arch" || tag_suffix=""
 
-  build "$image"
-  docker push "$DOCKER_ID_USER/$image"
-  docker push "$DOCKER_ID_USER/$image:$version"
+  skip_if_unchanged "$image"
+
+  build "$image" "$arch"
+  docker push "$DOCKER_ID_USER/$image:latest${tag_suffix}"
+  docker push "$DOCKER_ID_USER/$image:${version}${tag_suffix}"
 }
 
 function image_test() {
@@ -55,14 +92,15 @@ function image_test() {
 
 ACTION=$1
 IMAGE_NAME=$2
+ARCH=${3:-}
 
 case $ACTION in
-  "build") build "$IMAGE_NAME" ;;
-  "tag")   tag "$IMAGE_NAME" ;;
-  "push")  push "$IMAGE_NAME" ;;
+  "build") build "$IMAGE_NAME" "$ARCH" ;;
+  "tag")   tag "$IMAGE_NAME" "$ARCH" ;;
+  "push")  push "$IMAGE_NAME" "$ARCH" ;;
   "test")  image_test "$IMAGE_NAME" ;;
   *)
-    echo "Usage: $0 <action> <image_name>"
+    echo "Usage: $0 <action> <image_name> [arch]"
     echo "Actions: build, tag, push, test"
     exit 1
     ;;

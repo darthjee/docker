@@ -1,0 +1,589 @@
+version: 2.1
+
+jobs:
+  release:
+    parameters:
+      image:
+        type: string
+      arch:
+        type: string
+        default: ""
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Set up QEMU
+          command: docker run --privileged --rm tonistiigi/binfmt --install all
+      - run:
+          name: Docker login
+          command: echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+      - run:
+          name: Release
+          command: DOCKER_ID_USER=$DOCKER_HUB_USERNAME bin/image.sh push << parameters.image >> << parameters.arch >>
+
+workflows:
+  release:
+    jobs:
+      # ── Tools ──────────────────────────────────────────────────────────────
+      - release:
+          name: release-fly
+          image: fly
+          filters: &tag_only
+            tags:
+              only: /.*/
+            branches:
+              ignore: /.*/
+      - release:
+          name: release-fly-arm64
+          image: fly
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-scripts
+          image: scripts
+          filters: *tag_only
+      - release:
+          name: release-scripts-arm64
+          image: scripts
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-heroku
+          image: heroku
+          filters: *tag_only
+      - release:
+          name: release-heroku-arm64
+          image: heroku
+          arch: arm64
+          filters: *tag_only
+
+      # ── Development ────────────────────────────────────────────────────────
+      - release:
+          name: release-ruby_240
+          image: ruby_240
+          filters: *tag_only
+      - release:
+          name: release-ruby_240-arm64
+          image: ruby_240
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_250
+          image: ruby_250
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-ruby_250-arm64
+          image: ruby_250
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_270
+          image: ruby_270
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-ruby_270-arm64
+          image: ruby_270
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_331
+          image: ruby_331
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-ruby_331-arm64
+          image: ruby_331
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_base
+          image: ruby_base
+          filters: *tag_only
+      - release:
+          name: release-ruby_base-arm64
+          image: ruby_base
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_gems
+          image: ruby_gems
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-ruby_gems-arm64
+          image: ruby_gems
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_gems_240
+          image: ruby_gems_240
+          requires: [release-ruby_240]
+          filters: *tag_only
+      - release:
+          name: release-ruby_gems_240-arm64
+          image: ruby_gems_240
+          arch: arm64
+          requires: [release-ruby_240-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_node
+          image: ruby_node
+          requires: [release-ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-ruby_node-arm64
+          image: ruby_node
+          arch: arm64
+          requires: [release-ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-ruby_plot
+          image: ruby_plot
+          requires: [release-scripts, release-ruby_250]
+          filters: *tag_only
+      - release:
+          name: release-ruby_plot-arm64
+          image: ruby_plot
+          arch: arm64
+          requires: [release-scripts-arm64, release-ruby_250-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-node
+          image: node
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-node-arm64
+          image: node
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-node_mongo
+          image: node_mongo
+          requires: [release-node]
+          filters: *tag_only
+      - release:
+          name: release-node_mongo-arm64
+          image: node_mongo
+          arch: arm64
+          requires: [release-node-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-python_27
+          image: python_27
+          filters: *tag_only
+      - release:
+          name: release-python_27-arm64
+          image: python_27
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-python_37
+          image: python_37
+          filters: *tag_only
+      - release:
+          name: release-python_37-arm64
+          image: python_37
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-rails_yarn
+          image: rails_yarn
+          requires: [release-scripts, release-ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-rails_yarn-arm64
+          image: rails_yarn
+          arch: arm64
+          requires: [release-scripts-arm64, release-ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-rails_gems
+          image: rails_gems
+          requires: [release-scripts, release-ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-rails_gems-arm64
+          image: rails_gems
+          arch: arm64
+          requires: [release-scripts-arm64, release-ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-rails_bower
+          image: rails_bower
+          requires: [release-scripts, release-ruby_node]
+          filters: *tag_only
+      - release:
+          name: release-rails_bower-arm64
+          image: rails_bower
+          arch: arm64
+          requires: [release-scripts-arm64, release-ruby_node-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-django
+          image: django
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-django-arm64
+          image: django
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-taa
+          image: taa
+          requires: [release-scripts, release-rails_yarn]
+          filters: *tag_only
+      - release:
+          name: release-taa-arm64
+          image: taa
+          arch: arm64
+          requires: [release-scripts-arm64, release-rails_yarn-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-taap
+          image: taap
+          requires: [release-scripts, release-taa]
+          filters: *tag_only
+      - release:
+          name: release-taap-arm64
+          image: taap
+          arch: arm64
+          requires: [release-scripts-arm64, release-taa-arm64]
+          filters: *tag_only
+
+      # ── CircleCI ───────────────────────────────────────────────────────────
+      - release:
+          name: release-circleci_ruby_240
+          image: circleci_ruby_240
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_240-arm64
+          image: circleci_ruby_240
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_ruby_250
+          image: circleci_ruby_250
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_250-arm64
+          image: circleci_ruby_250
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_ruby_270
+          image: circleci_ruby_270
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_270-arm64
+          image: circleci_ruby_270
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_ruby_331
+          image: circleci_ruby_331
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_331-arm64
+          image: circleci_ruby_331
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_ruby_gems
+          image: circleci_ruby_gems
+          requires: [release-scripts, release-circleci_ruby_250]
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_gems-arm64
+          image: circleci_ruby_gems
+          arch: arm64
+          requires: [release-scripts-arm64, release-circleci_ruby_250-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_ruby_gems_240
+          image: circleci_ruby_gems_240
+          requires: [release-circleci_ruby_240]
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_gems_240-arm64
+          image: circleci_ruby_gems_240
+          arch: arm64
+          requires: [release-circleci_ruby_240-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_ruby_node
+          image: circleci_ruby_node
+          requires: [release-circleci_ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-circleci_ruby_node-arm64
+          image: circleci_ruby_node
+          arch: arm64
+          requires: [release-circleci_ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_node
+          image: circleci_node
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-circleci_node-arm64
+          image: circleci_node
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_node_mongo
+          image: circleci_node_mongo
+          requires: [release-circleci_node]
+          filters: *tag_only
+      - release:
+          name: release-circleci_node_mongo-arm64
+          image: circleci_node_mongo
+          arch: arm64
+          requires: [release-circleci_node-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_python_27
+          image: circleci_python_27
+          filters: *tag_only
+      - release:
+          name: release-circleci_python_27-arm64
+          image: circleci_python_27
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_python_37
+          image: circleci_python_37
+          filters: *tag_only
+      - release:
+          name: release-circleci_python_37-arm64
+          image: circleci_python_37
+          arch: arm64
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_rails_yarn
+          image: circleci_rails_yarn
+          requires: [release-scripts, release-circleci_ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-circleci_rails_yarn-arm64
+          image: circleci_rails_yarn
+          arch: arm64
+          requires: [release-scripts-arm64, release-circleci_ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_rails_gems
+          image: circleci_rails_gems
+          requires: [release-scripts, release-circleci_ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-circleci_rails_gems-arm64
+          image: circleci_rails_gems
+          arch: arm64
+          requires: [release-scripts-arm64, release-circleci_ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_rails_bower
+          image: circleci_rails_bower
+          requires: [release-scripts, release-circleci_ruby_node]
+          filters: *tag_only
+      - release:
+          name: release-circleci_rails_bower-arm64
+          image: circleci_rails_bower
+          arch: arm64
+          requires: [release-scripts-arm64, release-circleci_ruby_node-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_django
+          image: circleci_django
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-circleci_django-arm64
+          image: circleci_django
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_taa
+          image: circleci_taa
+          requires: [release-scripts, release-circleci_rails_yarn]
+          filters: *tag_only
+      - release:
+          name: release-circleci_taa-arm64
+          image: circleci_taa
+          arch: arm64
+          requires: [release-scripts-arm64, release-circleci_rails_yarn-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_taap
+          image: circleci_taap
+          requires: [release-scripts, release-circleci_taa]
+          filters: *tag_only
+      - release:
+          name: release-circleci_taap-arm64
+          image: circleci_taap
+          arch: arm64
+          requires: [release-scripts-arm64, release-circleci_taa-arm64]
+          filters: *tag_only
+
+      # ── Production ─────────────────────────────────────────────────────────
+      - release:
+          name: release-production_ruby_250
+          image: production_ruby_250
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-production_ruby_250-arm64
+          image: production_ruby_250
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_ruby_270
+          image: production_ruby_270
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-production_ruby_270-arm64
+          image: production_ruby_270
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_ruby_331
+          image: production_ruby_331
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-production_ruby_331-arm64
+          image: production_ruby_331
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_ruby_node
+          image: production_ruby_node
+          requires: [release-production_ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-production_ruby_node-arm64
+          image: production_ruby_node
+          arch: arm64
+          requires: [release-production_ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_django
+          image: production_django
+          requires: [release-scripts]
+          filters: *tag_only
+      - release:
+          name: release-production_django-arm64
+          image: production_django
+          arch: arm64
+          requires: [release-scripts-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_rails_yarn
+          image: production_rails_yarn
+          requires: [release-scripts, release-ruby_331]
+          filters: *tag_only
+      - release:
+          name: release-production_rails_yarn-arm64
+          image: production_rails_yarn
+          arch: arm64
+          requires: [release-scripts-arm64, release-ruby_331-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_rails_bower
+          image: production_rails_bower
+          requires: [release-scripts, release-production_ruby_node]
+          filters: *tag_only
+      - release:
+          name: release-production_rails_bower-arm64
+          image: production_rails_bower
+          arch: arm64
+          requires: [release-scripts-arm64, release-production_ruby_node-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_taa
+          image: production_taa
+          requires: [release-scripts, release-production_rails_yarn]
+          filters: *tag_only
+      - release:
+          name: release-production_taa-arm64
+          image: production_taa
+          arch: arm64
+          requires: [release-scripts-arm64, release-production_rails_yarn-arm64]
+          filters: *tag_only
+
+      - release:
+          name: release-production_taap
+          image: production_taap
+          requires: [release-scripts, release-production_taa]
+          filters: *tag_only
+      - release:
+          name: release-production_taap-arm64
+          image: production_taap
+          arch: arm64
+          requires: [release-scripts-arm64, release-production_taa-arm64]
+          filters: *tag_only
