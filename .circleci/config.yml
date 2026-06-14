@@ -15,9 +15,6 @@ jobs:
           name: Set up QEMU
           command: docker run --privileged --rm tonistiigi/binfmt --install all
       - run:
-          name: Docker login
-          command: echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
-      - run:
           name: Release
           command: DOCKER_ID_USER=$DOCKER_HUB_USERNAME bin/image.sh push << parameters.image >> << parameters.arch >>
 

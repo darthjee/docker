@@ -69,6 +69,8 @@ function push() {
 
   skip_if_unchanged "$image"
 
+  echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+
   build "$image" "$arch"
   docker push "$DOCKER_ID_USER/$image:latest${tag_suffix}"
   docker push "$DOCKER_ID_USER/$image:${version}${tag_suffix}"
