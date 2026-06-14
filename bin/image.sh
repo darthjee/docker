@@ -7,6 +7,25 @@ function image_version() {
   cat version | grep "^${image}=" | sed -e "s/${image}=//g"
 }
 
+function skip_if_unchanged() {
+  local image=$1
+  local version
+  version=$(image_version "$image")
+
+  local prev_tag
+  prev_tag=$(git tag --sort=-creatordate | awk 'NR==2{print; exit}')
+
+  if [ -z "$prev_tag" ]; then
+    echo "No previous tag found, proceeding with release of $image."
+    return 0
+  fi
+
+  if git diff --quiet "$prev_tag"..HEAD -- "$image/$version/"; then
+    echo "No changes in $image/$version/ since $prev_tag, skipping."
+    exit 0
+  fi
+}
+
 function build() {
   local image=$1
   local arch=$2
@@ -47,6 +66,8 @@ function push() {
   local version tag_suffix
   version=$(image_version "$image")
   [ -n "$arch" ] && tag_suffix="-$arch" || tag_suffix=""
+
+  skip_if_unchanged "$image"
 
   build "$image" "$arch"
   docker push "$DOCKER_ID_USER/$image:latest${tag_suffix}"
