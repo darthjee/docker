@@ -3,7 +3,7 @@
 function release_image() {
   IMAGE=$1
   if [ -d $IMAGE ]; then
-    make IMAGES=$IMAGE push
+    bin/image.sh push $IMAGE
   else
     echo skipping $IMAGE
   fi

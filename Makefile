@@ -1,60 +1,24 @@
-# Docker platform architecture options:
-# linux/amd64 - Intel/AMD 64-bit (most common)
-# linux/arm64 - ARM 64-bit (Apple Silicon M1/M2, ARM servers)
-# linux/arm/v7 - ARM 32-bit (Raspberry Pi, older ARM devices)
-PLATFORM=linux/arm64/v8
-
 all:
-	make IMAGE=rails_bower tag
-	make IMAGE=taa tag
+	bin/image.sh tag rails_bower
+	bin/image.sh tag taa
 
 rails_bower: version
-	make IMAGE=rails_bower build
+	bin/image.sh build rails_bower
 
 taa: version
-	make IMAGE=taa build
+	bin/image.sh build taa
 
 node: version
-	make IMAGE=node build
+	bin/image.sh build node
 
 build:
-	for IMAGE in $(IMAGES); do \
-		docker tag $$DOCKER_ID_USER/$$IMAGE:latest $$DOCKER_ID_USER/$$IMAGE:cached; \
-		docker rmi $$DOCKER_ID_USER/$$IMAGE:latest; \
-		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		docker build --platform $(PLATFORM) -f $$IMAGE/$$VERSION/Dockerfile $$IMAGE/$$VERSION/ -t $$DOCKER_ID_USER/$$IMAGE; \
-		if [ $(VERSION) ]; then \
-			docker tag $$DOCKER_ID_USER/$$IMAGE $$DOCKER_ID_USER/$$IMAGE:$(VERSION); \
-		fi; \
-		if (docker images | grep $$DOCKER_ID_USER/$$IMAGE | grep cached); then \
-		  docker rmi $$DOCKER_ID_USER/$$IMAGE:cached; \
-		fi \
-	done
+	for IMAGE in $(IMAGES); do bin/image.sh build $$IMAGE; done
 
 tag:
-	for IMAGE in $(IMAGES); do \
-		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		make IMAGES=$$IMAGE VERSION=$$VERSION build; \
-	done
+	for IMAGE in $(IMAGES); do bin/image.sh tag $$IMAGE; done
 
 push:
-	for IMAGE in $(IMAGES); do \
-		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		make IMAGES=$$IMAGE tag; \
-		docker push $$DOCKER_ID_USER/$$IMAGE; \
-		docker push $$DOCKER_ID_USER/$$IMAGE:$$VERSION; \
-	done
+	for IMAGE in $(IMAGES); do bin/image.sh push $$IMAGE; done
 
 test:
-	for IMAGE in $(IMAGES); do \
-		VERSION=$$(cat ./version | grep "^$$IMAGE=" | sed s/$$IMAGE=//g); \
-		USER_NAME=$${IMAGE%%_*}; \
-		USER_NAME=$$(echo $$USER_NAME | grep circleci || echo app); \
-	  DOCKER_ID_USER=$$DOCKER_ID_USER IMAGE=$$IMAGE VERSION=$$VERSION \
-		USER_NAME=$$USER_NAME \
-		IMAGE_NAME=$$IMAGE"_test" docker-compose \
-			build test; \
-	  DOCKER_ID_USER=$$DOCKER_ID_USER IMAGE=$$IMAGE VERSION=$$VERSION \
-		USER_NAME=$$USER_NAME \
-		IMAGE_NAME=$$IMAGE"_test" docker-compose run test pwd; \
-	done
+	for IMAGE in $(IMAGES); do bin/image.sh test $$IMAGE; done

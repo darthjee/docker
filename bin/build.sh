@@ -20,7 +20,7 @@ function build_image() {
   IMAGE=$1
   if [ -d $IMAGE ]; then
     fetch_bases $IMAGE
-    make IMAGES=$IMAGE build tag
+    bin/image.sh build $IMAGE
   else
     echo skipping $IMAGE
   fi

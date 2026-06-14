@@ -3,7 +3,7 @@
 function test_image() {
   IMAGE=$1
   if [ -d $IMAGE ]; then
-    make IMAGES=$IMAGE test
+    bin/image.sh test $IMAGE
   else
     echo skipping $IMAGE
   fi
