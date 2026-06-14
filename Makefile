@@ -2,7 +2,7 @@
 # linux/amd64 - Intel/AMD 64-bit (most common)
 # linux/arm64 - ARM 64-bit (Apple Silicon M1/M2, ARM servers)
 # linux/arm/v7 - ARM 32-bit (Raspberry Pi, older ARM devices)
-PLATFORM=linux/amd64
+PLATFORM=linux/arm64/v8
 
 all:
 	make IMAGE=rails_bower tag
