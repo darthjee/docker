@@ -11,7 +11,6 @@ rails_bower=1.4.0
 rails_yarn=1.1.0
 rails_gems=2.1.1
 ruby_250=0.8.0
-ruby_270=1.4.0
 ruby_331=1.1.1
 ruby_base=0.2.2
 ruby_gems=0.5.4
