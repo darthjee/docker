@@ -38,6 +38,12 @@ function remove_from_version_file() {
   mv aux version
 }
 
+function remove_from_readme() {
+  local image=$1
+  grep -v "^  - \[${image}:" README.md > aux
+  mv aux README.md
+}
+
 function remove_from_circleci() {
   local image=$1
   python3 - "$image" << 'PYEOF'
@@ -105,6 +111,7 @@ function archive() {
     echo "No versions remaining, removing $image entirely"
     rm -rf "$image"
     remove_from_version_file "$image"
+    remove_from_readme "$image"
     remove_from_circleci "$image"
   fi
 }
