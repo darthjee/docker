@@ -16,7 +16,7 @@ jobs:
           command: docker run --privileged --rm tonistiigi/binfmt --install all
       - run:
           name: Release
-          command: DOCKER_ID_USER=$DOCKER_HUB_USERNAME bin/image.sh push << parameters.image >> << parameters.arch >>
+          command: bin/image.sh push << parameters.image >> << parameters.arch >>
 
 workflows:
   release:
