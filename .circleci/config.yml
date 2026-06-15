@@ -269,18 +269,6 @@ workflows:
           filters: *tag_only
 
       - release:
-          name: release-circleci_ruby_270
-          image: circleci_ruby_270
-          requires: [release-scripts]
-          filters: *tag_only
-      - release:
-          name: release-circleci_ruby_270-arm64
-          image: circleci_ruby_270
-          arch: arm64
-          requires: [release-scripts-arm64]
-          filters: *tag_only
-
-      - release:
           name: release-circleci_ruby_331
           image: circleci_ruby_331
           requires: [release-scripts]
@@ -453,18 +441,6 @@ workflows:
       - release:
           name: release-production_ruby_250-arm64
           image: production_ruby_250
-          arch: arm64
-          requires: [release-scripts-arm64]
-          filters: *tag_only
-
-      - release:
-          name: release-production_ruby_270
-          image: production_ruby_270
-          requires: [release-scripts]
-          filters: *tag_only
-      - release:
-          name: release-production_ruby_270-arm64
-          image: production_ruby_270
           arch: arm64
           requires: [release-scripts-arm64]
           filters: *tag_only
