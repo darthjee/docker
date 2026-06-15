@@ -58,16 +58,6 @@ workflows:
 
       # ── Development ────────────────────────────────────────────────────────
       - release:
-          name: release-ruby_240
-          image: ruby_240
-          filters: *tag_only
-      - release:
-          name: release-ruby_240-arm64
-          image: ruby_240
-          arch: arm64
-          filters: *tag_only
-
-      - release:
           name: release-ruby_250
           image: ruby_250
           requires: [release-scripts]
