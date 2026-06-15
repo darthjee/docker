@@ -28,7 +28,6 @@ circleci_python_37=0.2.2
 circleci_rails_bower=1.4.0
 circleci_rails_yarn=1.1.0
 circleci_rails_gems=2.1.1
-circleci_ruby_240=0.2.3
 circleci_ruby_250=0.8.0
 circleci_ruby_270=1.4.0
 circleci_ruby_331=1.1.1

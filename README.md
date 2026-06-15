@@ -124,7 +124,6 @@ script repository where scripts are copied from during docker build.
   - [circleci_rails_bower:1.4.0](https://hub.docker.com/repository/docker/darthjee/circleci_rails_bower)
   - [circleci_rails_yarn:1.0.1](https://hub.docker.com/repository/docker/darthjee/circleci_rails_yarn)
   - [circleci_rails_gems:2.0.0](https://hub.docker.com/repository/docker/darthjee/circleci_rails_gems)
-  - [circleci_ruby_240:0.2.3](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_240)
   - [circleci_ruby_250:0.8.0](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_250)
   - [circleci_ruby_270:1.4.0](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_270)
   - [circleci_ruby_331:1.0.2](https://hub.docker.com/repository/docker/darthjee/circleci_ruby_331)

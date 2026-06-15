@@ -257,16 +257,6 @@ workflows:
 
       # ── CircleCI ───────────────────────────────────────────────────────────
       - release:
-          name: release-circleci_ruby_240
-          image: circleci_ruby_240
-          filters: *tag_only
-      - release:
-          name: release-circleci_ruby_240-arm64
-          image: circleci_ruby_240
-          arch: arm64
-          filters: *tag_only
-
-      - release:
           name: release-circleci_ruby_250
           image: circleci_ruby_250
           requires: [release-scripts]
