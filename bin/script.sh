@@ -9,6 +9,7 @@ source 'bin/update_deps.sh'
 source 'bin/pre_build.sh'
 source 'bin/docker_login.sh'
 source 'bin/push_description.sh'
+source 'bin/archive.sh'
 
 function help() {
     echo Usage:
@@ -21,6 +22,7 @@ function help() {
     echo "$0 pre_build <images> # test an image before building"
     echo "$0 docker_login # login to Docker Hub"
     echo "$0 push_description <images> # push README.md as Docker Hub description"
+    echo "$0 archive <image> [version] # remove old version folders up to version (default: previous)"
 }
 
 ACTION=$1
@@ -52,6 +54,9 @@ case $ACTION in
     ;;
   "push_description")
     push_description $*
+    ;;
+  "archive")
+    archive $*
     ;;
   *)
     help
