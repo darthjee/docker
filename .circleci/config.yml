@@ -104,18 +104,6 @@ workflows:
           filters: *tag_only
 
       - release:
-          name: release-ruby_gems_240
-          image: ruby_gems_240
-          requires: [release-ruby_240]
-          filters: *tag_only
-      - release:
-          name: release-ruby_gems_240-arm64
-          image: ruby_gems_240
-          arch: arm64
-          requires: [release-ruby_240-arm64]
-          filters: *tag_only
-
-      - release:
           name: release-ruby_node
           image: ruby_node
           requires: [release-ruby_331]
@@ -290,18 +278,6 @@ workflows:
           image: circleci_ruby_gems
           arch: arm64
           requires: [release-scripts-arm64, release-circleci_ruby_250-arm64]
-          filters: *tag_only
-
-      - release:
-          name: release-circleci_ruby_gems_240
-          image: circleci_ruby_gems_240
-          requires: [release-circleci_ruby_240]
-          filters: *tag_only
-      - release:
-          name: release-circleci_ruby_gems_240-arm64
-          image: circleci_ruby_gems_240
-          arch: arm64
-          requires: [release-circleci_ruby_240-arm64]
           filters: *tag_only
 
       - release:
