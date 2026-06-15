@@ -116,16 +116,6 @@ workflows:
           filters: *tag_only
 
       - release:
-          name: release-python_27
-          image: python_27
-          filters: *tag_only
-      - release:
-          name: release-python_27-arm64
-          image: python_27
-          arch: arm64
-          filters: *tag_only
-
-      - release:
           name: release-python_37
           image: python_37
           filters: *tag_only
@@ -254,16 +244,6 @@ workflows:
           image: circleci_node_mongo
           arch: arm64
           requires: [release-circleci_node-arm64]
-          filters: *tag_only
-
-      - release:
-          name: release-circleci_python_27
-          image: circleci_python_27
-          filters: *tag_only
-      - release:
-          name: release-circleci_python_27-arm64
-          image: circleci_python_27
-          arch: arm64
           filters: *tag_only
 
       - release:
