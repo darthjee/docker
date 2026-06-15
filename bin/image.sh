@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PLATFORM=${PLATFORM:-linux/arm64/v8}
+PLATFORM=${PLATFORM:-linux/amd64}
 
 function image_version() {
   local image=$1
