@@ -110,7 +110,6 @@ script repository where scripts are copied from during docker build.
   - [ruby_base:0.2.2](https://hub.docker.com/repository/docker/darthjee/ruby_base)
   - [ruby_gems:0.5.4](https://hub.docker.com/repository/docker/darthjee/ruby_gems)
   - [ruby_node:1.4.2](https://hub.docker.com/repository/docker/darthjee/ruby_node)
-  - [ruby_plot:0.7.0](https://hub.docker.com/repository/docker/darthjee/ruby_plot)
   - [taa:1.4.2](https://hub.docker.com/repository/docker/darthjee/taa)
   - [taap:1.4.2](https://hub.docker.com/repository/docker/darthjee/taap)
   - [django:0.0.2](https://hub.docker.com/repository/docker/darthjee/django)
