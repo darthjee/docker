@@ -5,7 +5,6 @@ heroku=0.0.1
 # Development
 node=0.2.1
 node_mongo=0.0.6
-python_27=0.2.2
 python_37=0.2.2
 rails_bower=1.4.0
 rails_yarn=1.1.0
@@ -19,7 +18,6 @@ django=0.0.2
 # Circleci
 circleci_node=0.2.1
 circleci_node_mongo=0.0.6
-circleci_python_27=0.2.2
 circleci_python_37=0.2.2
 circleci_rails_bower=1.4.0
 circleci_rails_yarn=1.1.0

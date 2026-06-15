@@ -101,7 +101,6 @@ script repository where scripts are copied from during docker build.
 ### Development
   - [node:0.2.1](https://hub.docker.com/repository/docker/darthjee/node)
   - [node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/node_mongo)
-  - [python_27:0.2.2](https://hub.docker.com/repository/docker/darthjee/python_27)
   - [python_37:0.2.2](https://hub.docker.com/repository/docker/darthjee/python_37)
   - [rails_bower:1.4.0](https://hub.docker.com/repository/docker/darthjee/rails_bower)
   - [rails_yarn:1.0.1](https://hub.docker.com/repository/docker/darthjee/rails_yarn)
@@ -115,7 +114,6 @@ script repository where scripts are copied from during docker build.
 ### Circleci
   - [circleci_node:0.2.1](https://hub.docker.com/repository/docker/darthjee/circleci_node)
   - [circleci_node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/circleci_node_mongo)
-  - [circleci_python_27:0.2.2](https://hub.docker.com/repository/docker/darthjee/circleci_python_27)
   - [circleci_python_37:0.2.2](https://hub.docker.com/repository/docker/darthjee/circleci_python_37)
   - [circleci_rails_bower:1.4.0](https://hub.docker.com/repository/docker/darthjee/circleci_rails_bower)
   - [circleci_rails_yarn:1.0.1](https://hub.docker.com/repository/docker/darthjee/circleci_rails_yarn)
