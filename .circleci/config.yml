@@ -104,18 +104,6 @@ workflows:
           filters: *tag_only
 
       - release:
-          name: release-ruby_plot
-          image: ruby_plot
-          requires: [release-scripts, release-ruby_250]
-          filters: *tag_only
-      - release:
-          name: release-ruby_plot-arm64
-          image: ruby_plot
-          arch: arm64
-          requires: [release-scripts-arm64, release-ruby_250-arm64]
-          filters: *tag_only
-
-      - release:
           name: release-node
           image: node
           requires: [release-scripts]
