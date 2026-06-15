@@ -58,18 +58,6 @@ workflows:
 
       # ── Development ────────────────────────────────────────────────────────
       - release:
-          name: release-ruby_250
-          image: ruby_250
-          requires: [release-scripts]
-          filters: *tag_only
-      - release:
-          name: release-ruby_250-arm64
-          image: ruby_250
-          arch: arm64
-          requires: [release-scripts-arm64]
-          filters: *tag_only
-
-      - release:
           name: release-ruby_331
           image: ruby_331
           requires: [release-scripts]
@@ -245,18 +233,6 @@ workflows:
 
       # ── CircleCI ───────────────────────────────────────────────────────────
       - release:
-          name: release-circleci_ruby_250
-          image: circleci_ruby_250
-          requires: [release-scripts]
-          filters: *tag_only
-      - release:
-          name: release-circleci_ruby_250-arm64
-          image: circleci_ruby_250
-          arch: arm64
-          requires: [release-scripts-arm64]
-          filters: *tag_only
-
-      - release:
           name: release-circleci_ruby_331
           image: circleci_ruby_331
           requires: [release-scripts]
@@ -409,18 +385,6 @@ workflows:
           filters: *tag_only
 
       # ── Production ─────────────────────────────────────────────────────────
-      - release:
-          name: release-production_ruby_250
-          image: production_ruby_250
-          requires: [release-scripts]
-          filters: *tag_only
-      - release:
-          name: release-production_ruby_250-arm64
-          image: production_ruby_250
-          arch: arm64
-          requires: [release-scripts-arm64]
-          filters: *tag_only
-
       - release:
           name: release-production_ruby_331
           image: production_ruby_331
