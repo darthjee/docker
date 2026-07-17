@@ -1,7 +1,7 @@
 {
   "name": "bower_files",
   "dependencies": {
-    "angular": "1.4.8",
+    "angular": "1.8.3",
     "angular-route": "1.4.8",
     "cyberhawk": "0.8.0",
     "yarn":"1.22.22",
