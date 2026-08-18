@@ -55,6 +55,8 @@ Key script: `scripts/<version>/home/sbin/docker_hub.sh` — handles Docker Hub a
 | `release.sh` | Build and push to the registry. |
 | `test.sh` | Run the image's test suite. |
 | `pre_build.sh` | Pre-build validation. |
+| `archive.sh` | Archive an image version that is no longer maintained. |
+| `image.sh` | Shared helpers for resolving image name/version and target platform. |
 | `push_description.sh` | Push a README to Docker Hub. |
 
 ## Versioning

@@ -8,20 +8,22 @@
 | `Makefile` | Orchestrates multi-image builds and release targets. |
 | `docker-compose.yml` | Service definitions used during image testing. |
 | `Dockerfile.test` | Generic Dockerfile used to build test runner images. |
+| `README.md` | Project overview and usage documentation. |
+| `docker.png` | Diagram embedded in `README.md`. |
+| `readme_files/` | Images and GIFs embedded in `README.md`. |
+| `LICENSE` | Project license. |
 | `bin/` | Build tooling — main CLI (`script.sh`) and helper scripts. |
 | `scripts/` | Source for the `scripts` tool image (shared shell scripts copied into other images). |
 | `fly/` | Source for the `fly` tool image. |
 | `heroku/` | Source for the `heroku` tool image. |
 | `experiments/` | Experimental Docker configurations not yet promoted to named images. |
-| `readme_files/` | Images and GIFs embedded in `README.md`. |
 | `docs/` | Agent and contributor documentation. |
-| `ruby_*/` | Development images for various Ruby versions (e.g. `ruby_270/`, `ruby_331/`). |
-| `rails_*/` | Rails development images built on top of Ruby images (e.g. `rails_gems/`, `rails_yarn/`). |
+| `ruby_331/`, `ruby_node/` | Ruby development images. |
+| `rails_bower/`, `rails_gems/`, `rails_yarn/` | Rails development images built on top of Ruby images. |
 | `node/`, `node_mongo/` | Node.js development images. |
-| `python_27/`, `python_37/` | Python development images. |
+| `python_37/` | Python development image. |
 | `django/` | Django development image. |
 | `taa/`, `taap/` | TAA project-specific development images. |
-| `ruby_plot/` | Ruby image with plotting libraries. |
 | `circleci_*/` | CircleCI counterparts of development images (parallel, based on `cimg`). |
 | `production_*/` | Production counterparts — stripped of dev dependencies for lightweight deployment. |
 
@@ -37,12 +39,14 @@
 | `copy_deps.sh` | Copies dependency files into an image directory. |
 | `update_deps.sh` | Propagates dependencies from one image to its counterparts. |
 | `pre_build.sh` | Validates an image before building. |
+| `archive.sh` | Archives an image version that is no longer maintained. |
+| `image.sh` | Shared helpers for resolving image names/versions and platform (`PLATFORM`, default `linux/amd64`). |
 | `docker_login.sh` | Authenticates with Docker Hub. |
 | `push_description.sh` | Pushes a README to Docker Hub as the repository description. |
 
 ## Image directories (common layout)
 
-Each image directory (e.g. `ruby_270/`) contains one sub-directory per released version:
+Each image directory (e.g. `ruby_331/`) contains one sub-directory per released version:
 
 | Path | Description |
 |------|-------------|

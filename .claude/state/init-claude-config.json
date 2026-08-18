@@ -1,0 +1,92 @@
+{
+  "labels": [
+    {
+      "name": "Bug",
+      "color": "b60205"
+    },
+    {
+      "name": "Documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "Enqueued",
+      "color": "e8e639"
+    },
+    {
+      "name": "Feature",
+      "color": "e9a20f"
+    },
+    {
+      "name": "Ready",
+      "color": "247b61"
+    },
+    {
+      "name": "Refined",
+      "color": "418193"
+    },
+    {
+      "name": "Ready for Work",
+      "color": "ffaa04"
+    },
+    {
+      "name": "Refactor",
+      "color": "983e7f"
+    },
+    {
+      "name": "shipit",
+      "color": "0e8a16"
+    },
+    {
+      "name": "Created",
+      "color": "024fa5"
+    },
+    {
+      "name": "Working",
+      "color": "c314d7"
+    },
+    {
+      "name": "Question",
+      "color": "5319e7"
+    },
+    {
+      "name": "Fetched",
+      "color": "bfd4f2"
+    },
+    {
+      "name": "Idea",
+      "color": "fbca04"
+    },
+    {
+      "name": "Writting",
+      "color": "79ff12"
+    },
+    {
+      "name": "Enhancing",
+      "color": "335ecc"
+    },
+    {
+      "name": "PR",
+      "color": "31a5e0"
+    },
+    {
+      "name": "auto-shipit",
+      "color": "ffb004"
+    },
+    {
+      "name": "Automated",
+      "color": "d93f0b"
+    },
+    {
+      "name": "Planning",
+      "color": "c5def5"
+    },
+    {
+      "name": "Split",
+      "color": "000000"
+    },
+    {
+      "name": "Spawned",
+      "color": "6a737d"
+    }
+  ]
+}
