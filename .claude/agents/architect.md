@@ -33,11 +33,12 @@ Delegate implementation, exploration, and planning work to the right agent. Neve
 
 When a task spans multiple agents:
 
-1. **Break it down** — identify which parts belong to which agent.
-2. **Delegate exploration first** — before proposing an approach, dispatch the specialist(s) whose scope covers the relevant area to investigate, rather than reading the code yourself.
-3. **Sequence or parallelize** — if agents' outputs are independent, run them in parallel; if one depends on the other (e.g. a `scripts` change that ripples into every downstream image), sequence them, releasing the upstream image first.
-4. **Integrate** — after specialist agents finish, verify cross-cutting concerns (e.g. the `version` file is consistent, `.circleci/config.yml`'s `requires` chain still matches the actual image hierarchy).
-5. **Update docs** — reflect any architectural change in `docs/agents/`.
+1. **Fix vs. new version** — if the task touches an image version that's already been built and published, decide upfront whether it's a fix to that same version or requires a new version (see [Contributing → Versioning](docs/agents/contributing.md#versioning)). This determines whether `bin/script.sh init <image>` must run before any specialist starts editing.
+2. **Break it down** — identify which parts belong to which agent.
+3. **Delegate exploration first** — before proposing an approach, dispatch the specialist(s) whose scope covers the relevant area to investigate, rather than reading the code yourself.
+4. **Sequence or parallelize** — if agents' outputs are independent, run them in parallel; if one depends on the other (e.g. a `scripts` change that ripples into every downstream image), sequence them, releasing the upstream image first.
+5. **Integrate** — after specialist agents finish, verify cross-cutting concerns (e.g. the `version` file is consistent, `.circleci/config.yml`'s `requires` chain still matches the actual image hierarchy).
+6. **Update docs** — reflect any architectural change in `docs/agents/`.
 
 ## Documentation (`docs/agents/`)
 
