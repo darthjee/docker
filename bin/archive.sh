@@ -59,8 +59,7 @@ parts = content.split(marker)
 
 result_parts = [parts[0]]
 for part in parts[1:]:
-    if (f'          name: release-{image}\n' not in part and
-            f'          name: release-{image}-arm64\n' not in part):
+    if f'          name: release-{image}\n' not in part:
         result_parts.append(part)
 
 result = marker.join(result_parts)
