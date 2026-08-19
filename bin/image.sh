@@ -62,18 +62,18 @@ function tag() {
 
 function push() {
   local image=$1
-  local arch=$2
-  local version tag_suffix
+  local version
   version=$(image_version "$image")
-  [ -n "$arch" ] && tag_suffix="-$arch" || tag_suffix=""
 
   skip_if_unchanged "$image"
 
   echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
 
-  build "$image" "$arch"
-  docker push "$DOCKER_ID_USER/$image:latest${tag_suffix}"
-  docker push "$DOCKER_ID_USER/$image:${version}${tag_suffix}"
+  docker buildx build --platform linux/amd64,linux/arm64 \
+    -f "$image/$version/Dockerfile" "$image/$version/" \
+    -t "$DOCKER_ID_USER/$image:$version" \
+    -t "$DOCKER_ID_USER/$image:latest" \
+    --push
 }
 
 function image_test() {
@@ -99,11 +99,12 @@ ARCH=${3:-}
 case $ACTION in
   "build") build "$IMAGE_NAME" "$ARCH" ;;
   "tag")   tag "$IMAGE_NAME" "$ARCH" ;;
-  "push")  push "$IMAGE_NAME" "$ARCH" ;;
+  "push")  push "$IMAGE_NAME" ;;
   "test")  image_test "$IMAGE_NAME" ;;
   *)
     echo "Usage: $0 <action> <image_name> [arch]"
     echo "Actions: build, tag, push, test"
+    echo "  arch applies to build/tag only (local single-platform debug builds)."
     exit 1
     ;;
 esac
