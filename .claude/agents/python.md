@@ -20,7 +20,8 @@ Do NOT touch Ruby images, Ruby+Node hybrid images, Node images, tool images, the
 ## Stack
 
 - Python (see each image's `Dockerfile` for the exact `python:<version>` base)
-- pip for dependency management
+- `python_37`: pip for dependency management
+- `django` family: Poetry, with dependencies declared in `home/pyproject.toml` and installed in the builder stage via the `scripts` image's `poetry_builder.sh`
 
 ## Commands
 

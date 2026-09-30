@@ -63,6 +63,19 @@ Key script: `scripts/<version>/home/sbin/docker_hub.sh` — handles Docker Hub a
 
 The `version` file at the repo root is the single source of truth for the latest released version of each image. It is organized by category (Tools, Development, CircleCI, Production), with one `name=version` entry per image.
 
+## Release Pipeline
+
+Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one `release-<image>` job per image (tag-only filters), chained with `requires:` so parents release before their children (e.g. `release-ruby_node` requires `release-ruby_331`). Each job sets up QEMU and a `docker buildx` builder, then runs `bin/image.sh push <image>`.
+
+`bin/image.sh` actions:
+
+| Action | Behavior |
+|--------|----------|
+| `build <image> [arch]` | Local single-platform build (`$PLATFORM`, default `linux/amd64`, or `linux/<arch>` with a `-<arch>` tag suffix), tagged `latest` and `<version>`. |
+| `tag <image> [arch]` | Alias of `build`. |
+| `push <image>` | Skips the image if `<image>/<version>/` is unchanged since the previous tag; otherwise logs in and runs `docker buildx build --platform linux/amd64,linux/arm64 --push`, publishing a multi-arch manifest tagged `<version>` and `latest`. |
+| `test <image>` | Builds and runs the `docker-compose.yml` `test` service against the image. |
+
 ## Testing
 
 Each image version contains a `test/` directory with a `test.sh` script. Tests are run via `bin/script.sh test <image>` and use `docker-compose.yml` + `Dockerfile.test` to spin up a container and validate it.

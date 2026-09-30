@@ -7,3 +7,5 @@ A checklist of concerns to consider when splitting a broad issue into sub-issues
 - **Shared contracts** — interfaces, schemas, or config keys touched by more than one sub-issue, and who owns getting them right first.
 - **Sequencing** — is there a natural order sub-issues should be implemented/merged in, or can they proceed in parallel?
 - **Responsible agents** — which specialist agent(s) each sub-issue is likely to fall to.
+- **Image hierarchy order** — parent images (and the `scripts` image) must be released before the children that build on them.
+- **Counterpart grouping** — whether a dev image and its `circleci_`/`production_` counterparts belong in one sub-issue or separate ones.

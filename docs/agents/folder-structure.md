@@ -18,6 +18,9 @@
 | `heroku/` | Source for the `heroku` tool image. |
 | `experiments/` | Experimental Docker configurations not yet promoted to named images. |
 | `docs/` | Agent and contributor documentation. |
+| `.circleci/` | CircleCI config: tag-triggered `release-<image>` jobs, ordered by image dependency. |
+| `.claude/` | Claude Code config: specialist agents (`agents/`), per-agent check scripts (`scripts/`), repo config (`configuration/`) and local state (`state/`). |
+| `.github/` | PR and commit message templates, and the Copilot instructions pointer. |
 | `ruby_331/`, `ruby_node/` | Ruby development images. |
 | `rails_bower/`, `rails_gems/`, `rails_yarn/` | Rails development images built on top of Ruby images. |
 | `node/`, `node_mongo/` | Node.js development images. |
@@ -40,7 +43,7 @@
 | `update_deps.sh` | Propagates dependencies from one image to its counterparts. |
 | `pre_build.sh` | Validates an image before building. |
 | `archive.sh` | Archives an image version that is no longer maintained. |
-| `image.sh` | Shared helpers for resolving image names/versions and platform (`PLATFORM`, default `linux/amd64`). |
+| `image.sh` | Image actions used locally and by CI: `build`/`tag` (single-platform, `PLATFORM` default `linux/amd64` or an explicit arch), `push` (multi-arch `amd64`+`arm64` via `docker buildx`, skipped if unchanged since the previous tag) and `test`. |
 | `docker_login.sh` | Authenticates with Docker Hub. |
 | `push_description.sh` | Pushes a README to Docker Hub as the repository description. |
 
