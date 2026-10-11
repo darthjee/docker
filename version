@@ -3,7 +3,7 @@ fly=0.0.1
 scripts=0.9.0
 heroku=0.0.1
 # Development
-node=0.2.1
+node=0.2.2
 node_mongo=0.0.6
 python_37=0.2.2
 rails_bower=1.4.0
@@ -16,7 +16,7 @@ taa=1.5.0
 taap=1.4.2
 django=0.1.0
 # Circleci
-circleci_node=0.2.1
+circleci_node=0.2.2
 circleci_node_mongo=0.0.6
 circleci_python_37=0.2.2
 circleci_rails_bower=1.4.0
