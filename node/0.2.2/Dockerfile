@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.9.0 as scripts
+FROM darthjee/scripts:0.10.0 as scripts
 FROM node:22 as base
 
 USER root
