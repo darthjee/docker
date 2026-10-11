@@ -1,4 +1,4 @@
-FROM darthjee/scripts:0.9.0 as scripts
+FROM darthjee/scripts:0.10.0 as scripts
 FROM cimg/node:22.14.0 as base
 
 USER root
