@@ -1,6 +1,5 @@
 # Tools
 scripts=0.10.0
-heroku=0.0.1
 # Development
 node=0.2.2
 node_mongo=0.0.6
