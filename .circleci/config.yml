@@ -23,18 +23,13 @@ workflows:
     jobs:
       # ── Tools ──────────────────────────────────────────────────────────────
       - release:
-          name: release-fly
-          image: fly
+          name: release-scripts
+          image: scripts
           filters: &tag_only
             tags:
               only: /.*/
             branches:
               ignore: /.*/
-
-      - release:
-          name: release-scripts
-          image: scripts
-          filters: *tag_only
 
       - release:
           name: release-heroku

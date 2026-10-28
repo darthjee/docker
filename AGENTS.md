@@ -12,7 +12,7 @@ This repository is a collection of Docker images used across multiple projects. 
 
 There are four categories of images:
 
-- **Tool images** – Utility images (e.g. `fly`, `scripts`, `heroku`) that have no CircleCI or production counterparts.
+- **Tool images** – Utility images (e.g. `scripts`, `heroku`) that have no CircleCI or production counterparts.
 - **Development images** – Full development environments (e.g. `ruby_331`, `rails_gems`, `node`, `django`, `taa`, `taap`).
 - **CircleCI images** – Variants prefixed with `circleci_` (e.g. `circleci_ruby_331`), optimized for running tests on circleci.com. They are **parallel** images based on `cimg` (CircleCI base images), not built on top of the development image.
 - **Production images** – Variants prefixed with `production_` (e.g. `production_ruby_331`), stripped of development dependencies to be lightweight and suitable for running in production servers. They are **parallel** images that share the same base image as their development counterpart but do not install development dependencies.
@@ -41,7 +41,6 @@ The `version` file at the root of the repository stores the latest released vers
 
 ```
 # Tools
-fly=0.0.1
 scripts=0.6.0
 ...
 # Development
@@ -82,7 +81,6 @@ Helper scripts in `bin/`: `build.sh`, `release.sh`, `test.sh`, `init.sh`, `copy_
 ├── bin/
 │   └── script.sh            # Main CLI for init/build/release/test
 ├── scripts/                 # scripts image source
-├── fly/                     # fly tool image source
 ├── heroku/                  # heroku tool image source
 ├── ruby_331/                # Development image source
 │   └── <version>/

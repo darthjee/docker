@@ -15,7 +15,7 @@ You own `scripts/` — the `scripts` image, a repository of shared shell scripts
 
 Key script: `scripts/<version>/home/sbin/docker_hub.sh` — handles Docker Hub authentication and README publishing.
 
-Do NOT touch `fly/`/`heroku/` (owned by the `tools` agent), any language-specific image family, `bin/`, or any file outside `scripts/`.
+Do NOT touch `heroku/` (owned by the `tools` agent), any language-specific image family, `bin/`, or any file outside `scripts/`.
 
 ## Stack
 
