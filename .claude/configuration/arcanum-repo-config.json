@@ -15,8 +15,7 @@
       "python": "darthjee+backend@gmail.com",
       "ruby-node": "darthjee+backend@gmail.com",
       "ruby": "darthjee+ruby@gmail.com",
-      "shell": "darthjee+infra@gmail.com",
-      "tools": "darthjee+infra@gmail.com"
+      "shell": "darthjee+infra@gmail.com"
     }
   }
 }

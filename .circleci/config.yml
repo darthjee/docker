@@ -31,11 +31,6 @@ workflows:
             branches:
               ignore: /.*/
 
-      - release:
-          name: release-heroku
-          image: heroku
-          filters: *tag_only
-
       # ── Development ────────────────────────────────────────────────────────
       - release:
           name: release-ruby_331
