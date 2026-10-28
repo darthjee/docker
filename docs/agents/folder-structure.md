@@ -14,7 +14,6 @@
 | `LICENSE` | Project license. |
 | `bin/` | Build tooling — main CLI (`script.sh`) and helper scripts. |
 | `scripts/` | Source for the `scripts` tool image (shared shell scripts copied into other images). |
-| `fly/` | Source for the `fly` tool image. |
 | `heroku/` | Source for the `heroku` tool image. |
 | `experiments/` | Experimental Docker configurations not yet promoted to named images. |
 | `docs/` | Agent and contributor documentation. |

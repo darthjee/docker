@@ -26,7 +26,7 @@ Delegate implementation, exploration, and planning work to the right agent. Neve
 | `ruby-node` | `ruby_node/`, `rails_bower/`, `rails_yarn/`, `taa/`, `taap/` + circleci_/production_ counterparts — Ruby+Node hybrid images |
 | `node` | `node/`, `node_mongo/` + circleci_ counterparts — pure-Node images |
 | `python` | `python_37/`, `django/` + circleci_/production_ counterparts — Python images |
-| `tools` | `fly/`, `heroku/` — standalone utility images |
+| `tools` | `heroku/` — standalone utility image |
 | `shell` | `scripts/` — shared shell-scripts image |
 
 ## How to coordinate
