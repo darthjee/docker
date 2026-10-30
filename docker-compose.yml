@@ -3,7 +3,7 @@ services:
   test:
     image: $IMAGE_NAME
     build:
-      dockerfile: Dockerfile.test
+      dockerfile: ${TEST_DOCKERFILE:-Dockerfile.test}
       context: ./
       args:
         - VERSION=$VERSION

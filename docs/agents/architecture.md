@@ -79,3 +79,5 @@ Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one 
 ## Testing
 
 Each image version contains a `test/` directory with a `test.sh` script. Tests are run via `bin/script.sh test <image>` and use `docker-compose.yml` + `Dockerfile.test` to spin up a container and validate it.
+
+A version may ship its own test Dockerfile at `<image>/<version>/test/Dockerfile` (e.g. `scripts/0.11.0/test/Dockerfile`, needed because the alpine `scripts` image has no `app` user). When it exists, `bin/image.sh test` builds with it instead of `Dockerfile.test` (via the `TEST_DOCKERFILE` variable in `docker-compose.yml`, same build context and args), runs the image's default command (`/home/test/test.sh`) instead of `pwd`, and returns its exit status. `bin/script.sh test` exits non-zero when any tested image fails. Images without that file are tested exactly as before.
