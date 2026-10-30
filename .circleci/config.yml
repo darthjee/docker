@@ -42,11 +42,6 @@ workflows:
           filters: *tag_only
 
       - release:
-          name: release-ruby_base
-          image: ruby_base
-          filters: *tag_only
-
-      - release:
           name: release-ruby_node
           image: ruby_node
           requires: [release-ruby_331]

@@ -104,7 +104,6 @@ script repository where scripts are copied from during docker build.
   - [rails_yarn:1.0.1](https://hub.docker.com/repository/docker/darthjee/rails_yarn)
   - [rails_gems:2.0.0](https://hub.docker.com/repository/docker/darthjee/rails_gems)
   - [ruby_331:1.0.2](https://hub.docker.com/repository/docker/darthjee/ruby_331)
-  - [ruby_base:0.2.2](https://hub.docker.com/repository/docker/darthjee/ruby_base)
   - [ruby_node:1.4.2](https://hub.docker.com/repository/docker/darthjee/ruby_node)
   - [taa:1.4.2](https://hub.docker.com/repository/docker/darthjee/taa)
   - [taap:1.4.2](https://hub.docker.com/repository/docker/darthjee/taap)
