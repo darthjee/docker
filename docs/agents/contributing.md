@@ -76,6 +76,8 @@ Shared scripts live in `scripts/<version>/home/sbin/`. They must be general-purp
 
 An image version that has already been built and published is not altered once it's out — the only exception is fixing that same version (e.g. a bug in the current release). Any other change (adding a dependency, changing behavior, bumping an upstream base image) belongs in a new version. When discussing or planning an issue, explicitly decide which of the two it is before touching image files, since that decision determines whether `bin/script.sh init` is needed at all.
 
+Changes limited to a version's `README.md` or `test/` folder are not image changes: they don't need a new version and don't re-push the image on release (`bin/image.sh push` ignores them).
+
 When releasing a new version of an image:
 
 1. Run `bin/script.sh init <image>` to scaffold a new version directory, bumping the current version's minor number automatically. Pass an explicit version instead — `bin/script.sh init <image> <new_version>` — when a specific number is required (e.g. a major bump). Either form copies the current version's files into the new version directory as a starting point.
