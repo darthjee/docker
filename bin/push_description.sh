@@ -6,8 +6,8 @@ function push_description_image() {
     VERSION=$(cat version | grep "^"$IMAGE"=" | sed -e "s/"$IMAGE"=//g")
     README="$IMAGE/$VERSION/README.md"
     if [ ! -f "$README" ]; then
-      echo "Error: README not found at $README"
-      exit 1
+      echo "Warning: README not found at $README, skipping."
+      return 0
     fi
     REPO="darthjee/$IMAGE"
     if [ -z "${DOCKER_HUB_TOKEN:-}" ]; then
@@ -19,10 +19,25 @@ function push_description_image() {
       LINE=$(echo "$LINE" | sed 's/"/\\"/g')
       CONTENT="${CONTENT}${LINE}\\n"
     done < "$README"
-    curl -X PATCH "https://hub.docker.com/v2/repositories/$REPO" \
+    RESPONSE=$(mktemp)
+    HTTP_CODE=$(curl -sS -o "$RESPONSE" -w '%{http_code}' \
+      -X PATCH "https://hub.docker.com/v2/repositories/$REPO/" \
       -H "Authorization: JWT ${DOCKER_HUB_TOKEN}" \
       -H "Content-Type: application/json" \
-      -d '{ "full_description": "'"$CONTENT"'" }'
+      -d '{ "full_description": "'"$CONTENT"'" }')
+    case "$HTTP_CODE" in
+      2??)
+        rm -f "$RESPONSE"
+        echo "Pushed description for $REPO"
+        ;;
+      *)
+        echo "Error: failed to push description for $REPO (HTTP $HTTP_CODE)"
+        cat "$RESPONSE"
+        echo
+        rm -f "$RESPONSE"
+        exit 1
+        ;;
+    esac
   else
     echo skipping $IMAGE
   fi

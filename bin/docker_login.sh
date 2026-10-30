@@ -11,8 +11,16 @@ function docker_login() {
     exit 1
   fi
 
-  export DOCKER_HUB_TOKEN=$(curl -s https://hub.docker.com/v2/users/login/ \
+  local token
+  token=$(curl -s https://hub.docker.com/v2/users/login/ \
     -H "Content-Type: application/json" \
     -d '{"username":"'"$DOCKER_HUB_USERNAME"'","password":"'"$DOCKER_HUB_PASSWORD"'"}' \
     | jq -r .token)
+
+  if [ -z "$token" ] || [ "$token" = "null" ]; then
+    echo "Error: Docker Hub login failed"
+    exit 1
+  fi
+
+  export DOCKER_HUB_TOKEN="$token"
 }
