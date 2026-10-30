@@ -13,7 +13,9 @@ ACTIONS="generate_key_file build generate_folder copy_files upload link run rele
 
 # Wraps a value in POSIX single quotes, turning every inner ' into '\''
 function quote() {
-  local escaped="${1//\'/\'\\\'\'}"
+  local single_quote="'"
+  local escaped_quote="'\\''"
+  local escaped="${1//$single_quote/$escaped_quote}"
   printf "'%s'" "$escaped"
 }
 
@@ -24,8 +26,23 @@ function write_multiline() {
   printf '%s\n' "${value//\\n/$'\n'}" > "$file"
 }
 
+# Required variables are checked in the main shell (never inside a command
+# substitution), so a missing one stops the script
+function require_ssh() {
+  : "${SSH_USER:?SSH_USER is required}"
+  : "${SSH_HOST:?SSH_HOST is required}"
+}
+
+function require_temp_dir() {
+  : "${SSH_REMOTE_TEMP_DIR:?SSH_REMOTE_TEMP_DIR is required}"
+}
+
+function require_remote_dir() {
+  : "${SSH_REMOTE_DIR:?SSH_REMOTE_DIR is required}"
+}
+
 function workspace_temp_dir() {
-  local dir="${SSH_REMOTE_TEMP_DIR:?SSH_REMOTE_TEMP_DIR is required}"
+  local dir="$SSH_REMOTE_TEMP_DIR"
   local workspace_id="${CIRCLE_WORKFLOW_WORKSPACE_ID:-}"
 
   if [ -n "$workspace_id" ]; then
@@ -35,6 +52,7 @@ function workspace_temp_dir() {
   fi
 }
 
+# DEPLOY_PATH without trailing slashes
 function deploy_path() {
   local path="${DEPLOY_PATH:-}"
   while [ "$path" != "${path%/}" ]; do
@@ -56,36 +74,29 @@ function remote_temp_dir() {
   fi
 }
 
-# Prints the ssh command (one word per line) used for every remote call
-function ssh_command() {
-  printf '%s\n' ssh -i "$SSH_KEY_FILE_PATH" -p "${SSH_PORT:-22}"
-  if [ -n "${SSH_KNOWN_HOSTS:-}" ]; then
-    printf '%s\n' -o StrictHostKeyChecking=yes \
-      -o "UserKnownHostsFile=$SSH_KNOWN_HOSTS_FILE_PATH"
-  else
-    printf '%s\n' -o StrictHostKeyChecking=no
-  fi
-}
+# Sets SSH_CMD to the ssh command (as an array) used for every remote call
+function build_ssh_command() {
+  SSH_CMD=(ssh -i "$SSH_KEY_FILE_PATH" -p "${SSH_PORT:-22}")
 
-function ssh_destination() {
-  printf '%s@%s' \
-    "${SSH_USER:?SSH_USER is required}" \
-    "${SSH_HOST:?SSH_HOST is required}"
+  if [ -n "${SSH_KNOWN_HOSTS:-}" ]; then
+    SSH_CMD+=(-o StrictHostKeyChecking=yes -o "UserKnownHostsFile=$SSH_KNOWN_HOSTS_FILE_PATH")
+  else
+    SSH_CMD+=(-o StrictHostKeyChecking=no)
+  fi
 }
 
 # Runs a command string on the remote host
 function remote() {
   local command="$1"
-  local destination
-  local ssh_cmd=()
-  destination=$(ssh_destination)
-  mapfile -t ssh_cmd < <(ssh_command)
+  build_ssh_command
 
-  "${ssh_cmd[@]}" "$destination" "$command"
+  "${SSH_CMD[@]}" "$SSH_USER@$SSH_HOST" "$command"
 }
 
 function run_generate_ssh_key_file() {
-  write_multiline "${SSH_PRIVATE_KEY:?SSH_PRIVATE_KEY is required}" "$SSH_KEY_FILE_PATH"
+  : "${SSH_PRIVATE_KEY:?SSH_PRIVATE_KEY is required}"
+
+  write_multiline "$SSH_PRIVATE_KEY" "$SSH_KEY_FILE_PATH"
   chmod 600 "$SSH_KEY_FILE_PATH"
 
   if [ -n "${SSH_KNOWN_HOSTS:-}" ]; then
@@ -104,71 +115,93 @@ function run_build() {
 }
 
 function run_generate_folder() {
-  remote "mkdir -p $(quote "$(remote_temp_dir)")"
+  require_ssh
+  require_temp_dir
+  local dir
+  dir=$(remote_temp_dir)
+
+  remote "mkdir -p $(quote "$dir")"
 }
 
 function run_copy_files() {
-  local source="${SSH_REMOTE_DIR:?SSH_REMOTE_DIR is required}/${TARGET:-}"
+  require_ssh
+  require_temp_dir
+  require_remote_dir
+  local source="$SSH_REMOTE_DIR/${TARGET:-}"
+  local dir
+  dir=$(remote_temp_dir)
 
-  remote "cp -R $(quote "$source") $(quote "$(remote_temp_dir)/")"
+  remote "cp -R $(quote "$source") $(quote "$dir/")"
 }
 
 function run_upload() {
-  local source="${SOURCE:?SOURCE is required}"
+  require_ssh
+  require_temp_dir
+  : "${SOURCE:?SOURCE is required}"
   local dir
-  local destination
-  local ssh_cmd=()
   local rsync_options=(-avz)
   dir=$(remote_temp_dir)
-  destination=$(ssh_destination)
-  mapfile -t ssh_cmd < <(ssh_command)
 
   if [ -n "${EXCLUDE_FROM:-}" ]; then
     rsync_options+=("--exclude-from=$EXCLUDE_FROM")
   fi
 
   remote "mkdir -p $(quote "$dir")"
-  rsync "${rsync_options[@]}" -e "${ssh_cmd[*]}" "$source" "$destination:$dir"
+  build_ssh_command
+  rsync "${rsync_options[@]}" -e "${SSH_CMD[*]}" "$SOURCE" "$SSH_USER@$SSH_HOST:$dir"
 }
 
 function run_link() {
-  local source="${SOURCE:?SOURCE is required}"
+  require_ssh
+  require_temp_dir
+  : "${SOURCE:?SOURCE is required}"
+  local path
   local link_path
+  local parent
+  path=$(deploy_path)
 
-  if [ -n "$(deploy_path)" ]; then
+  if [ -n "$path" ]; then
     link_path=$(remote_temp_dir)
-    remote "mkdir -p $(quote "$(dirname "$link_path")") && ln -sfn $(quote "$source") $(quote "$link_path")"
+    parent=$(dirname "$link_path")
+    remote "mkdir -p $(quote "$parent") && ln -sfn $(quote "$SOURCE") $(quote "$link_path")"
   elif [ -n "${TARGET:-}" ]; then
-    remote "ln -sfn $(quote "$source") $(quote "$TARGET")"
+    remote "ln -sfn $(quote "$SOURCE") $(quote "$TARGET")"
   else
     echo "link requires DEPLOY_PATH or TARGET" >&2
     return 1
   fi
 }
 
+# COMMAND is sent as is: the caller is responsible for its quoting
 function run_run() {
-  local command="${COMMAND:?COMMAND is required}"
+  require_ssh
+  require_temp_dir
+  : "${COMMAND:?COMMAND is required}"
+  local dir
+  dir=$(remote_temp_dir)
 
-  remote "cd $(quote "$(remote_temp_dir)") && $command"
+  remote "cd $(quote "$dir") && $COMMAND"
 }
 
 function run_release() {
-  local live="${SSH_REMOTE_DIR:?SSH_REMOTE_DIR is required}"
+  require_ssh
+  require_temp_dir
+  require_remote_dir
   local staging
+  local timestamp
+  local live
   local old
   local commands
   staging=$(workspace_temp_dir)
-  old="${live}_old_$(date +%s)"
+  timestamp=$(date +%s)
+  live=$(quote "$SSH_REMOTE_DIR")
+  old=$(quote "${SSH_REMOTE_DIR}_old_$timestamp")
+  staging=$(quote "$staging")
 
-  local q_live q_staging q_old
-  q_live=$(quote "$live")
-  q_staging=$(quote "$staging")
-  q_old=$(quote "$old")
-
-  commands="test -d $q_staging && { [ ! -e $q_live ] || { rm -rf $q_old && mv $q_live $q_old; }; } && mv $q_staging $q_live"
+  commands="test -d $staging && { [ ! -e $live ] || { rm -rf $old && mv $live $old; }; } && mv $staging $live"
 
   if [ "${KEEP_OLD:-}" != "true" ]; then
-    commands="$commands && rm -rf $q_old"
+    commands="$commands && rm -rf $old"
   fi
 
   remote "$commands"
