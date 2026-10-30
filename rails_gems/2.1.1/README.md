@@ -55,10 +55,10 @@ The following gems are pre-installed in the image:
 
 ## How to use
 
-This image is intended to be used as a base for other Docker images in projects that develop Ruby gems for Rails. To build on top of it, reference it in your `Dockerfile`:
+This image is intended to be used as a base for other Docker images in projects that develop Ruby gems for Rails. To build on top of it, reference it in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/rails_gems/tags):
 
 ```dockerfile
-FROM darthjee/rails_gems:2.1.0
+FROM darthjee/rails_gems:<version>
 ```
 
 Projects can then install their own specific gems on top of the shared base, taking advantage of Docker layer caching to speed up builds and CI pipelines.
