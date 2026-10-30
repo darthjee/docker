@@ -5,7 +5,7 @@ darthjee/python_37
 
 The `darthjee/python_37` image is a Python 3.7 development image built on top of the official `python:3.7.2` image. It is intended to be used as a base for Python projects managed with `pipenv`.
 
-> **Note:** This is a legacy image built on an old, end-of-life Python base (`python:3.7.2`).
+> **Deprecated:** this image is built on an end-of-life base (`python:3.7.2`) and is no longer maintained. Use [`darthjee/python`](https://hub.docker.com/r/darthjee/python) instead.
 
 Its working directory is `/home/app/app`, which is owned by the `app` user (uid 1000), also the image's default user.
 
