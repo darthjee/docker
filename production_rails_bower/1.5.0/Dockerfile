@@ -27,3 +27,5 @@ FROM base
 
 COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
 COPY --chown=app:app --from=builder /home/app/bower/ /home/app/.cache/bower/
+
+ENV BUNDLE_WITHOUT development:test
