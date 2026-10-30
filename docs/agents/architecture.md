@@ -56,7 +56,7 @@ Key script: `scripts/<version>/home/sbin/docker_hub.sh` — handles Docker Hub a
 | `test.sh` | Run the image's test suite. |
 | `pre_build.sh` | Pre-build validation. |
 | `archive.sh` | Archive an image version that is no longer maintained. |
-| `image.sh` | Shared helpers for resolving image name/version and target platform. |
+| `image.sh` | Per-image actions (`build`, `tag`, `push`, `test`, `description`) used locally and by CI. |
 | `push_description.sh` | Push a README to Docker Hub. |
 
 ## Versioning
@@ -65,7 +65,7 @@ The `version` file at the repo root is the single source of truth for the latest
 
 ## Release Pipeline
 
-Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one `release-<image>` job per image (tag-only filters), chained with `requires:` so parents release before their children (e.g. `release-ruby_node` requires `release-ruby_331`). Each job sets up QEMU and a `docker buildx` builder, then runs `bin/image.sh push <image>`.
+Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one `release-<image>` job per image (tag-only filters), chained with `requires:` so parents release before their children (e.g. `release-ruby_node` requires `release-ruby_331`). Each job sets up QEMU and a `docker buildx` builder, runs `bin/image.sh push <image>`, then pushes the image's README as its Docker Hub description with `bin/image.sh description <image>` (a separate step, so a skipped image push does not skip it).
 
 `bin/image.sh` actions:
 
@@ -73,8 +73,9 @@ Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one 
 |--------|----------|
 | `build <image> [arch]` | Local single-platform build (`$PLATFORM`, default `linux/amd64`, or `linux/<arch>` with a `-<arch>` tag suffix), tagged `latest` and `<version>`. |
 | `tag <image> [arch]` | Alias of `build`. |
-| `push <image>` | Skips the image if `<image>/<version>/` is unchanged since the previous tag; otherwise logs in and runs `docker buildx build --platform linux/amd64,linux/arm64 --push`, publishing a multi-arch manifest tagged `<version>` and `latest`. |
+| `push <image>` | Skips the image if `<image>/<version>/`, ignoring `README.md`, is unchanged since the previous tag (a README-only change never re-pushes the image); otherwise logs in and runs `docker buildx build --platform linux/amd64,linux/arm64 --push`, publishing a multi-arch manifest tagged `<version>` and `latest`. |
 | `test <image>` | Builds and runs the `docker-compose.yml` `test` service against the image. |
+| `description <image>` | Skips if `<image>/<version>/` (README included) is unchanged since the previous tag; otherwise pushes `<image>/<version>/README.md` as the Docker Hub description of that single image (no `circleci_`/`production_` fan-out), via `push_description_image`. |
 
 ## Testing
 

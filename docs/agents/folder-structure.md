@@ -41,9 +41,9 @@
 | `update_deps.sh` | Propagates dependencies from one image to its counterparts. |
 | `pre_build.sh` | Validates an image before building. |
 | `archive.sh` | Archives an image version that is no longer maintained. |
-| `image.sh` | Image actions used locally and by CI: `build`/`tag` (single-platform, `PLATFORM` default `linux/amd64` or an explicit arch), `push` (multi-arch `amd64`+`arm64` via `docker buildx`, skipped if unchanged since the previous tag) and `test`. |
-| `docker_login.sh` | Authenticates with Docker Hub. |
-| `push_description.sh` | Pushes a README to Docker Hub as the repository description. |
+| `image.sh` | Image actions used locally and by CI: `build`/`tag` (single-platform, `PLATFORM` default `linux/amd64` or an explicit arch), `push` (multi-arch `amd64`+`arm64` via `docker buildx`, skipped if unchanged since the previous tag, ignoring `README.md`), `test` and `description` (pushes one image's README as its Docker Hub description, skipped if unchanged since the previous tag). |
+| `docker_login.sh` | Authenticates with Docker Hub; fails when no token comes back. |
+| `push_description.sh` | Pushes a README to Docker Hub as the repository description; warns and skips on a missing README, fails on a non-2xx response. |
 
 ## Image directories (common layout)
 
