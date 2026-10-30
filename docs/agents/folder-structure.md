@@ -22,7 +22,8 @@
 | `ruby_331/`, `ruby_node/` | Ruby development images. |
 | `rails_bower/`, `rails_gems/`, `rails_yarn/` | Rails development images built on top of Ruby images. |
 | `node/`, `node_mongo/` | Node.js development images. |
-| `python_37/` | Python development image. |
+| `python/` | Python development image (pipenv). |
+| `python_37/` | Deprecated Python 3.7 development image (replaced by `python/`). |
 | `django/` | Django development image. |
 | `taa/`, `taap/` | TAA project-specific development images. |
 | `circleci_*/` | CircleCI counterparts of development images (parallel, based on `cimg`). |

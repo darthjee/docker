@@ -87,7 +87,7 @@ Each image version may contain a `test/` directory with a `test.sh` entry point 
 
 `bin/image.sh test <image>`:
 
-1. If `<image>/<version>/test/` doesn't exist, prints `no tests for <image>` and returns 0 (e.g. `node`, `node_mongo`, `python_37`, `django` and their variants).
+1. If `<image>/<version>/test/` doesn't exist, prints `no tests for <image>` and returns 0 (e.g. `node`, `node_mongo`, `python`, `python_37`, `django` and their variants).
 2. Builds the `docker-compose.yml` `test` service from `<image>/<version>/test/Dockerfile` when the version ships one, otherwise from the root `Dockerfile.test` (via the `TEST_DOCKERFILE` variable, same build context and args, for the same `PLATFORM` that `bin/image.sh build` uses). A failed build fails the test.
 3. Runs `docker-compose run --rm test`, i.e. the service's command `/home/test/test.sh`, and returns its exit status.
 
