@@ -95,13 +95,15 @@ Each image folder contains one sub-directory per released version. Each version 
 - `Dockerfile` – Multi-stage build definition.
 - `home/` – Files and dependencies to be copied into the image.
 - `test/` – Tests and a `test.sh` script for validating the image.
-- `README.md` – (optional) Documentation for the image version, published to Docker Hub as the repository's full description.
+- `README.md` – Documentation for the image version, published to Docker Hub as the repository's full description. Every current image version should have one, written following [Image READMEs](docs/agents/image-readme.md).
 
 ## Docker Hub Description Publishing
 
-Each image version may include a `README.md` file (e.g. `scripts/0.6.0/README.md`). This file is published to Docker Hub as the repository's full description using the `docker_hub.sh` script provided by the `scripts` image.
+Each image version should include a `README.md` (`<image>/<version>/README.md`, see [Image READMEs](docs/agents/image-readme.md)). It is published to Docker Hub as the repository's full description with `bin/script.sh push_description <image>`.
 
-The script is located at `scripts/<version>/home/sbin/docker_hub.sh` and supports the following actions:
+`bin/push_description.sh` pushes the README of the version listed in `version` for `<image>` and its `circleci_`/`production_` counterparts (skipping counterparts whose folder does not exist). It authenticates via `docker_login` unless `DOCKER_HUB_TOKEN` is set, and fails with `Error: README not found at ...` if any of them has no README.
+
+The lower-level `docker_hub.sh` script, provided by the `scripts` image, offers the same operations:
 
 | Action | Description |
 |---|---|
@@ -116,7 +118,7 @@ To publish a README, the `DOCKER_HUB_USERNAME` and `DOCKER_HUB_PASSWORD` environ
 docker_hub.sh login_and_push_description darthjee/scripts scripts/0.6.0/README.md
 ```
 
-> **Note:** Neither the `bin/` scripts nor the `Makefile` publish the Docker Hub description. This step is performed separately using `docker_hub.sh`.
+> **Note:** Releases (`bin/image.sh push`, the CI `release` job) do not push descriptions; run `bin/script.sh push_description` separately.
 
 ## Documentation
 
@@ -130,6 +132,7 @@ All project documentation lives under [`docs/agents/`](docs/agents/):
 | [Plans](docs/agents/plans/) | Implementation plans for ongoing or upcoming features. |
 | [Issues](docs/agents/issues/) | Detailed specs for open issues. |
 | [Contributing](docs/agents/contributing.md) | Commit guidelines, PR standards, code organization, and refactoring rules. |
+| [Image READMEs](docs/agents/image-readme.md) | Conventions for per-image `README.md` files published as Docker Hub descriptions. |
 
 ### Issues (`docs/agents/issues/`)
 
