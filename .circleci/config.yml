@@ -17,6 +17,9 @@ jobs:
       - run:
           name: Release
           command: bin/image.sh push << parameters.image >>
+      - run:
+          name: Push description
+          command: bin/image.sh description << parameters.image >>
 
 workflows:
   release:
