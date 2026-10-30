@@ -42,3 +42,4 @@ bin/script.sh test <image>
 - Dockerfiles use multi-stage builds: a build stage compiles/installs, the final stage copies only the resulting artifacts.
 - Because these hierarchies chain deeply (e.g. `taap` ← `taa` ← `rails_yarn` ← `ruby_331`), changes near the base can ripple through several downstream images — check which images `requires` a given image in `.circleci/config.yml` before releasing.
 - Update the `version` file when releasing a new version of one of these images.
+- Each image version's `README.md` is the image's Docker Hub description; write and edit it following [docs/agents/image-readme.md](../../docs/agents/image-readme.md).
