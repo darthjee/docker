@@ -27,7 +27,7 @@ function skip_if_unchanged() {
 
   if git diff --quiet "$prev_tag"..HEAD -- "$image/$version/" "${pathspecs[@]}"; then
     if [ ${#pathspecs[@]} -gt 0 ]; then
-      echo "No changes in $image/$version/ (excluding README.md) since $prev_tag, skipping."
+      echo "No changes in $image/$version/ (excluding ${pathspecs[*]}) since $prev_tag, skipping."
     else
       echo "No changes in $image/$version/ since $prev_tag, skipping."
     fi
@@ -58,8 +58,8 @@ function build() {
   docker rmi "$latest_tag" 2>/dev/null || true
   docker build --platform "$platform" \
     -f "$image/$version/Dockerfile" "$image/$version/" \
-    -t "$latest_tag"
-  docker tag "$latest_tag" "$version_tag"
+    -t "$latest_tag" || return 1
+  docker tag "$latest_tag" "$version_tag" || return 1
   if docker images | grep -q "$cached_tag"; then
     docker rmi "$cached_tag"
   fi
@@ -74,7 +74,9 @@ function push() {
   local version
   version=$(image_version "$image")
 
-  skip_if_unchanged "$image" ":(exclude)$image/$version/README.md"
+  skip_if_unchanged "$image" \
+    ":(exclude)$image/$version/README.md" \
+    ":(exclude)$image/$version/test/"
 
   echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
 
@@ -100,28 +102,25 @@ function image_test() {
   local user_name=${image%%_*}
   user_name=$(echo "$user_name" | grep circleci || echo app)
 
+  if [ ! -d "$image/$version/test" ]; then
+    echo "no tests for $image"
+    return 0
+  fi
+
   local test_dockerfile="$image/$version/test/Dockerfile"
-
-  if [ -f "$test_dockerfile" ]; then
-    DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
-      USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
-      DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
-      IMAGE_NAME="${image}_test" docker-compose build test || return 1
-
-    DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
-      USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
-      DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
-      IMAGE_NAME="${image}_test" docker-compose run --rm test
-    return $?
+  if [ ! -f "$test_dockerfile" ]; then
+    test_dockerfile="Dockerfile.test"
   fi
 
   DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
-    USER_NAME="$user_name" \
-    IMAGE_NAME="${image}_test" docker-compose build test
+    USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
+    DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
+    IMAGE_NAME="${image}_test" docker-compose build test || return 1
 
   DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
-    USER_NAME="$user_name" \
-    IMAGE_NAME="${image}_test" docker-compose run test pwd
+    USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
+    DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
+    IMAGE_NAME="${image}_test" docker-compose run --rm test
 }
 
 ACTION=$1
@@ -129,8 +128,8 @@ IMAGE_NAME=$2
 ARCH=${3:-}
 
 case $ACTION in
-  "build") build "$IMAGE_NAME" "$ARCH" ;;
-  "tag")   tag "$IMAGE_NAME" "$ARCH" ;;
+  "build") build "$IMAGE_NAME" "$ARCH" || exit 1 ;;
+  "tag")   tag "$IMAGE_NAME" "$ARCH" || exit 1 ;;
   "push")  push "$IMAGE_NAME" ;;
   "test")  image_test "$IMAGE_NAME" || exit 1 ;;
   "description") description "$IMAGE_NAME" ;;
