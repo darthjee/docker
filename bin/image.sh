@@ -88,10 +88,12 @@ function image_test() {
   if [ -f "$test_dockerfile" ]; then
     DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
       USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
+      DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
       IMAGE_NAME="${image}_test" docker-compose build test || return 1
 
     DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
       USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
+      DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
       IMAGE_NAME="${image}_test" docker-compose run --rm test
     return $?
   fi
