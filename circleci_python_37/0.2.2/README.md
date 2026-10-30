@@ -5,7 +5,7 @@ darthjee/circleci_python_37
 
 The `darthjee/circleci_python_37` image is a CircleCI-optimized Docker image with Python 3.7, built on top of the `circleci/python:3.7.2` image. It is the CircleCI counterpart of [`darthjee/python_37`](https://hub.docker.com/r/darthjee/python_37), designed to run tests for Python projects managed with `pipenv` on circleci.com. Both images ship Python 3.7.2 and `pipenv`, but this one is not built on top of `darthjee/python_37`.
 
-> **Note:** This is a legacy image built on an old, end-of-life base (`circleci/python:3.7.2`, from CircleCI's deprecated legacy image line).
+> **Deprecated:** this image is built on an end-of-life base (`circleci/python:3.7.2`) and is no longer maintained. Use [`darthjee/circleci_python`](https://hub.docker.com/r/darthjee/circleci_python) instead.
 
 Its working directory is `/home/circleci/project`, owned by the `circleci` user, which is also the image's default user.
 

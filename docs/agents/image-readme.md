@@ -59,7 +59,7 @@ Pick the sections that fit the image; none is mandatory.
 
 | Section | When to use it | Reference |
 |---------|----------------|-----------|
-| `## Tools` | Tools installed globally (e.g. `pipenv`, `poetry`). | [`python_37`](../../python_37/0.2.2/README.md) |
+| `## Tools` | Tools installed globally (e.g. `pipenv`, `poetry`). | [`python`](../../python/0.1.0/README.md) |
 | `## Pre-installed packages` / `## Pre-installed gems` | Packages actually installed in the image. Group them with `###` subheadings when the list is long. | [`rails_gems`](../../rails_gems/2.1.1/README.md) |
 | `## Pre-cached packages` | A pre-populated package-manager cache rather than installed packages. Say where the cache lives and that packages are only used when a project asks for them. | [`node`](../../node/0.2.2/README.md) |
 | `## What is added` | Images built on a `darthjee/` parent: list only what this image adds on top of the parent. | [`ruby_node`](../../ruby_node/1.5.0/README.md) |
@@ -120,8 +120,9 @@ Full examples of the rules above (each in the folder `version` points to):
 
 | README | Shows |
 |--------|-------|
-| [`python_37`](../../python_37/0.2.2/README.md) | Minimal README: `Tools`, legacy note, virtualenv sentence. |
-| [`circleci_python_37`](../../circleci_python_37/0.2.2/README.md) | CircleCI counterpart by name only, on a legacy base. |
+| [`python`](../../python/0.1.0/README.md) | Minimal README: `Tools`, virtualenv sentence. |
+| [`circleci_python`](../../circleci_python/0.1.0/README.md) | CircleCI counterpart by name only, on a `cimg/` base. |
+| [`circleci_python_37`](../../circleci_python_37/0.2.2/README.md) | Deprecated CircleCI counterpart by name only, on a legacy base. |
 | [`node`](../../node/0.2.2/README.md) | `Pre-cached packages`. |
 | [`rails_gems`](../../rails_gems/2.1.1/README.md) | `Pre-installed gems` grouped with `###`. |
 | [`ruby_node`](../../ruby_node/1.5.0/README.md) | `What is added` and `Variants`. |

@@ -60,6 +60,11 @@ workflows:
           filters: *tag_only
 
       - release:
+          name: release-python
+          image: python
+          filters: *tag_only
+
+      - release:
           name: release-python_37
           image: python_37
           filters: *tag_only
@@ -123,6 +128,11 @@ workflows:
           name: release-circleci_node_mongo
           image: circleci_node_mongo
           requires: [release-circleci_node]
+          filters: *tag_only
+
+      - release:
+          name: release-circleci_python
+          image: circleci_python
           filters: *tag_only
 
       - release:
