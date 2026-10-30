@@ -51,7 +51,7 @@ Key script: `scripts/<version>/home/sbin/docker_hub.sh` — handles Docker Hub a
 | `init.sh` | Scaffold a new image version directory. |
 | `copy_deps.sh` | Copy dependency files into an image. |
 | `update_deps.sh` | Propagate deps from a dev image to its CI/prod counterparts. |
-| `build.sh` | Build a Docker image. |
+| `build.sh` | Build a Docker image (and its circleci_/production_ variants), fetching or building its `darthjee/*` bases first. Stops at the first failure and exits non-zero. |
 | `release.sh` | Build and push to the registry. |
 | `test.sh` | Run the image's test suite. |
 | `pre_build.sh` | Pre-build validation. |
@@ -71,14 +71,28 @@ Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one 
 
 | Action | Behavior |
 |--------|----------|
-| `build <image> [arch]` | Local single-platform build (`$PLATFORM`, default `linux/amd64`, or `linux/<arch>` with a `-<arch>` tag suffix), tagged `latest` and `<version>`. |
+| `build <image> [arch]` | Local single-platform build (`$PLATFORM`, default `linux/amd64`, or `linux/<arch>` with a `-<arch>` tag suffix), tagged `latest` and `<version>`. Exits non-zero (without tagging `<version>`) if `docker build` fails. |
 | `tag <image> [arch]` | Alias of `build`. |
-| `push <image>` | Skips the image if `<image>/<version>/`, ignoring `README.md`, is unchanged since the previous tag (a README-only change never re-pushes the image); otherwise logs in and runs `docker buildx build --platform linux/amd64,linux/arm64 --push`, publishing a multi-arch manifest tagged `<version>` and `latest`. |
-| `test <image>` | Builds and runs the `docker-compose.yml` `test` service against the image. |
+| `push <image>` | Skips the image if `<image>/<version>/`, ignoring `README.md` and `test/`, is unchanged since the previous tag (a README-only or test-only change never re-pushes the image); otherwise logs in and runs `docker buildx build --platform linux/amd64,linux/arm64 --push`, publishing a multi-arch manifest tagged `<version>` and `latest`. |
+| `test <image>` | Builds and runs the `docker-compose.yml` `test` service against the image (see [Testing](#testing)); exits non-zero if the test-image build or the tests fail. |
 | `description <image>` | Skips if `<image>/<version>/` (README included) is unchanged since the previous tag; otherwise pushes `<image>/<version>/README.md` as the Docker Hub description of that single image (no `circleci_`/`production_` fan-out), via `push_description_image`. |
+
+## Building
+
+`bin/script.sh build <images>` builds each image and its `circleci_`/`production_` variants in turn. Before building, `fetch_bases` pulls every pinned `darthjee/*` base from the image's `FROM` lines; if a pull fails it falls back to `bin/script.sh build <base>`, which builds the base at its **current** version, then checks that the pinned tag now exists locally (`docker image inspect`). If it doesn't (the pin is older than the current version), it prints an error and fails. Any failed base fetch or `bin/image.sh build` stops the whole run and `bin/script.sh build` exits non-zero.
 
 ## Testing
 
-Each image version contains a `test/` directory with a `test.sh` script. Tests are run via `bin/script.sh test <image>` and use `docker-compose.yml` + `Dockerfile.test` to spin up a container and validate it.
+Each image version may contain a `test/` directory with a `test.sh` entry point and `subtests/*.sh`. Tests are run via `bin/script.sh test <images>`, which calls `bin/image.sh test` for each image and its `circleci_`/`production_` variants and exits non-zero when any of them fails.
 
-A version may ship its own test Dockerfile at `<image>/<version>/test/Dockerfile` (e.g. `scripts/0.11.0/test/Dockerfile`, needed because the alpine `scripts` image has no `app` user). When it exists, `bin/image.sh test` builds with it instead of `Dockerfile.test` (via the `TEST_DOCKERFILE` variable in `docker-compose.yml`, same build context and args, and for the same `PLATFORM` that `bin/image.sh build` uses), runs the image's default command (`/home/test/test.sh`) instead of `pwd`, and returns its exit status. `bin/script.sh test` exits non-zero when any tested image fails. Images without that file are tested exactly as before.
+`bin/image.sh test <image>`:
+
+1. If `<image>/<version>/test/` doesn't exist, prints `no tests for <image>` and returns 0 (e.g. `node`, `node_mongo`, `python_37`, `django` and their variants).
+2. Builds the `docker-compose.yml` `test` service from `<image>/<version>/test/Dockerfile` when the version ships one, otherwise from the root `Dockerfile.test` (via the `TEST_DOCKERFILE` variable, same build context and args, for the same `PLATFORM` that `bin/image.sh build` uses). A failed build fails the test.
+3. Runs `docker-compose run --rm test`, i.e. the service's command `/home/test/test.sh`, and returns its exit status.
+
+`Dockerfile.test` copies both `<image>/<version>/home` and `<image>/<version>/test`, so a version with no `home/` folder (e.g. `scripts`, `ruby_node`) ships its own `test/Dockerfile` that only copies `test/`.
+
+Every `test/test.sh` runs all of `/home/test/subtests/*.sh`, counts failures, and exits 1 if any failed (see `scripts/0.11.0/test/test.sh`).
+
+Changes under `<image>/<version>/test/` don't trigger a re-push of that version on release (see `push` above), so fixing or extending tests in a published version folder is a same-version change.
