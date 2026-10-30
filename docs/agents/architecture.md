@@ -91,7 +91,7 @@ Each image version may contain a `test/` directory with a `test.sh` entry point 
 2. Builds the `docker-compose.yml` `test` service from `<image>/<version>/test/Dockerfile` when the version ships one, otherwise from the root `Dockerfile.test` (via the `TEST_DOCKERFILE` variable, same build context and args, for the same `PLATFORM` that `bin/image.sh build` uses). A failed build fails the test.
 3. Runs `docker-compose run --rm test`, i.e. the service's command `/home/test/test.sh`, and returns its exit status.
 
-`Dockerfile.test` copies both `<image>/<version>/home` and `<image>/<version>/test`, so a version with no `home/` folder (e.g. `scripts`, `ruby_node`) ships its own `test/Dockerfile` that only copies `test/`.
+`Dockerfile.test` copies both `<image>/<version>/home` and `<image>/<version>/test`, so a version with no `home/` folder (e.g. `ruby_node`) ships its own `test/Dockerfile` that only copies `test/`. `scripts` ships its own too, because the alpine image has no `app` user.
 
 Every `test/test.sh` runs all of `/home/test/subtests/*.sh`, counts failures, and exits 1 if any failed (see `scripts/0.11.0/test/test.sh`).
 
