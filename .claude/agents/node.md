@@ -39,3 +39,4 @@ bin/script.sh test <image>
 - Dockerfiles use multi-stage builds: a build stage compiles/installs, the final stage copies only the resulting artifacts.
 - Update the `version` file when releasing a new version of one of these images.
 - If a `production_node*` image is introduced in the future, add it to this agent's scope and to `.circleci/config.yml`'s release workflow.
+- Each image version's `README.md` is the image's Docker Hub description; write and edit it following [docs/agents/image-readme.md](../../docs/agents/image-readme.md).

@@ -36,3 +36,4 @@ bin/script.sh test scripts
 - Scripts here must be **general-purpose** utilities suitable for use across multiple images — image-specific logic does not belong here.
 - Since every downstream image can depend on this one, treat changes here as higher-risk: check which images `requires` `scripts` (directly or via a `FROM darthjee/scripts:...` build stage) before releasing a new version.
 - Update the `version` file when releasing a new version.
+- Each image version's `README.md` is the image's Docker Hub description; write and edit it following [docs/agents/image-readme.md](../../docs/agents/image-readme.md).

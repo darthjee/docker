@@ -38,3 +38,4 @@ bin/script.sh test <image>
 - Each image installs only the **delta** relative to its parent image — do not re-install a dependency that already lives in the base (e.g. gems belonging to `ruby_331` must not be reinstalled in `rails_gems`).
 - Dockerfiles use multi-stage builds: a build stage compiles/installs, the final stage copies only the resulting artifacts.
 - Update the `version` file when releasing a new version of one of these images.
+- Each image version's `README.md` is the image's Docker Hub description; write and edit it following [docs/agents/image-readme.md](../../docs/agents/image-readme.md).

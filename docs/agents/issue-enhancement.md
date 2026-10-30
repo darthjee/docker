@@ -12,3 +12,5 @@ A checklist of concerns to consider when fleshing out a vague issue idea (tagged
 - **Counterpart images** — which `circleci_`/`production_` counterparts and child images in the hierarchy are affected.
 - **Layer impact** — whether the change adds, duplicates, or re-copies layers relative to the parent image.
 - **Multi-arch compatibility** — whether the change builds and runs on both `linux/amd64` and `linux/arm64`.
+
+Issues that add or edit an image `README.md` follow [Image READMEs](image-readme.md), so its conventions need not be re-discussed.

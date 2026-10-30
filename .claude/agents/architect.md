@@ -49,6 +49,7 @@ When a task spans multiple agents:
 | [Plans](docs/agents/plans/) | Implementation plans for ongoing or upcoming features. |
 | [Issues](docs/agents/issues/) | Detailed specs for open issues. |
 | [Contributing](docs/agents/contributing.md) | Commit guidelines, PR standards, code organization, and refactoring rules. |
+| [Image READMEs](docs/agents/image-readme.md) | Conventions for per-image `README.md` files published as Docker Hub descriptions. |
 
 Keep documentation up to date after any architectural change. When a new agent is created or its scope changes, update this file and `AGENTS.md`.
 
