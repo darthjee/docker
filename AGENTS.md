@@ -99,9 +99,9 @@ Each image folder contains one sub-directory per released version. Each version 
 
 ## Docker Hub Description Publishing
 
-Each image version should include a `README.md` (`<image>/<version>/README.md`, see [Image READMEs](docs/agents/image-readme.md)). It is published to Docker Hub as the repository's full description with `bin/script.sh push_description <image>`.
+Each image version should include a `README.md` (`<image>/<version>/README.md`, see [Image READMEs](docs/agents/image-readme.md)). It is published to Docker Hub as the repository's full description automatically by the CI `release` job, or by hand with `bin/script.sh push_description <image>`.
 
-`bin/push_description.sh` pushes the README of the version listed in `version` for `<image>` and its `circleci_`/`production_` counterparts (skipping counterparts whose folder does not exist). It authenticates via `docker_login` unless `DOCKER_HUB_TOKEN` is set, and fails with `Error: README not found at ...` if any of them has no README.
+`bin/push_description.sh` pushes the README of the version listed in `version` for `<image>` and its `circleci_`/`production_` counterparts (skipping counterparts whose folder does not exist). It authenticates via `docker_login` unless `DOCKER_HUB_TOKEN` is set. A missing README logs `Warning: README not found at ..., skipping.` and is skipped; a failed login or a non-2xx response from Docker Hub fails with an error.
 
 The lower-level `docker_hub.sh` script, provided by the `scripts` image, offers the same operations:
 
@@ -118,7 +118,7 @@ To publish a README, the `DOCKER_HUB_USERNAME` and `DOCKER_HUB_PASSWORD` environ
 docker_hub.sh login_and_push_description darthjee/scripts scripts/0.6.0/README.md
 ```
 
-> **Note:** Releases (`bin/image.sh push`, the CI `release` job) do not push descriptions; run `bin/script.sh push_description` separately.
+> **Note:** The CI `release` job runs `bin/image.sh description <image>` after the image push. It pushes that single image's description only when `<image>/<version>/` (README included) changed since the previous tag. The image push itself ignores `README.md`, so a README-only change updates the description without re-pushing the image. READMEs already on `main` but unchanged since the latest tag are not pushed by CI; publish them once with `bin/script.sh push_description <images>`.
 
 ## Documentation
 

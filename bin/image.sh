@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source 'bin/docker_login.sh'
+source 'bin/push_description.sh'
+
 PLATFORM=${PLATFORM:-linux/amd64}
 
 function image_version() {
@@ -9,6 +12,8 @@ function image_version() {
 
 function skip_if_unchanged() {
   local image=$1
+  shift
+  local pathspecs=("$@")
   local version
   version=$(image_version "$image")
 
@@ -20,8 +25,12 @@ function skip_if_unchanged() {
     return 0
   fi
 
-  if git diff --quiet "$prev_tag"..HEAD -- "$image/$version/"; then
-    echo "No changes in $image/$version/ since $prev_tag, skipping."
+  if git diff --quiet "$prev_tag"..HEAD -- "$image/$version/" "${pathspecs[@]}"; then
+    if [ ${#pathspecs[@]} -gt 0 ]; then
+      echo "No changes in $image/$version/ (excluding README.md) since $prev_tag, skipping."
+    else
+      echo "No changes in $image/$version/ since $prev_tag, skipping."
+    fi
     exit 0
   fi
 }
@@ -65,7 +74,7 @@ function push() {
   local version
   version=$(image_version "$image")
 
-  skip_if_unchanged "$image"
+  skip_if_unchanged "$image" ":(exclude)$image/$version/README.md"
 
   echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
 
@@ -74,6 +83,14 @@ function push() {
     -t "$DOCKER_ID_USER/$image:$version" \
     -t "$DOCKER_ID_USER/$image:latest" \
     --push
+}
+
+function description() {
+  local image=$1
+
+  skip_if_unchanged "$image"
+
+  push_description_image "$image"
 }
 
 function image_test() {
@@ -116,9 +133,10 @@ case $ACTION in
   "tag")   tag "$IMAGE_NAME" "$ARCH" ;;
   "push")  push "$IMAGE_NAME" ;;
   "test")  image_test "$IMAGE_NAME" || exit 1 ;;
+  "description") description "$IMAGE_NAME" ;;
   *)
     echo "Usage: $0 <action> <image_name> [arch]"
-    echo "Actions: build, tag, push, test"
+    echo "Actions: build, tag, push, test, description"
     echo "  arch applies to build/tag only (local single-platform debug builds)."
     exit 1
     ;;

@@ -4,7 +4,7 @@ Conventions for the per-image `README.md` files published to Docker Hub as each 
 
 ## Purpose
 
-`<image>/<version>/README.md` is the Docker Hub full description of `darthjee/<image>`. It is pushed by `bin/script.sh push_description <image>` (see `bin/push_description.sh`), which always reads the README of the version listed in the root `version` file.
+`<image>/<version>/README.md` is the Docker Hub full description of `darthjee/<image>`. It is pushed automatically by the CI `release` job (`bin/image.sh description <image>`, only when `<image>/<version>/` changed since the previous tag) and by hand with `bin/script.sh push_description <image>` (see `bin/push_description.sh`). Both always read the README of the version listed in the root `version` file.
 
 These rules apply to every new README and to any README being edited. Existing READMEs are not rewritten just to follow them: known deviations (e.g. hardcoded `darthjee/<image>:<version>` tags, an unlinked "counterpart of" mention, a parent image's version) are fixed by a dedicated cleanup issue or the next time that README is edited for another reason.
 
@@ -93,7 +93,7 @@ List tools and packages by name only.
 3. **Mirrored hierarchies link both:** e.g. `circleci_ruby_node` links its parent `circleci_ruby_331` (no version) and its dev counterpart `ruby_node`.
 4. **Order and reuse:** write the dev README first. Counterparts reuse its structure and wording, changing only what differs — user and working directory (e.g. `circleci` and `/home/circleci/project`), the usage example (CircleCI YAML, production-only install) and dropped dev tools. Production package/cache lists exclude dev tools.
 5. **Family sync:** a change to content shared across the family (e.g. the `pyproject.toml`/`Gemfile` copied by `update_deps`) updates the counterparts' READMEs in the same PR.
-6. **Family push:** `bin/script.sh push_description <dev>` pushes the dev image and its `circleci_`/`production_` counterparts (skipping counterparts whose folder does not exist) and exits 1 on the first missing README, so run it only once the whole family has READMEs.
+6. **Family push:** `bin/script.sh push_description <dev>` pushes the dev image and its `circleci_`/`production_` counterparts (skipping counterparts whose folder does not exist) and skips any image whose README is missing with a warning.
 
 CircleCI images on a legacy base (e.g. `circleci/python:3.7.2`, `circleci/node:10.7`) are counterparts by name only and carry the legacy note; see [`circleci_python_37`](../../circleci_python_37/0.2.2/README.md).
 
@@ -111,7 +111,7 @@ CircleCI images on a legacy base (e.g. `circleci/python:3.7.2`, `circleci/node:1
 - Never edit older version folders, even if their README is wrong or missing — nothing reads them.
 - Fixing the README of an already-released version in place is fine: the Docker Hub description is per repository, not per tag, so the next `push_description` publishes it without retagging. This is the README exception to [Fix vs. New Version](contributing.md#fix-vs-new-version).
 - A README-only change needs no `bin/script.sh pre_build`/`build`/`test` run, since the image is unchanged — an explicit exception to [CI Checks](contributing.md#ci-checks).
-- Releases (`bin/image.sh push`, the CI `release` job) do not push descriptions; run `bin/script.sh push_description <image>` separately.
+- The CI `release` job pushes the description after the image push (`bin/image.sh description <image>`), only when `<image>/<version>/` changed since the previous tag. A README-only change updates the description without re-pushing the image. For a README unchanged since the latest tag, run `bin/script.sh push_description <image>` by hand.
 - **Testing:** READMEs have no automated tests. Check the rendered description on Docker Hub after the next `push_description`.
 
 ## Reference examples
