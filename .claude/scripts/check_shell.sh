@@ -2,6 +2,7 @@
 set -euo pipefail
 set -x
 
-bin/script.sh pre_build scripts
+export DOCKER_ID_USER="${DOCKER_ID_USER:-darthjee}"
+
 bin/script.sh build scripts
 bin/script.sh test scripts

@@ -2,8 +2,9 @@
 set -euo pipefail
 set -x
 
-for image in node node_mongo circleci_node circleci_node_mongo; do
-  bin/script.sh pre_build "$image"
+export DOCKER_ID_USER="${DOCKER_ID_USER:-darthjee}"
+
+for image in node node_mongo; do
   bin/script.sh build "$image"
   bin/script.sh test "$image"
 done
