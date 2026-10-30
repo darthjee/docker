@@ -3,7 +3,7 @@ darthjee/circleci_taap
 
 ## About the image
 
-The `darthjee/circleci_taap` image is a CircleCI-optimized Docker image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa), which provides Ruby 3.3.1, Node.js, Yarn, the gems most of these Rails applications need and the AngularJS packages, and adds `gnuplot`.
+The `darthjee/circleci_taap` image is a CircleCI-optimized Docker image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa), which provides Ruby 3.3.1, Node.js, Yarn, the gems most of these Rails applications need and the AngularJS packages, and adds the `danica` and `gnuplot` gems and the `gnuplot` binary.
 
 It is the CircleCI counterpart of [`darthjee/taap`](https://hub.docker.com/r/darthjee/taap), designed to run tests for these applications on circleci.com, but it is not built on top of `darthjee/taap`.
 
@@ -13,11 +13,13 @@ Its working directory is `/home/circleci/project`, owned by the `circleci` user,
 
 On top of everything provided by `darthjee/circleci_taa`, this image adds:
 
-- `gnuplot` — installed with `apt-get`
+- `danica` — gem for writing mathematical formulas and plotting them
+- `gnuplot` — gem for driving gnuplot from Ruby
+- the `gnuplot` binary — installed with `apt-get`
 
-## Pre-installed gems and packages
+## Pre-installed gems and pre-cached packages
 
-The gems (in `/home/circleci/.rubygems`, including the development and test groups) and the Node packages (in `/usr/lib/node_modules`) are the ones inherited from [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa); see its description for the lists.
+The `danica` and `gnuplot` gems are installed alongside the gems (in `/home/circleci/.rubygems`, including the development and test groups) inherited from [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa). The Node packages are not installed: they are pre-cached in the Yarn cache (`/usr/local/share/.cache/yarn/v6`), also inherited, and only used when a project's `yarn install` asks for them. See the `darthjee/circleci_taa` description for the lists.
 
 ## How to use
 

@@ -3,7 +3,7 @@ darthjee/production_taap
 
 ## About the image
 
-The `darthjee/production_taap` image is a production image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa), which provides Ruby 3.3.1, Node.js, Yarn, the main gems most of these Rails applications need and the AngularJS packages, and adds `gnuplot`.
+The `darthjee/production_taap` image is a production image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa), which provides Ruby 3.3.1, Node.js, Yarn, the main gems most of these Rails applications need and the AngularJS packages, and adds the `danica` and `gnuplot` gems and the `gnuplot` binary.
 
 It is the production counterpart of [`darthjee/taap`](https://hub.docker.com/r/darthjee/taap), installing only the main (non-development) gems. It is not built on top of `darthjee/taap`.
 
@@ -13,11 +13,13 @@ Its working directory is `/home/app/app`, which is owned by the `app` user (uid 
 
 On top of everything provided by `darthjee/production_taa`, this image adds:
 
-- `gnuplot` — installed with `apt-get`
+- `danica` — gem for writing mathematical formulas and plotting them
+- `gnuplot` — gem for driving gnuplot from Ruby
+- the `gnuplot` binary — installed with `apt-get`
 
-## Pre-installed gems and packages
+## Pre-installed gems and pre-cached packages
 
-The gems (in `/usr/local/bundle`, main group only; development and test gems are not part of this image) and the Node packages (in `/usr/lib/node_modules`) are the ones inherited from [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa); see its description for the lists.
+The `danica` and `gnuplot` gems are installed alongside the gems (in `/usr/local/bundle`, main group only; development and test gems are not part of this image) inherited from [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa). The Node packages are not installed: they are pre-cached in the Yarn cache (`/usr/local/share/.cache/yarn/v6`), also inherited, and only used when a project's `yarn install` asks for them. See the `darthjee/production_taa` description for the lists.
 
 ## How to use
 
