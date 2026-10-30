@@ -8,22 +8,15 @@ FROM base as builder
 COPY --chown=app:app home/* /home/app/app/
 ENV HOME_DIR /home/app
 
-USER root
-COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
-RUN /bin/bash yarn_builder.sh
-USER app
-
 COPY --chown=app:app --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 RUN /bin/bash bundle_builder.sh
 
 #######################
-#FINAL BUILD
+#FINAL IMAGE
 FROM base
 
 USER root
-RUN apt-get update && apt-get install -y gnuplot
-
-COPY --chown=app:app --from=builder /usr/local/bundle /usr/local/bundle
-COPY --chown=app:app --from=builder /home/app/.cache /home/app/.cache
-
+RUN apt-get update && apt-get install -y gnuplot && rm -rf /var/lib/apt/lists/*
 USER app
+
+COPY --chown=app:app --from=builder /home/app/bundle/ /usr/local/bundle/
