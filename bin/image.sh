@@ -83,6 +83,21 @@ function image_test() {
   local user_name=${image%%_*}
   user_name=$(echo "$user_name" | grep circleci || echo app)
 
+  local test_dockerfile="$image/$version/test/Dockerfile"
+
+  if [ -f "$test_dockerfile" ]; then
+    DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
+      USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
+      DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
+      IMAGE_NAME="${image}_test" docker-compose build test || return 1
+
+    DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
+      USER_NAME="$user_name" TEST_DOCKERFILE="$test_dockerfile" \
+      DOCKER_DEFAULT_PLATFORM="$PLATFORM" \
+      IMAGE_NAME="${image}_test" docker-compose run --rm test
+    return $?
+  fi
+
   DOCKER_ID_USER="$DOCKER_ID_USER" IMAGE="$image" VERSION="$version" \
     USER_NAME="$user_name" \
     IMAGE_NAME="${image}_test" docker-compose build test
@@ -100,7 +115,7 @@ case $ACTION in
   "build") build "$IMAGE_NAME" "$ARCH" ;;
   "tag")   tag "$IMAGE_NAME" "$ARCH" ;;
   "push")  push "$IMAGE_NAME" ;;
-  "test")  image_test "$IMAGE_NAME" ;;
+  "test")  image_test "$IMAGE_NAME" || exit 1 ;;
   *)
     echo "Usage: $0 <action> <image_name> [arch]"
     echo "Actions: build, tag, push, test"

@@ -11,18 +11,22 @@ function test_image() {
 
 function test_images() {
   PROJECT=$1
+  local status=0
   for MOD in "" circleci_ production_; do
-    test_image $MOD$PROJECT
+    test_image $MOD$PROJECT || status=1
   done
+  return $status
 }
 
 function testy() {
   shift 1
 
   if [ $1 ]; then
+    local status=0
     for PROJECT in $*; do
-      test_images $PROJECT
+      test_images $PROJECT || status=1
     done
+    return $status
   else
     help
   fi
