@@ -7,7 +7,21 @@ PLATFORM=${PLATFORM:-linux/amd64}
 
 function image_version() {
   local image=$1
-  cat version | grep "^${image}=" | sed -e "s/${image}=//g"
+  local matches count
+  matches=$(grep "^${image}=" version)
+  count=$(printf '%s' "$matches" | grep -c '^')
+
+  if [ "$count" -eq 0 ]; then
+    echo "ERROR: no entry for ${image} in version" >&2
+    return 1
+  fi
+
+  if [ "$count" -gt 1 ]; then
+    echo "ERROR: ${image} has ${count} entries in version" >&2
+    return 1
+  fi
+
+  echo "${matches#"${image}="}"
 }
 
 function skip_if_unchanged() {
@@ -15,7 +29,7 @@ function skip_if_unchanged() {
   shift
   local pathspecs=("$@")
   local version
-  version=$(image_version "$image")
+  version=$(image_version "$image") || exit 1
 
   local prev_tag
   prev_tag=$(git tag --sort=-creatordate | awk 'NR==2{print; exit}')
@@ -39,7 +53,7 @@ function build() {
   local image=$1
   local arch=$2
   local version
-  version=$(image_version "$image")
+  version=$(image_version "$image") || exit 1
 
   local platform tag_suffix
   if [ -n "$arch" ]; then
@@ -72,7 +86,7 @@ function tag() {
 function push() {
   local image=$1
   local version
-  version=$(image_version "$image")
+  version=$(image_version "$image") || exit 1
 
   skip_if_unchanged "$image" \
     ":(exclude)$image/$version/README.md" \
@@ -98,7 +112,7 @@ function description() {
 function image_test() {
   local image=$1
   local version
-  version=$(image_version "$image")
+  version=$(image_version "$image") || exit 1
   local user_name=${image%%_*}
   user_name=$(echo "$user_name" | grep circleci || echo app)
 
