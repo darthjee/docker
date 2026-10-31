@@ -26,6 +26,8 @@ The following packages are pre-cached in the global yarn cache (`/usr/local/shar
 - `jquery`
 - `js-cookie`
 
+> **Note:** The pre-cached `js-cookie` is version 3, a major upgrade with API changes (for example, `Cookies.getJSON` was removed); see the [js-cookie 3 migration notes](https://github.com/js-cookie/js-cookie/releases/tag/v3.0.0) before upgrading a project that relies on the 2.x API. The pre-cached `jquery` is version 3.7.
+
 ## Pre-installed gems
 
 The following gems are pre-installed in the image, on top of the ones provided by `darthjee/ruby_331`:
