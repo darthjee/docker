@@ -86,16 +86,16 @@ Everything inherited from `darthjee/rails_yarn` plus the gems listed above.
 
 ## How to use
 
-Reference this image in your `Dockerfile`:
+Reference this image in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/taa/tags):
 
 ```dockerfile
-FROM darthjee/taa:1.4.2
+FROM darthjee/taa:<version>
 ```
 
 Projects can then install their own specific gems and packages on top of the shared base, taking advantage of Docker layer caching to speed up builds and CI pipelines.
 
 ```dockerfile
-FROM darthjee/taa:1.4.2
+FROM darthjee/taa:<version>
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
@@ -107,7 +107,7 @@ RUN yarn install
 Or pull it directly:
 
 ```bash
-docker pull darthjee/taa:1.4.2
+docker pull darthjee/taa:<version>
 ```
 
 ## Variants

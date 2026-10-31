@@ -17,16 +17,16 @@ On top of everything provided by `darthjee/production_ruby_331`, this image inst
 
 ## How to use
 
-Reference this image in your production `Dockerfile`:
+Reference this image in your production `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/production_ruby_node/tags):
 
 ```dockerfile
-FROM darthjee/production_ruby_node:1.4.2
+FROM darthjee/production_ruby_node:<version>
 ```
 
 Or pull it directly:
 
 ```bash
-docker pull darthjee/production_ruby_node:1.4.2
+docker pull darthjee/production_ruby_node:<version>
 ```
 
 ## Variants

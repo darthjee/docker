@@ -86,10 +86,10 @@ Everything inherited from `darthjee/circleci_rails_yarn` plus the gems listed ab
 
 ## How to use
 
-Reference this image in your `.circleci/config.yml` or `Dockerfile`:
+Reference this image in your `.circleci/config.yml` or `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/circleci_taa/tags):
 
 ```dockerfile
-FROM darthjee/circleci_taa:1.4.2
+FROM darthjee/circleci_taa:<version>
 ```
 
 Or use it directly in a CircleCI pipeline:
@@ -98,7 +98,7 @@ Or use it directly in a CircleCI pipeline:
 jobs:
   test:
     docker:
-      - image: darthjee/circleci_taa:1.4.2
+      - image: darthjee/circleci_taa:<version>
     steps:
       - checkout
       - run: bundle install
@@ -109,7 +109,7 @@ jobs:
 Or pull it directly:
 
 ```bash
-docker pull darthjee/circleci_taa:1.4.2
+docker pull darthjee/circleci_taa:<version>
 ```
 
 ## Variants
