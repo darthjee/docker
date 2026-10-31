@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bundle check --gemfile=/home/app/app/Gemfile
+BUNDLE_WITHOUT=development:test bundle check --gemfile=/home/app/app/Gemfile
