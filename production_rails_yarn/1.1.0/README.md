@@ -48,16 +48,16 @@ Only production gems are installed. Development and test groups are excluded.
 
 ## How to use
 
-Reference this image in your production `Dockerfile`:
+Reference this image in your production `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/production_rails_yarn/tags):
 
 ```dockerfile
-FROM darthjee/production_rails_yarn:1.0.1
+FROM darthjee/production_rails_yarn:<version>
 ```
 
 Projects can then copy their application code and assets on top of the shared base:
 
 ```dockerfile
-FROM darthjee/production_rails_yarn:1.0.1
+FROM darthjee/production_rails_yarn:<version>
 
 COPY . /home/app/app/
 RUN bundle exec rake assets:precompile
@@ -66,7 +66,7 @@ RUN bundle exec rake assets:precompile
 Or pull it directly:
 
 ```bash
-docker pull darthjee/production_rails_yarn:1.0.1
+docker pull darthjee/production_rails_yarn:<version>
 ```
 
 ## Variants
