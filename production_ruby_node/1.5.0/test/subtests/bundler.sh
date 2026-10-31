@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bundle check --gemfile=/home/app/app/Gemfile
+ruby --version && gem --version && bundle --version
