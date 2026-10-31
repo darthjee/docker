@@ -21,6 +21,8 @@ On top of everything provided by `darthjee/circleci_taa`, this image adds:
 
 The `danica` and `gnuplot` gems are installed alongside the gems (in `/home/circleci/.rubygems`, including the development and test groups) inherited from [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa). The Node packages are not installed: they are pre-cached in the Yarn cache (`/home/circleci/.cache/yarn/v6`, the default cache directory for the `circleci` user), also inherited, and only used when a project's `yarn install` asks for them. See the `darthjee/circleci_taa` description for the lists.
 
+> **Note:** The JS packages pre-cached in [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa) were upgraded there: `angular` / `angular-route` are version 1.8 (a breaking upgrade from 1.4), `js-cookie` is version 3 (a breaking upgrade from 2) and `jquery` is version 3.7. See the `darthjee/circleci_taa` description for the details and the migration links.
+
 ## How to use
 
 This image is intended to be used in CircleCI pipelines of Rails applications with an AngularJS front end (see the available tags at https://hub.docker.com/r/darthjee/circleci_taap/tags).

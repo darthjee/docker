@@ -21,6 +21,8 @@ On top of everything provided by `darthjee/production_taa`, this image adds:
 
 The `danica` and `gnuplot` gems are installed alongside the gems (in `/usr/local/bundle`, main group only; development and test gems are not part of this image) inherited from [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa). The Node packages are not installed: they are pre-cached in the Yarn cache (`/usr/local/share/.cache/yarn/v6`), also inherited, and only used when a project's `yarn install` asks for them. See the `darthjee/production_taa` description for the lists.
 
+> **Note:** The JS packages pre-cached in [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa) were upgraded there: `angular` / `angular-route` are version 1.8 (a breaking upgrade from 1.4), `js-cookie` is version 3 (a breaking upgrade from 2) and `jquery` is version 3.7. See the `darthjee/production_taa` description for the details and the migration links.
+
 ## How to use
 
 This image is intended to be used as a base for Rails applications with an AngularJS front end in production. To build on top of it, reference it in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/production_taap/tags):
