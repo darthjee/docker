@@ -3,7 +3,7 @@ darthjee/production_rails_yarn
 
 ## About the image
 
-The `darthjee/production_rails_yarn` image is the production counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_331`](https://hub.docker.com/r/darthjee/production_ruby_331). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the production gems commonly used by Ruby on Rails applications. Development and test gems are excluded from the bundle.
+The `darthjee/production_rails_yarn` image is the production counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_331`](https://hub.docker.com/r/darthjee/production_ruby_331). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the production gems commonly used by Ruby on Rails applications. Development and test gems are excluded from the bundle, and the image sets `BUNDLE_WITHOUT` to `development:test`, so Bundler skips those groups too.
 
 The image runs as the `app` user (uid 1000), with `/home/app/app` as the working directory, owned by `app`. It also creates the `tmp/pids` directory (owned by `app`) inside the working directory, as needed to run Puma.
 
@@ -51,14 +51,13 @@ Only production gems are pre-installed, on top of the ones provided by `darthjee
 
 ## How to use
 
-Reference this image in your production `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/production_rails_yarn/tags), installing only the main dependencies:
+Reference this image in your production `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/production_rails_yarn/tags), installing only the main dependencies. Because `BUNDLE_WITHOUT` is already set to `development:test`, a plain `bundle install` skips the development and test groups:
 
 ```dockerfile
 FROM darthjee/production_rails_yarn:<version>
 
 COPY --chown=app:app Gemfile Gemfile.lock ./
-RUN bundle config set without 'development test' && \
-    bundle install
+RUN bundle install
 
 COPY --chown=app:app package.json yarn.lock ./
 RUN yarn install --production

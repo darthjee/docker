@@ -37,3 +37,5 @@ COPY --chown=app:app --from=builder /home/app/yarn/new/ /usr/local/share/.cache/
 USER root
 RUN mkdir -p tmp/pids; chown app.app tmp/pids
 USER app
+
+ENV BUNDLE_WITHOUT development:test
