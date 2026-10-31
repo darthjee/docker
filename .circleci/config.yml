@@ -198,7 +198,7 @@ workflows:
       - release:
           name: release-production_rails_yarn
           image: production_rails_yarn
-          requires: [release-scripts, release-ruby_331]
+          requires: [release-scripts, release-production_ruby_331]
           filters: *tag_only
 
       - release:
