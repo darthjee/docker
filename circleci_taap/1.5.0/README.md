@@ -19,7 +19,7 @@ On top of everything provided by `darthjee/circleci_taa`, this image adds:
 
 ## Pre-installed gems and pre-cached packages
 
-The `danica` and `gnuplot` gems are installed alongside the gems (in `/home/circleci/.rubygems`, including the development and test groups) inherited from [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa). The Node packages are not installed: they are pre-cached in the Yarn cache (`/usr/local/share/.cache/yarn/v6`), also inherited, and only used when a project's `yarn install` asks for them. See the `darthjee/circleci_taa` description for the lists.
+The `danica` and `gnuplot` gems are installed alongside the gems (in `/home/circleci/.rubygems`, including the development and test groups) inherited from [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa). The Node packages are not installed: they are pre-cached in the Yarn cache (`/home/circleci/.cache/yarn/v6`, the default cache directory for the `circleci` user), also inherited, and only used when a project's `yarn install` asks for them. See the `darthjee/circleci_taa` description for the lists.
 
 ## How to use
 
