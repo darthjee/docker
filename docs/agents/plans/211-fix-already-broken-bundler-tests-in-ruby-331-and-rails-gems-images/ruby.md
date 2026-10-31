@@ -28,4 +28,4 @@ New versions `ruby_331` 1.1.2 (plus circleci/production) and `rails_gems` 2.1.2 
 - Add both `x86_64-linux` and `aarch64-linux` platforms (`bundle lock --add-platform ...`). Native gems such as `nokogiri` and `sqlite3` then resolve on both architectures, and #210 can build arm64 without regenerating the lock.
 - Pin the lockfile's transitive versions to what resolves today. Do not hand-edit them to match the old 1.1.1/2.1.1 images.
 - Do not archive the 1.1.1/2.1.1 folders. Downstream images (`ruby_node`, `rails_yarn`, `taa`, ...) still build `FROM` them until #210/#221 move them.
-- Commit a temporary `bin/script.sh test` failure on 1.1.1/2.1.1 only for the expected drift. After step 01, only `production_ruby_331` 1.1.1 changes among the old versions.
+- The old versions (`ruby_331` 1.1.1, `rails_gems` 2.1.1, and their variants) will still fail `bundle check` from transitive drift. That's expected and not fixed here: the only old-version change is step 01's `production_ruby_331` 1.1.1 test.
