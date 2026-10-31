@@ -28,6 +28,8 @@ The following packages are pre-cached in the global yarn cache (`/usr/local/shar
 - `cyberhawk`
 - `johto`
 
+> **Note:** The pre-cached `angular` and `angular-route` are version 1.8, a breaking upgrade from 1.4 (for example, the `$http` `.success()` / `.error()` methods were removed in 1.6); see the [AngularJS migration guide](https://docs.angularjs.org/guide/migration) before upgrading a project written against 1.4. The `js-cookie` pre-cached alongside them (shared with `darthjee/rails_yarn`) is version 3, a major upgrade with API changes (for example, `Cookies.getJSON` was removed); see the [js-cookie 3 migration notes](https://github.com/js-cookie/js-cookie/releases/tag/v3.0.0). The shared `jquery` is version 3.7, and `underscore` was bumped to a newer patch release.
+
 ## How to use
 
 Reference this image in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/taa/tags):
