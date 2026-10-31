@@ -21,7 +21,7 @@ On top of everything provided by `darthjee/circleci_rails_yarn` (Ruby, Node.js, 
 
 ### Pre-cached packages
 
-The following packages are pre-cached in the global yarn cache (`/usr/local/share/.cache/yarn/v6/`). They are not installed into any `node_modules`; they are used when a project's `package.json` asks for them and `yarn install` is run.
+The following packages are pre-cached in `/home/circleci/.cache/yarn/v6/`, yarn's default cache directory for the `circleci` user, alongside the packages inherited from `darthjee/circleci_rails_yarn`. They are not installed into any `node_modules`; they are used when a project's `package.json` asks for them and `yarn install` is run.
 
 - `angular`
 - `angular-route`
