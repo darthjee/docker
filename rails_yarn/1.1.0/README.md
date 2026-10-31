@@ -80,16 +80,16 @@ The following gems are pre-installed in the image:
 
 ## How to use
 
-Reference this image in your `Dockerfile`:
+Reference this image in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/rails_yarn/tags):
 
 ```dockerfile
-FROM darthjee/rails_yarn:1.0.1
+FROM darthjee/rails_yarn:<version>
 ```
 
 Projects can then install their own specific gems and packages on top of the shared base, taking advantage of Docker layer caching to speed up builds and CI pipelines.
 
 ```dockerfile
-FROM darthjee/rails_yarn:1.0.1
+FROM darthjee/rails_yarn:<version>
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
@@ -101,7 +101,7 @@ RUN yarn install
 Or pull it directly:
 
 ```bash
-docker pull darthjee/rails_yarn:1.0.1
+docker pull darthjee/rails_yarn:<version>
 ```
 
 ## Variants

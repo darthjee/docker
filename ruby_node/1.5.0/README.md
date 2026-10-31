@@ -17,16 +17,16 @@ On top of everything provided by `darthjee/ruby_331`, this image installs:
 
 ## How to use
 
-Reference this image in your `Dockerfile`:
+Reference this image in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/ruby_node/tags):
 
 ```dockerfile
-FROM darthjee/ruby_node:1.4.2
+FROM darthjee/ruby_node:<version>
 ```
 
 You can then run yarn or install your project-specific Node packages on top of the shared base:
 
 ```dockerfile
-FROM darthjee/ruby_node:1.4.2
+FROM darthjee/ruby_node:<version>
 
 RUN yarn install
 ```
@@ -34,7 +34,7 @@ RUN yarn install
 Or pull it directly:
 
 ```bash
-docker pull darthjee/ruby_node:1.4.2
+docker pull darthjee/ruby_node:<version>
 ```
 
 ## Variants

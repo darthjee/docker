@@ -17,10 +17,10 @@ On top of everything provided by `darthjee/circleci_ruby_331`, this image instal
 
 ## How to use
 
-Reference this image in your `.circleci/config.yml` or `Dockerfile`:
+Reference this image in your `.circleci/config.yml` or `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/circleci_ruby_node/tags):
 
 ```dockerfile
-FROM darthjee/circleci_ruby_node:1.4.2
+FROM darthjee/circleci_ruby_node:<version>
 ```
 
 Or use it directly in a CircleCI pipeline:
@@ -29,7 +29,7 @@ Or use it directly in a CircleCI pipeline:
 jobs:
   test:
     docker:
-      - image: darthjee/circleci_ruby_node:1.4.2
+      - image: darthjee/circleci_ruby_node:<version>
     steps:
       - checkout
       - run: yarn install
@@ -39,7 +39,7 @@ jobs:
 Or pull it directly:
 
 ```bash
-docker pull darthjee/circleci_ruby_node:1.4.2
+docker pull darthjee/circleci_ruby_node:<version>
 ```
 
 ## Variants

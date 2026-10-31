@@ -80,10 +80,10 @@ The following gems are pre-installed in the image:
 
 ## How to use
 
-Reference this image in your `.circleci/config.yml` or `Dockerfile`:
+Reference this image in your `.circleci/config.yml` or `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/circleci_rails_yarn/tags):
 
 ```dockerfile
-FROM darthjee/circleci_rails_yarn:1.0.1
+FROM darthjee/circleci_rails_yarn:<version>
 ```
 
 Or use it directly in a CircleCI pipeline:
@@ -92,7 +92,7 @@ Or use it directly in a CircleCI pipeline:
 jobs:
   test:
     docker:
-      - image: darthjee/circleci_rails_yarn:1.0.1
+      - image: darthjee/circleci_rails_yarn:<version>
     steps:
       - checkout
       - run: bundle install
@@ -103,7 +103,7 @@ jobs:
 Or pull it directly:
 
 ```bash
-docker pull darthjee/circleci_rails_yarn:1.0.1
+docker pull darthjee/circleci_rails_yarn:<version>
 ```
 
 ## Variants
