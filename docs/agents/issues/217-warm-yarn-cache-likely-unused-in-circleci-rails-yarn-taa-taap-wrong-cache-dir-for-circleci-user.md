@@ -16,11 +16,11 @@ Checked in the published `darthjee/circleci_rails_yarn:1.1.0` image: as `circlec
 
 ## Expected Behavior
 
-New patch versions, created with `bin/script.sh init`, each built on the previous fixed one:
+The current versions, created by #210 and not yet published on Docker Hub, are fixed in place (no `bin/script.sh init`, `version` unchanged), each built on the previous fixed one:
 
-- `circleci_rails_yarn/1.1.1`: built on `darthjee/circleci_ruby_331:1.1.2` and `darthjee/scripts:0.11.0`. It creates `/home/circleci/.cache/yarn` owned by `circleci` and copies the warm cache to `/home/circleci/.cache/yarn/v6/` with `--chown=circleci:circleci`. The README states the correct cache location and the correct base image (`circleci_ruby_331`).
-- `circleci_taa/1.5.1`: built on `circleci_rails_yarn:1.1.1` and `scripts:0.11.0`, with its warm cache copied to `/home/circleci/.cache/yarn/v6/`.
-- `circleci_taap/1.5.1`: built on `circleci_taa:1.5.1` and `scripts:0.11.0`. Its README states the correct inherited cache location.
+- `circleci_rails_yarn/1.2.0` (on `darthjee/circleci_ruby_331:1.2.0` and `darthjee/scripts:0.11.0`): creates `/home/circleci/.cache/yarn` owned by `circleci` and copies the warm cache to `/home/circleci/.cache/yarn/v6/` with `--chown=circleci:circleci`. The README states the correct cache location.
+- `circleci_taa/1.6.0` (on `circleci_rails_yarn:1.2.0` and `scripts:0.11.0`): copies its warm cache to `/home/circleci/.cache/yarn/v6/`.
+- `circleci_taap/1.5.0`: rebuilt on `circleci_taa:1.6.0` and `scripts:0.11.0`. Its README states the correct inherited cache location.
 - Verified in each built image: as `circleci`, `yarn cache dir` prints `/home/circleci/.cache/yarn/v6`, and that directory holds the pre-cached packages.
 
 ## Solution
