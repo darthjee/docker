@@ -5,7 +5,7 @@ darthjee/circleci_node
 
 The `darthjee/circleci_node` image is a CircleCI-optimized Docker image with Node.js 22, built on top of the `cimg/node` image. It is the CircleCI counterpart of [`darthjee/node`](https://hub.docker.com/r/darthjee/node), designed to run tests for Node.js projects on circleci.com; both images pre-cache the same packages.
 
-Its working directory is `/home/circleci/project`.
+It runs as the `circleci` user, and its working directory is `/home/circleci/project`, owned by `circleci`.
 
 The `cimg/node` base already provides yarn, npm, git and the usual CircleCI tooling.
 
@@ -13,7 +13,7 @@ The image ships a warm yarn cache: a set of commonly used packages is pre-cached
 
 ## Pre-cached packages
 
-The following packages are pre-cached in the global yarn cache (`/usr/local/share/.cache/yarn/v6/`). They are not installed into any `node_modules`; they are used when a project's `package.json` asks for them and `yarn install` is run.
+The following packages are pre-cached in the yarn cache at `/home/circleci/.cache/yarn/v6/`. This is yarn's default cache dir for the `circleci` user, so nothing has to be configured. They are not installed into any `node_modules`; they are used when a project's `package.json` asks for them and `yarn install` is run.
 
 ### Dependencies
 
@@ -68,6 +68,8 @@ This image is intended to be used in CircleCI pipelines of Node.js projects (see
    COPY package.json /home/circleci/project/
    RUN yarn install
    ```
+
+   Child Dockerfiles run as `circleci`. Switch to `USER root` for system-level installs (e.g. `apt-get`), then back to `USER circleci`, as [`darthjee/circleci_node_mongo`](https://hub.docker.com/r/darthjee/circleci_node_mongo) does.
 
 In both cases, `yarn install` resolves the pre-cached packages from the warm yarn cache instead of downloading them, which speeds up CI pipelines.
 
