@@ -77,6 +77,8 @@ Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one 
 | `test <image>` | Builds and runs the `docker-compose.yml` `test` service against the image (see [Testing](#testing)); exits non-zero if the test-image build or the tests fail. |
 | `description <image>` | Skips if `<image>/<version>/` (README included) is unchanged since the previous tag; otherwise pushes `<image>/<version>/README.md` as the Docker Hub description of that single image (no `circleci_`/`production_` fan-out), via `push_description_image`. |
 
+Every action looks up the image's version with `image_version`, which fails with an error on stderr (and the action exits non-zero) when the image has no entry, or more than one entry, in `version`.
+
 ## Building
 
 `bin/script.sh build <images>` builds each image and its `circleci_`/`production_` variants in turn. Before building, `fetch_bases` pulls every pinned `darthjee/*` base from the image's `FROM` lines; if a pull fails it falls back to `bin/script.sh build <base>`, which builds the base at its **current** version, then checks that the pinned tag now exists locally (`docker image inspect`). If it doesn't (the pin is older than the current version), it prints an error and fails. Any failed base fetch or `bin/image.sh build` stops the whole run and `bin/script.sh build` exits non-zero.
