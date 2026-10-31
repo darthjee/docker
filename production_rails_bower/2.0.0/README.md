@@ -47,6 +47,18 @@ The Bower cache (`/home/app/.cache/bower`) comes pre-populated with:
 
 They are not installed in any project; they are only used when a project's `bower.json` asks for them. Only the cached versions are reused; if your project pins different versions, Bower downloads those as usual.
 
+## Upgrading from 1.x
+
+Version 2.0.0 aligns the gem pins with the gems already installed by the Ruby base image, so each gem is installed only once. This is a breaking change for projects built on this image, which may need code or configuration changes to upgrade:
+
+- `rails` moves from 7.0 to 7.2
+- `sinclair` moves from 2 to 3
+- `rake` also moves to a newer version
+
+Development and test gems such as `rubocop`, `rubocop-rspec` and `rspec-rails` also move to newer major versions in the shared `Gemfile`, but they are not installed in this image.
+
+Projects that still need Rails 7.0 can stay on the 1.x tags.
+
 ## How to use
 
 This image is intended to be used as a base for Rails applications that use Bower in production. To build on top of it, reference it in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/production_rails_bower/tags):

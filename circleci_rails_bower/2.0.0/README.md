@@ -84,6 +84,19 @@ The Bower cache (`/home/circleci/.cache/bower`) comes pre-populated with:
 
 They are not installed in any project; they are only used when a project's `bower.json` asks for them. Only the cached versions are reused; if your project pins different versions, Bower downloads those as usual.
 
+## Upgrading from 1.x
+
+Version 2.0.0 aligns the gem pins with the gems already installed by the Ruby base image, so each gem is installed only once. This is a breaking change for projects built on this image, which may need code or configuration changes to upgrade:
+
+- `rails` moves from 7.0 to 7.2
+- `sinclair` moves from 2 to 3
+- `rubocop` moves from 1.59 to 1.85, and `rubocop-rspec` from 2 to 3, so new cops and renamed or removed cops may need `.rubocop.yml` updates
+- `rspec-rails` moves from 6 to 7, which supports Rails 7.2
+- `rspec` and its component gems move from 3.12 to 3.13
+- `rake`, `reek`, `rubycritic`, `yard` and `web-console` also move to newer versions
+
+Projects that still need Rails 7.0 can stay on the 1.x tags.
+
 ## How to use
 
 This image is intended to be used in CircleCI pipelines of Rails applications that use Bower (see the available tags at https://hub.docker.com/r/darthjee/circleci_rails_bower/tags).
