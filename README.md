@@ -98,7 +98,7 @@ script repository where scripts are copied from during docker build.
   - [scripts:0.5.3](https://hub.docker.com/repository/docker/darthjee/scripts)
 ### Development
   - [node:0.2.1](https://hub.docker.com/repository/docker/darthjee/node)
-  - [node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/node_mongo)
+  - [node_mongo:0.2.2](https://hub.docker.com/repository/docker/darthjee/node_mongo)
   - [python:0.1.0](https://hub.docker.com/repository/docker/darthjee/python)
   - [python_37:0.2.2](https://hub.docker.com/repository/docker/darthjee/python_37) (deprecated, use `python`)
   - [rails_bower:1.4.0](https://hub.docker.com/repository/docker/darthjee/rails_bower)
@@ -111,7 +111,7 @@ script repository where scripts are copied from during docker build.
   - [django:0.0.2](https://hub.docker.com/repository/docker/darthjee/django)
 ### Circleci
   - [circleci_node:0.2.1](https://hub.docker.com/repository/docker/darthjee/circleci_node)
-  - [circleci_node_mongo:0.0.6](https://hub.docker.com/repository/docker/darthjee/circleci_node_mongo)
+  - [circleci_node_mongo:0.2.2](https://hub.docker.com/repository/docker/darthjee/circleci_node_mongo)
   - [circleci_python:0.1.0](https://hub.docker.com/repository/docker/darthjee/circleci_python)
   - [circleci_python_37:0.2.2](https://hub.docker.com/repository/docker/darthjee/circleci_python_37) (deprecated, use `circleci_python`)
   - [circleci_rails_bower:1.4.0](https://hub.docker.com/repository/docker/darthjee/circleci_rails_bower)

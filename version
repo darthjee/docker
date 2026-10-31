@@ -2,7 +2,7 @@
 scripts=0.11.0
 # Development
 node=0.2.2
-node_mongo=0.0.6
+node_mongo=0.2.2
 python=0.1.0
 python_37=0.2.2
 rails_bower=1.5.0
@@ -15,7 +15,7 @@ taap=1.5.0
 django=0.1.0
 # Circleci
 circleci_node=0.2.3
-circleci_node_mongo=0.0.6
+circleci_node_mongo=0.2.2
 circleci_python=0.1.0
 python_37=0.2.2
 circleci_rails_bower=1.5.0
