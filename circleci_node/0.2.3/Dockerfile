@@ -17,8 +17,8 @@ FROM base as builder
 USER root
 
 COPY --chown=circleci:circleci home/* /home/circleci/project/
-ENV HOME_DIR /home/circleci
-ENV APP_DIR /home/circleci/project
+ENV HOME_DIR=/home/circleci
+ENV APP_DIR=/home/circleci/project
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
 RUN /bin/bash yarn_builder.sh
