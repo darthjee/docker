@@ -7,7 +7,7 @@ function test_unknown_action() {
   stderr=$(bash "$SCRIPT" unknown 2>&1 >/dev/null)
   local status=$?
   assert_status 1 "$status"
-  assert_contains "Actions: generate_key_file build generate_folder copy_files upload link run release" "$stderr"
+  assert_contains "Actions: generate_key_file build generate_folder copy_files upload link run release cleanup" "$stderr"
   assert_equal "" "$(calls)" "no remote call expected"
 }
 
