@@ -1,0 +1,21 @@
+#!/bin/sh
+# Records its arguments as one line in $STUB_LOG: "ssh [arg1] [arg2] ..."
+# Exits with $SSH_STUB_EXIT (default 0). When $SSH_STUB_EXEC is set, runs the
+# last argument (the remote command) with sh and exits with its status.
+{
+  printf 'ssh'
+  for arg in "$@"; do
+    printf ' [%s]' "$arg"
+  done
+  printf '\n'
+} >> "${STUB_LOG:?STUB_LOG is required}"
+
+if [ -n "${SSH_STUB_EXEC:-}" ]; then
+  for arg in "$@"; do
+    command="$arg"
+  done
+  sh -c "$command"
+  exit $?
+fi
+
+exit "${SSH_STUB_EXIT:-0}"

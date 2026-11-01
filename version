@@ -1,5 +1,5 @@
 # Tools
-scripts=0.11.0
+scripts=0.12.0
 # Development
 node=0.2.4
 node_mongo=0.2.3
