@@ -4,12 +4,12 @@
 #
 # Usage: deploy_frontend.sh <action>
 # Actions: generate_key_file, build, generate_folder, copy_files, upload,
-#          link, run, release
+#          link, run, release, cleanup
 set -euo pipefail
 
 SSH_KEY_FILE_PATH="$HOME/ssh_key"
 SSH_KNOWN_HOSTS_FILE_PATH="$HOME/ssh_known_hosts"
-ACTIONS="generate_key_file build generate_folder copy_files upload link run release"
+ACTIONS="generate_key_file build generate_folder copy_files upload link run release cleanup"
 
 # Wraps a value in POSIX single quotes, turning every inner ' into '\''
 function quote() {
@@ -207,6 +207,40 @@ function run_release() {
   remote "$commands"
 }
 
+# Removes the ${SSH_REMOTE_TEMP_DIR}-* staging folders older than
+# CLEANUP_MAX_AGE_MINUTES, keeping the current workflow's staging folder
+function run_cleanup() {
+  require_ssh
+  require_temp_dir
+  local age="${CLEANUP_MAX_AGE_MINUTES:-1440}"
+  local dir="${SSH_REMOTE_TEMP_DIR%/}"
+  local workspace_id="${CIRCLE_WORKFLOW_WORKSPACE_ID:-}"
+  local parent
+  local base
+  local commands
+
+  case "$age" in
+    '' | *[!0-9]*)
+      echo "CLEANUP_MAX_AGE_MINUTES must be a number of minutes" >&2
+      return 1
+      ;;
+  esac
+
+  parent=$(dirname "$dir")
+  base=$(basename "$dir")
+  parent=$(quote "$parent")
+
+  commands="[ ! -d $parent ] || find $parent -mindepth 1 -maxdepth 1 -type d -name $(quote "$base-*") -mmin +$age"
+
+  if [ -n "$workspace_id" ]; then
+    commands="$commands ! -name $(quote "$base-$workspace_id")"
+  fi
+
+  commands="$commands -exec rm -rf {} ';'"
+
+  remote "$commands"
+}
+
 function usage() {
   echo "Usage: deploy_frontend.sh <action>" >&2
   echo "Actions: $ACTIONS" >&2
@@ -239,6 +273,9 @@ function main() {
       ;;
     "release")
       run_release
+      ;;
+    "cleanup")
+      run_cleanup
       ;;
     *)
       usage
