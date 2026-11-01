@@ -66,6 +66,17 @@ shell characters are safe, and the remote login shell may be a POSIX `sh`.
 | `link` | With `DEPLOY_PATH`: creates the link's parent folder and runs `ln -sfn "$SOURCE" <target folder>`, so `DEPLOY_PATH` is the link path inside staging. Without `DEPLOY_PATH` but with `TARGET`: `ln -sfn "$SOURCE" "$TARGET"`. With neither, exits `1`. |
 | `run` | Runs `cd <target folder> && $COMMAND` on the host; the command's exit status is the action's. |
 | `release` | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR` and removes the old folder unless `KEEP_OLD=true`. |
+| `cleanup` | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set), the plain `SSH_REMOTE_TEMP_DIR`, the live folder or the `${SSH_REMOTE_DIR}_old_*` folders. Exits `0` when the staging folder's parent does not exist. |
+
+### Cleanup
+
+`cleanup` runs `find` on the host over the parent of `SSH_REMOTE_TEMP_DIR`, matching
+`-name '<basename>-*'`, and uses only options supported by both GNU and BusyBox `find`.
+A folder's age is its own modification time, which changes when entries are added or
+removed directly inside it: a reasonable proxy for "last touched by a deploy", but not an
+exact one. `-name` takes a glob, so if the basename of `SSH_REMOTE_TEMP_DIR` contains `*`,
+`?` or `[`, more folders may match. Run it after `release`, as the last step of the
+release job.
 
 ### Variables
 
@@ -86,6 +97,7 @@ shell characters are safe, and the remote login shell may be a POSIX `sh`.
 | `BUILD_COMMAND` | no | `npm run build` | Build command for `build`. |
 | `COMMAND` | yes, for `run` | | Command run in the target folder. It is sent as is, so the caller is responsible for its quoting. |
 | `KEEP_OLD` | no | `false` | When `true`, `release` keeps the previous live folder. |
+| `CLEANUP_MAX_AGE_MINUTES` | no | `1440` | `cleanup` removes the staging folders older than this many minutes; must be a non-negative integer. More recent folders are kept, since they may belong to a deploy that is still running. |
 
 ### CircleCI example
 
@@ -97,7 +109,7 @@ COPY --from=darthjee/scripts:<version> /home/scripts/sbin/deploy_frontend.sh /us
 
 Then, in `.circleci/config.yml`, upload jobs run in parallel into one staging tree (they
 share `CIRCLE_WORKFLOW_WORKSPACE_ID`), and a final job links the server-only files, runs
-the migrations in staging and releases:
+the migrations in staging, releases and removes stale staging folders:
 
 ```yaml
 jobs:
@@ -124,6 +136,7 @@ jobs:
       - run: SOURCE="$REMOTE_HOME/shared/.env" DEPLOY_PATH=config/.env deploy_frontend.sh link
       - run: COMMAND="$PHP_BIN bin/migrate" deploy_frontend.sh run
       - run: deploy_frontend.sh release
+      - run: deploy_frontend.sh cleanup
 
 workflows:
   deploy:
