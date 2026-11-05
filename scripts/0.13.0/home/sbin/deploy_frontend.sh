@@ -208,15 +208,19 @@ function run_release() {
 }
 
 # Removes the ${SSH_REMOTE_TEMP_DIR}-* staging folders older than
-# CLEANUP_MAX_AGE_MINUTES, keeping the current workflow's staging folder
+# CLEANUP_MAX_AGE_MINUTES, keeping the current workflow's staging folder,
+# the live folder (SSH_REMOTE_DIR) and its _old_* folders
 function run_cleanup() {
   require_ssh
   require_temp_dir
   local age="${CLEANUP_MAX_AGE_MINUTES:-1440}"
   local dir="${SSH_REMOTE_TEMP_DIR%/}"
   local workspace_id="${CIRCLE_WORKFLOW_WORKSPACE_ID:-}"
+  local live="${SSH_REMOTE_DIR:-}"
   local parent
   local base
+  local live_parent
+  local live_base
   local commands
 
   case "$age" in
@@ -228,12 +232,21 @@ function run_cleanup() {
 
   parent=$(dirname "$dir")
   base=$(basename "$dir")
-  parent=$(quote "$parent")
 
-  commands="[ ! -d $parent ] || find $parent -mindepth 1 -maxdepth 1 -type d -name $(quote "$base-*") -mmin +$age"
+  if [ -n "$live" ]; then
+    live="${live%/}"
+    live_parent=$(dirname "$live")
+    live_base=$(basename "$live")
+  fi
+
+  commands="[ ! -d $(quote "$parent") ] || find $(quote "$parent") -mindepth 1 -maxdepth 1 -type d -name $(quote "$base-*") -mmin +$age"
 
   if [ -n "$workspace_id" ]; then
     commands="$commands ! -name $(quote "$base-$workspace_id")"
+  fi
+
+  if [ -n "$live" ] && [ "$live_parent" = "$parent" ]; then
+    commands="$commands ! -name $(quote "$live_base") ! -name $(quote "${live_base}_old_*")"
   fi
 
   commands="$commands -exec rm -rf {} ';'"
