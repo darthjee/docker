@@ -6,7 +6,7 @@ function test_cleanup_command() {
   run_script cleanup
   assert_status 0 "$STATUS"
   assert_equal \
-    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'staging-w1' -exec rm -rf {} ';'")" \
+    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'staging-w1' ! -name 'site' ! -name 'site_old_*' -exec rm -rf {} ';'")" \
     "$(calls)"
 }
 
@@ -14,7 +14,7 @@ function test_cleanup_command_without_workspace() {
   run_script cleanup
   assert_status 0 "$STATUS"
   assert_equal \
-    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 -exec rm -rf {} ';'")" \
+    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'site' ! -name 'site_old_*' -exec rm -rf {} ';'")" \
     "$(calls)"
 }
 
@@ -23,7 +23,7 @@ function test_cleanup_command_max_age() {
   run_script cleanup
   assert_status 0 "$STATUS"
   assert_equal \
-    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +60 -exec rm -rf {} ';'")" \
+    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +60 ! -name 'site' ! -name 'site_old_*' -exec rm -rf {} ';'")" \
     "$(calls)"
 }
 
@@ -33,7 +33,37 @@ function test_cleanup_command_trailing_slash() {
   run_script cleanup
   assert_status 0 "$STATUS"
   assert_equal \
+    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'staging-w1' ! -name 'site' ! -name 'site_old_*' -exec rm -rf {} ';'")" \
+    "$(calls)"
+}
+
+function test_cleanup_command_live_in_other_parent() {
+  export CIRCLE_WORKFLOW_WORKSPACE_ID=w1
+  export SSH_REMOTE_DIR=/var/www/site
+  run_script cleanup
+  assert_status 0 "$STATUS"
+  assert_equal \
     "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'staging-w1' -exec rm -rf {} ';'")" \
+    "$(calls)"
+}
+
+function test_cleanup_command_without_remote_dir() {
+  export CIRCLE_WORKFLOW_WORKSPACE_ID=w1
+  unset SSH_REMOTE_DIR
+  run_script cleanup
+  assert_status 0 "$STATUS"
+  assert_equal \
+    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'staging-w1' -exec rm -rf {} ';'")" \
+    "$(calls)"
+}
+
+function test_cleanup_command_remote_dir_trailing_slash() {
+  export CIRCLE_WORKFLOW_WORKSPACE_ID=w1
+  export SSH_REMOTE_DIR=/srv/site/
+  run_script cleanup
+  assert_status 0 "$STATUS"
+  assert_equal \
+    "$(ssh_line "[ ! -d '/srv' ] || find '/srv' -mindepth 1 -maxdepth 1 -type d -name 'staging-*' -mmin +1440 ! -name 'staging-w1' ! -name 'site' ! -name 'site_old_*' -exec rm -rf {} ';'")" \
     "$(calls)"
 }
 
@@ -93,6 +123,20 @@ function test_cleanup_removes_old_staging_folders() {
   [ -d "${SSH_REMOTE_DIR}_old_1" ] || fail "old live folder should be kept"
 }
 
+function test_cleanup_keeps_colliding_live_folders() {
+  setup_real_cleanup
+  export SSH_REMOTE_TEMP_DIR="$TEST_TMP/ap p"
+  export SSH_REMOTE_DIR="$TEST_TMP/ap p-live"
+  make_old_folder "$SSH_REMOTE_DIR"
+  make_old_folder "${SSH_REMOTE_DIR}_old_1"
+  make_old_folder "$SSH_REMOTE_TEMP_DIR-old"
+  run_script cleanup
+  assert_status 0 "$STATUS"
+  [ ! -e "$SSH_REMOTE_TEMP_DIR-old" ] || fail "old staging folder should be removed"
+  [ -d "$SSH_REMOTE_DIR" ] || fail "live folder should be kept"
+  [ -d "${SSH_REMOTE_DIR}_old_1" ] || fail "old live folder should be kept"
+}
+
 function test_cleanup_missing_parent() {
   setup_real_cleanup
   export SSH_REMOTE_TEMP_DIR="$TEST_TMP/miss ing/staging"
@@ -104,9 +148,13 @@ run_test test_cleanup_command
 run_test test_cleanup_command_without_workspace
 run_test test_cleanup_command_max_age
 run_test test_cleanup_command_trailing_slash
+run_test test_cleanup_command_live_in_other_parent
+run_test test_cleanup_command_without_remote_dir
+run_test test_cleanup_command_remote_dir_trailing_slash
 run_test test_cleanup_requires_temp_dir
 run_test test_cleanup_requires_ssh_user
 run_test test_cleanup_invalid_max_age
 run_test test_cleanup_removes_old_staging_folders
+run_test test_cleanup_keeps_colliding_live_folders
 run_test test_cleanup_missing_parent
 finish
