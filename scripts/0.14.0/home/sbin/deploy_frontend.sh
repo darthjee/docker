@@ -183,15 +183,65 @@ function run_run() {
   remote "cd $(quote "$dir") && $COMMAND"
 }
 
+# Prints how many _old_* folders release keeps: "none" (unset, empty,
+# false, 0), "all" (true) or a positive count. Fails on any other value
+function keep_old_mode() {
+  local value="${KEEP_OLD:-}"
+
+  case "$value" in
+    '' | false)
+      echo none
+      ;;
+    true)
+      echo all
+      ;;
+    *[!0-9]*)
+      echo "KEEP_OLD must be true, false or a number of folders to keep" >&2
+      return 1
+      ;;
+    *)
+      if [ "$((10#$value))" -eq 0 ]; then
+        echo none
+      else
+        echo "$((10#$value))"
+      fi
+      ;;
+  esac
+}
+
+# Remote command removing all but the <count> newest <live>_old_<digits>
+# folders (ordered by the numeric suffix), printing each removed folder
+function prune_old_command() {
+  local live="$1"
+  local count="$2"
+  local prefix
+
+  while [ "$live" != "${live%/}" ]; do
+    live="${live%/}"
+  done
+  prefix=$(quote "${live}_old_")
+
+  printf '%s' "for d in $prefix*; do ts=\${d#$prefix}; case \$ts in ''|*[!0-9]*) continue ;; esac; [ -d \"\$d\" ] && echo \"\$ts\"; done | sort -rn | tail -n +$((count + 1)) | while read -r ts; do rm -rf $prefix\"\$ts\" || exit 1; printf 'Removed old folder: %s\\n' $prefix\"\$ts\"; done"
+}
+
+# Moves the staging folder into SSH_REMOTE_DIR, moving the previous live
+# folder to ${SSH_REMOTE_DIR}_old_<timestamp>. KEEP_OLD decides what happens
+# to the _old_* folders afterwards:
+#   unset, false, 0 - the folder just moved aside is removed
+#   true            - every _old_* folder is kept
+#   <n>             - only the n newest _old_<digits> folders are kept
+#                     (including the one just created); older ones are removed
 function run_release() {
   require_ssh
   require_temp_dir
   require_remote_dir
+  local mode
   local staging
   local timestamp
   local live
   local old
   local commands
+  mode=$(keep_old_mode) || return 1
   staging=$(workspace_temp_dir)
   timestamp=$(date +%s)
   live=$(quote "$SSH_REMOTE_DIR")
@@ -200,9 +250,16 @@ function run_release() {
 
   commands="test -d $staging && { [ ! -e $live ] || { rm -rf $old && mv $live $old; }; } && mv $staging $live"
 
-  if [ "${KEEP_OLD:-}" != "true" ]; then
-    commands="$commands && rm -rf $old"
-  fi
+  case "$mode" in
+    none)
+      commands="$commands && rm -rf $old"
+      ;;
+    all)
+      ;;
+    *)
+      commands="$commands && $(prune_old_command "$SSH_REMOTE_DIR" "$mode")"
+      ;;
+  esac
 
   remote "$commands"
 }
