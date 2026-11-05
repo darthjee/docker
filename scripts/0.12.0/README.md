@@ -52,21 +52,95 @@ tool used by `BUILD_COMMAND`) for `build`.
   work on this folder.
 
 Every remote path is single-quoted before being sent over ssh, so paths with spaces or
-shell characters are safe, and the remote login shell may be a POSIX `sh`.
+shell characters are safe, and the remote login shell may be a POSIX `sh`. For the same
+reason, `~` and globs are **not** expanded on the remote host: use absolute paths (e.g.
+`SSH_REMOTE_DIR=/home/<user>/www`, not `SSH_REMOTE_DIR=~/www`).
 
 ### Actions
 
-| Action | What it does |
-|--------|--------------|
-| `generate_key_file` | Writes `SSH_PRIVATE_KEY` to `~/ssh_key` (mode 600), turning literal `\n` into newlines. When `SSH_KNOWN_HOSTS` is set, writes it the same way to `~/ssh_known_hosts`. |
-| `build` | Runs `BUILD_COMMAND`. When `assets/images/` exists, copies it to `dist/assets/images/` and deletes the `*.pbm` files there. |
-| `generate_folder` | Creates the target folder on the host (`mkdir -p`). |
-| `copy_files` | Copies `$SSH_REMOTE_DIR/$TARGET` from the live folder into the target folder. |
-| `upload` | Creates the target folder, then uploads `SOURCE` into it with `rsync -avz`, passing `--exclude-from="$EXCLUDE_FROM"` when set. |
-| `link` | With `DEPLOY_PATH`: creates the link's parent folder and runs `ln -sfn "$SOURCE" <target folder>`, so `DEPLOY_PATH` is the link path inside staging. Without `DEPLOY_PATH` but with `TARGET`: `ln -sfn "$SOURCE" "$TARGET"`. With neither, exits `1`. |
-| `run` | Runs `cd <target folder> && $COMMAND` on the host; the command's exit status is the action's. |
-| `release` | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR` and removes the old folder unless `KEEP_OLD=true`. |
-| `cleanup` | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set), the plain `SSH_REMOTE_TEMP_DIR`, the live folder or the `${SSH_REMOTE_DIR}_old_*` folders. Exits `0` when the staging folder's parent does not exist. |
+| Action | Operates on | What it does |
+|--------|-------------|--------------|
+| `generate_key_file` | local | Writes `SSH_PRIVATE_KEY` to `$HOME/ssh_key` (mode 600), turning literal `\n` into newlines. When `SSH_KNOWN_HOSTS` is set, writes it the same way to `$HOME/ssh_known_hosts`. `$HOME` must be writable by the user running the script. |
+| `build` | local | Runs `BUILD_COMMAND`. When `assets/images/` exists, copies it to `dist/assets/images/` and deletes the `*.pbm` files there. |
+| `generate_folder` | target folder | Creates the target folder on the host (`mkdir -p`). |
+| `copy_files` | target folder | Copies `$SSH_REMOTE_DIR/$TARGET` from the live folder into the target folder. It does not create the target folder: run `generate_folder` (or `upload`) first. |
+| `upload` | target folder | Creates the target folder, then uploads `SOURCE` into it with `rsync -avz`, passing `--exclude-from="$EXCLUDE_FROM"` when set. |
+| `link` | target folder | With `DEPLOY_PATH`: creates the link's parent folder and runs `ln -sfn "$SOURCE" <target folder>`, so `DEPLOY_PATH` is the link path inside staging. Without `DEPLOY_PATH` but with `TARGET`: `ln -sfn "$SOURCE" "$TARGET"`. With neither, exits `1`. |
+| `run` | target folder | Runs `cd <target folder> && $COMMAND` on the host; the command's exit status is the action's. |
+| `release` | **workspace folder** → live folder | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR` and removes the old folder unless `KEEP_OLD=true`. **`DEPLOY_PATH` is ignored:** `release` always publishes the whole workspace folder, never only the `DEPLOY_PATH` subfolder. |
+| `cleanup` | sibling `<basename>-*` folders of the workspace folder | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set) or the plain `SSH_REMOTE_TEMP_DIR`. It does **not** exclude the live folder or the `${SSH_REMOTE_DIR}_old_*` folders: they are only safe when their names don't match `<basename>-*` (see [Cleanup](#cleanup)). Exits `0` when the staging folder's parent does not exist. |
+
+"Target folder" is the workspace folder plus `DEPLOY_PATH` (see [Staging folder](#staging-folder)).
+
+### Failure and recovery
+
+Every action stops on its first error, but a non-zero exit does not prove that nothing
+changed on the host: an action may fail after some of its remote commands ran, and a lost
+ssh connection leaves the remote state unknown. **Before replaying any effectful action
+(`copy_files`, `link`, `run`, `release`, `cleanup`), inspect the live, staging and
+`${SSH_REMOTE_DIR}_old_*` folders on the host**, e.g.:
+
+```bash
+ssh -p <port> <user>@<host> "ls -ld '<remote_dir>' '<remote_dir>'_old_* '<remote_temp_dir>'-*"
+```
+
+#### Re-run safety
+
+| Action | Re-run safe? | Why |
+|--------|--------------|-----|
+| `generate_key_file`, `generate_folder`, `upload`, `link`, `cleanup` | yes | overwrite / `mkdir -p` / rsync / `ln -sfn` / `find -mmin` |
+| `copy_files` | yes | copies again over the earlier copy (files deleted from the source since are left behind) |
+| `build`, `run` | depends on `BUILD_COMMAND` / `COMMAND` | e.g. a migration may not be safe to re-run: the caller decides |
+| `release` | **check the remote state first** | see below |
+
+#### `release` failure modes
+
+`release` sends one `&&` chain to the host:
+
+1. `test -d <workspace folder>`;
+2. when the live folder exists: `rm -rf <old>` then `mv <live> <old>`, with
+   `<old>` = `${SSH_REMOTE_DIR}_old_<timestamp>`;
+3. `mv <workspace folder> <live>`;
+4. `rm -rf <old>`, unless `KEEP_OLD=true`.
+
+The exit status alone does not say which step failed:
+
+- **Step 1 failed:** nothing was touched. This is also what re-running `release` after a
+  successful `release` looks like, since the workspace folder has already been moved.
+- **Step 2 succeeded, step 3 failed:** **no live folder exists.** The previous live copy is
+  at `${SSH_REMOTE_DIR}_old_<timestamp>`; move it back with `mv` (see below).
+- **Step 4 failed:** the deploy **succeeded** (the new release is live), but the action
+  exits non-zero and the old folder is left behind.
+- **ssh connection lost:** the state is unknown; inspect the host.
+
+#### Rollback
+
+`KEEP_OLD=true` makes rollback possible, but it is manual: `release` only keeps the
+previous live folder. To roll back, move the current live folder aside and move the
+newest `${SSH_REMOTE_DIR}_old_<timestamp>` back to `SSH_REMOTE_DIR` (placeholders only;
+`<remote_dir>` is the absolute value of `SSH_REMOTE_DIR`):
+
+```bash
+ssh -p <port> <user>@<host> '
+  set -e
+  old=$(ls -d <remote_dir>_old_* | sort | tail -n 1)
+  mv <remote_dir> <remote_dir>_broken_$(date +%s)
+  mv "$old" <remote_dir>
+'
+```
+
+The `_old_<timestamp>` suffix is a Unix timestamp, so `sort` orders the folders by age.
+
+- `cleanup` does not remove the `${SSH_REMOTE_DIR}_old_*` folders (as long as their names
+  follow the [naming rule](#cleanup)), so with `KEEP_OLD=true` they pile up until the
+  caller prunes them.
+- Without `KEEP_OLD=true`, the old folder is deleted by `release`: the only rollback is
+  redeploying the previous commit.
+
+#### `cleanup` failures
+
+A `cleanup` failure does not mean the deploy failed: `release` has already run, and the
+next deploy's `cleanup` removes whatever this one left behind.
 
 ### Cleanup
 
@@ -75,8 +149,45 @@ shell characters are safe, and the remote login shell may be a POSIX `sh`.
 A folder's age is its own modification time, which changes when entries are added or
 removed directly inside it: a reasonable proxy for "last touched by a deploy", but not an
 exact one. `-name` takes a glob, so if the basename of `SSH_REMOTE_TEMP_DIR` contains `*`,
-`?` or `[`, more folders may match. Run it after `release`, as the last step of the
-release job.
+`?` or `[`, more folders may match. Run it after `release`, in its own job that requires
+the release job (see [CircleCI example](#circleci-example)).
+
+**Naming rule:** `cleanup` has no exclusion for `SSH_REMOTE_DIR`. `SSH_REMOTE_DIR` (and so
+`${SSH_REMOTE_DIR}_old_*`) **must not** match `<basename of SSH_REMOTE_TEMP_DIR>-*` in the
+same parent folder. With `SSH_REMOTE_TEMP_DIR=/var/www/app` and
+`SSH_REMOTE_DIR=/var/www/app-live`, both `app-live` and every `app-live_old_<timestamp>`
+match `app-*`: the `_old_*` copies kept by `KEEP_OLD=true` are old by definition, so
+`cleanup` deletes them and breaks rollback, and the live folder itself is removed once it is
+older than `CLEANUP_MAX_AGE_MINUTES` (e.g. when `cleanup` runs outside a deploy). A safe
+layout keeps both folders under a parent of their own, with names that cannot match each
+other:
+
+```bash
+SSH_REMOTE_DIR=/srv/app/live
+SSH_REMOTE_TEMP_DIR=/srv/app/staging   # workspace folders: /srv/app/staging-<id>
+```
+
+A fix in the script is tracked in
+[darthjee/docker#249](https://github.com/darthjee/docker/issues/249).
+
+### Pitfalls
+
+- **`upload` and a trailing slash on `SOURCE`** (rsync semantics): `SOURCE=dist/` uploads
+  the folder's contents into the target folder, `SOURCE=dist` uploads the `dist` folder
+  itself (as `<target folder>/dist`).
+- **`link` with a relative `SOURCE`:** the link is created in staging and moves with it
+  when `release` runs, so a relative `SOURCE` resolves against the link's final location.
+  Use an absolute `SOURCE`.
+- **`link` over a real folder:** if `DEPLOY_PATH` already exists as a real folder in
+  staging (e.g. something was uploaded there), `ln -sfn` creates the link *inside* that
+  folder instead of replacing it.
+- **`build` in images without node:** `build` runs `npm run build` unless `BUILD_COMMAND`
+  is set; set it or skip `build`.
+- **Concurrent deploys:** two workflows deploying at once each get their own workspace
+  folder, and whichever `release` runs last wins. Two releases in the same second share
+  the `${SSH_REMOTE_DIR}_old_<timestamp>` name, so the second one's `rm -rf` deletes the
+  first one's backup. Run deploys one at a time, e.g. with a CircleCI serial group or a
+  branch filter.
 
 ### Variables
 
@@ -109,7 +220,7 @@ COPY --from=darthjee/scripts:<version> /home/scripts/sbin/deploy_frontend.sh /us
 
 Then, in `.circleci/config.yml`, upload jobs run in parallel into one staging tree (they
 share `CIRCLE_WORKFLOW_WORKSPACE_ID`), and a final job links the server-only files, runs
-the migrations in staging, releases and removes stale staging folders:
+the migrations in staging and releases; a last job removes stale staging folders:
 
 ```yaml
 jobs:
@@ -136,6 +247,11 @@ jobs:
       - run: SOURCE="$REMOTE_HOME/shared/.env" DEPLOY_PATH=config/.env deploy_frontend.sh link
       - run: COMMAND="$PHP_BIN bin/migrate" deploy_frontend.sh run
       - run: deploy_frontend.sh release
+  cleanup:
+    docker:
+      - image: <your-image>
+    steps:
+      - run: deploy_frontend.sh generate_key_file
       - run: deploy_frontend.sh cleanup
 
 workflows:
@@ -147,7 +263,20 @@ workflows:
           requires:
             - upload-backend
             - upload-frontend
+      - cleanup:
+          requires:
+            - release
 ```
+
+`cleanup` runs in its own job so that a `cleanup` failure can be retried alone. A
+re-run workflow inherits the original workflow's workspace
+([Using workspaces](https://circleci.com/docs/guides/orchestrate/workspaces/)), and
+`CIRCLE_WORKFLOW_WORKSPACE_ID` identifies that workspace
+([Project values and variables](https://circleci.com/docs/reference/variables/)), so
+"Rerun workflow from failed" keeps the same workspace folder. Had `cleanup` run in the
+release job, the rerun would repeat the whole job and `release` would fail at its first
+step, because the workspace folder has already been moved to the live folder. With a
+separate job, only `cleanup` runs again.
 
 The `SSH_*` variables (and `SSH_KNOWN_HOSTS`, to check the host key) come from the project
 or context environment variables.
