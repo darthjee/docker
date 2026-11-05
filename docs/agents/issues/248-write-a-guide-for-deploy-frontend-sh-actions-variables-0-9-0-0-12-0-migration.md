@@ -76,7 +76,7 @@ Facts about how 0.12.0 behaves go next to the action and variable tables they qu
 ### 2. Version history → new `docs/agents/deploy_frontend.md`
 
 - The 0.9.0 → 0.12.0 migration table and the gotchas listed below. Version history doesn't fit a single version's Docker Hub description, and it would go stale if later READMEs inherited it.
-- A pointer to the reference: "see the `deploy_frontend.sh` section of `scripts/<version>/README.md`, with `<version>` from `scripts/version`". The version is not hard-coded, so the pointer needs no bump on each scripts release. The agent doc never repeats the action and variable tables.
+- A pointer to the reference: "see the `deploy_frontend.sh` section of `scripts/<version>/README.md`, with `<version>` from the `scripts=` line of the root `version` file". The version is not hard-coded, so the pointer needs no bump on each scripts release. The agent doc never repeats the action and variable tables.
 - A row for it in the documentation table of `AGENTS.md`.
 
 ## README: operates-on, failure and recovery
