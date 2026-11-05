@@ -67,7 +67,7 @@ reason, `~` and globs are **not** expanded on the remote host: use absolute path
 | `upload` | target folder | Creates the target folder, then uploads `SOURCE` into it with `rsync -avz`, passing `--exclude-from="$EXCLUDE_FROM"` when set. |
 | `link` | target folder | With `DEPLOY_PATH`: creates the link's parent folder and runs `ln -sfn "$SOURCE" <target folder>`, so `DEPLOY_PATH` is the link path inside staging. Without `DEPLOY_PATH` but with `TARGET`: `ln -sfn "$SOURCE" "$TARGET"`. With neither, exits `1`. |
 | `run` | target folder | Runs `cd <target folder> && $COMMAND` on the host; the command's exit status is the action's. |
-| `release` | **workspace folder** → live folder | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR` and removes the old folder unless `KEEP_OLD=true`. **`DEPLOY_PATH` is ignored:** `release` always publishes the whole workspace folder, never only the `DEPLOY_PATH` subfolder. |
+| `release` | **workspace folder** → live folder | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR`, then handles the `_old_*` folders according to `KEEP_OLD`: unset, `false` or `0` removes the old folder; `true` keeps every old folder; a number `n` keeps the `n` newest `${SSH_REMOTE_DIR}_old_<digits>` folders (including the one just created), removes the older ones and prints `Removed old folder: <path>` for each. Any other `KEEP_OLD` value fails before any remote call. **`DEPLOY_PATH` is ignored:** `release` always publishes the whole workspace folder, never only the `DEPLOY_PATH` subfolder. |
 | `cleanup` | sibling `<basename>-*` folders of the workspace folder | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set) or the plain `SSH_REMOTE_TEMP_DIR`. When `SSH_REMOTE_DIR` is set and is in the same parent folder, it also never removes `SSH_REMOTE_DIR` or the `${SSH_REMOTE_DIR}_old_*` folders, even when their names match `<basename>-*` (see [Cleanup](#cleanup)). Exits `0` when the staging folder's parent does not exist. |
 
 "Target folder" is the workspace folder plus `DEPLOY_PATH` (see [Staging folder](#staging-folder)).
@@ -101,7 +101,12 @@ ssh -p <port> <user>@<host> "ls -ld '<remote_dir>' '<remote_dir>'_old_* '<remote
 2. when the live folder exists: `rm -rf <old>` then `mv <live> <old>`, with
    `<old>` = `${SSH_REMOTE_DIR}_old_<timestamp>`;
 3. `mv <workspace folder> <live>`;
-4. `rm -rf <old>`, unless `KEEP_OLD=true`.
+4. `rm -rf <old>` when `KEEP_OLD` is unset, `false` or `0`; with `KEEP_OLD=<n>`, remove all
+   but the newest `n` `${SSH_REMOTE_DIR}_old_<digits>` folders, printing
+   `Removed old folder: <path>` for each; nothing with `KEEP_OLD=true`.
+
+An invalid `KEEP_OLD` (anything but unset, `true`, `false` or a non-negative integer) makes
+`release` exit `1` with an error before step 1, without any remote call: nothing is touched.
 
 The exit status alone does not say which step failed:
 
@@ -110,13 +115,13 @@ The exit status alone does not say which step failed:
 - **Step 2 succeeded, step 3 failed:** **no live folder exists.** The previous live copy is
   at `${SSH_REMOTE_DIR}_old_<timestamp>`; move it back with `mv` (see below).
 - **Step 4 failed:** the deploy **succeeded** (the new release is live), but the action
-  exits non-zero and the old folder is left behind.
+  exits non-zero and the old folder(s) it was removing may be left behind.
 - **ssh connection lost:** the state is unknown; inspect the host.
 
 #### Rollback
 
-`KEEP_OLD=true` makes rollback possible, but it is manual: `release` only keeps the
-previous live folder. To roll back, move the current live folder aside and move the
+`KEEP_OLD=<n>` (recommended) or `KEEP_OLD=true` makes rollback possible, but it is manual:
+`release` only keeps previous live folders. To roll back, move the current live folder aside and move the
 newest `${SSH_REMOTE_DIR}_old_<timestamp>` back to `SSH_REMOTE_DIR` (placeholders only;
 `<remote_dir>` is the absolute value of `SSH_REMOTE_DIR`):
 
@@ -131,10 +136,14 @@ ssh -p <port> <user>@<host> '
 
 The `_old_<timestamp>` suffix is a Unix timestamp, so `sort` orders the folders by age.
 
-- `cleanup` does not remove the `${SSH_REMOTE_DIR}_old_*` folders, so with `KEEP_OLD=true`
-  they pile up until the caller prunes them.
-- Without `KEEP_OLD=true`, the old folder is deleted by `release`: the only rollback is
-  redeploying the previous commit.
+- `cleanup` does not remove the `${SSH_REMOTE_DIR}_old_*` folders. With `KEEP_OLD=<n>`,
+  `release` prunes them itself and keeps the `n` newest ones (ordered by the numeric
+  `<timestamp>` suffix), so `KEEP_OLD=1` keeps only the previous live folder. Only folders
+  named `${SSH_REMOTE_DIR}_old_` followed by digits are counted and pruned; others (e.g. a
+  manual `_old_backup`) are never touched.
+- With `KEEP_OLD=true`, every old folder is kept: prune them by hand.
+- With `KEEP_OLD` unset, `false` or `0`, the old folder is deleted by `release`: the only
+  rollback is redeploying the previous commit.
 
 #### `cleanup` failures
 
@@ -156,7 +165,7 @@ ignored) is the parent of `SSH_REMOTE_TEMP_DIR`, `cleanup` adds
 `! -name '<basename of SSH_REMOTE_DIR>' ! -name '<basename of SSH_REMOTE_DIR>_old_*'` to
 the `find`. So with `SSH_REMOTE_TEMP_DIR=/var/www/app` and
 `SSH_REMOTE_DIR=/var/www/app-live`, neither `app-live` nor the `app-live_old_<timestamp>`
-copies kept by `KEEP_OLD=true` are removed, even though they match `app-*`. When
+copies kept by `KEEP_OLD` are removed, even though they match `app-*`. When
 `SSH_REMOTE_DIR` is in another parent folder no exclusion is added, since it cannot match;
 when it is unset, nothing is excluded besides the workspace folder, so set it for
 `cleanup` if the live folder shares the staging parent. These exclusions are globs too: if
@@ -208,7 +217,7 @@ SSH_REMOTE_TEMP_DIR=/srv/app/staging   # workspace folders: /srv/app/staging-<id
 | `EXCLUDE_FROM` | no | | Local file of rsync exclude patterns for `upload`. |
 | `BUILD_COMMAND` | no | `npm run build` | Build command for `build`. |
 | `COMMAND` | yes, for `run` | | Command run in the target folder. It is sent as is, so the caller is responsible for its quoting. |
-| `KEEP_OLD` | no | `false` | When `true`, `release` keeps the previous live folder. |
+| `KEEP_OLD` | no | `false` | What `release` does with the `${SSH_REMOTE_DIR}_old_<timestamp>` folders: `false` or `0` removes the previous live folder, `true` keeps them all, a positive integer `n` keeps the `n` newest ones (counting the one created by this release) and removes the rest. Any other value makes `release` fail before touching anything. |
 | `CLEANUP_MAX_AGE_MINUTES` | no | `1440` | `cleanup` removes the staging folders older than this many minutes; must be a non-negative integer. More recent folders are kept, since they may belong to a deploy that is still running. |
 
 ### CircleCI example
