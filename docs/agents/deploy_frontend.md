@@ -9,7 +9,7 @@ The reference is the `## deploy_frontend.sh` section of `scripts/<version>/READM
 - the actions (with the folder each one operates on) and the variables with their defaults;
 - the staging model (workspace folder vs. target folder);
 - `### Failure and recovery`: re-run safety per action, `release` failure modes, manual rollback with `KEEP_OLD=true`;
-- `### Cleanup`: the naming rule for `SSH_REMOTE_DIR` vs. `SSH_REMOTE_TEMP_DIR`, and the glob-character caveat;
+- `### Cleanup`: how `cleanup` keeps `SSH_REMOTE_DIR` and its `_old_*` folders, the recommended layout for `SSH_REMOTE_DIR` vs. `SSH_REMOTE_TEMP_DIR`, and the glob-character caveat;
 - `### Pitfalls`: `SOURCE` trailing slash, `link` caveats, concurrent deploys;
 - the CircleCI example, with `cleanup` in its own job.
 
@@ -19,10 +19,11 @@ Read it there; this file does not repeat its tables. What follows is version his
 
 - The 0.10.0 script is byte-identical to 0.9.0's: the migration table below applies to both.
 - 0.11.0 → 0.12.0 only adds the `cleanup` action: callers already on 0.11.0 have no breaking changes.
+- 0.12.0 → 0.13.0: `cleanup` now never removes `SSH_REMOTE_DIR` or `${SSH_REMOTE_DIR}_old_*` when they are in the same parent folder as the staging folders. No breaking changes.
 
-## Migration: 0.9.0 / 0.10.0 → 0.12.0
+## Migration: 0.9.0 / 0.10.0 → 0.12.0 / 0.13.0
 
-Verified against `scripts/0.9.0/home/sbin/deploy_frontend.sh` and `scripts/0.12.0/home/sbin/deploy_frontend.sh`.
+Verified against `scripts/0.9.0/home/sbin/deploy_frontend.sh` and `scripts/0.12.0/home/sbin/deploy_frontend.sh`. Everything below also applies to 0.13.0, which only changes `cleanup` (see [Migration: 0.12.0 → 0.13.0](#migration-0120--0130)).
 
 | # | 0.9.0 / 0.10.0 | 0.12.0 | Impact |
 |---|---|---|---|
@@ -62,7 +63,15 @@ DEPLOY_PATH=config/.env SOURCE=/home/<user>/shared/.env deploy_frontend.sh link
 3. Expect builds that were silently failing to fail now (row 8).
 4. Delete the leftover plain `SSH_REMOTE_TEMP_DIR` on the host once (row 5).
 5. Add a `cleanup` job that requires the release job (see the README's `### Failure and recovery` and CircleCI example).
-6. Check that `SSH_REMOTE_DIR` doesn't match `<basename of SSH_REMOTE_TEMP_DIR>-*` in the same parent folder (README `### Cleanup` naming rule; code fix tracked in [#249](https://github.com/darthjee/docker/issues/249)).
+6. Prefer keeping `SSH_REMOTE_DIR` and `SSH_REMOTE_TEMP_DIR` in separate parent folders (e.g. `/srv/app/live` + `/srv/app/staging`). From 0.13.0 this is a recommendation: a live folder matching `<basename of SSH_REMOTE_TEMP_DIR>-*` in the same parent is no longer deleted by `cleanup`. **On 0.12.0 it is still required**, otherwise `cleanup` can delete the live folder and its `_old_*` backups.
+
+## Migration: 0.12.0 → 0.13.0
+
+No breaking changes. In 0.12.0, `cleanup` removed every old folder matching `<basename of SSH_REMOTE_TEMP_DIR>-*`, including `SSH_REMOTE_DIR` and its `_old_*` folders when their names matched. In 0.13.0, when `SSH_REMOTE_DIR` is set and shares the staging parent folder, `cleanup` adds `! -name '<live base>' ! -name '<live base>_old_*'` to its `find`. `SSH_REMOTE_DIR` stays optional for `cleanup`; when it is unset, or in another parent folder, the command is the same as in 0.12.0.
+
+- Upgrade to 0.13.0 to drop the 0.12.0 naming-rule workaround, or keep the separate-parent layout, which stays the recommended one because it is clearer.
+- Set `SSH_REMOTE_DIR` in the `cleanup` job too, otherwise the live folder is not excluded.
+- A `*`, `?` or `[` in the live folder's basename widens the exclusion: `cleanup` may keep more folders, never fewer.
 
 ## Other gotchas
 
@@ -73,4 +82,4 @@ DEPLOY_PATH=config/.env SOURCE=/home/<user>/shared/.env deploy_frontend.sh link
 
 ## Out of scope here
 
-- Code fixes: the `cleanup` name collision is [#249](https://github.com/darthjee/docker/issues/249); bounding the `${SSH_REMOTE_DIR}_old_*` folders left by `KEEP_OLD=true` is [#250](https://github.com/darthjee/docker/issues/250).
+- Code fixes: bounding the `${SSH_REMOTE_DIR}_old_*` folders left by `KEEP_OLD=true` is [#250](https://github.com/darthjee/docker/issues/250).
