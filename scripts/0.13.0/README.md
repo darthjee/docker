@@ -68,7 +68,7 @@ reason, `~` and globs are **not** expanded on the remote host: use absolute path
 | `link` | target folder | With `DEPLOY_PATH`: creates the link's parent folder and runs `ln -sfn "$SOURCE" <target folder>`, so `DEPLOY_PATH` is the link path inside staging. Without `DEPLOY_PATH` but with `TARGET`: `ln -sfn "$SOURCE" "$TARGET"`. With neither, exits `1`. |
 | `run` | target folder | Runs `cd <target folder> && $COMMAND` on the host; the command's exit status is the action's. |
 | `release` | **workspace folder** → live folder | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR` and removes the old folder unless `KEEP_OLD=true`. **`DEPLOY_PATH` is ignored:** `release` always publishes the whole workspace folder, never only the `DEPLOY_PATH` subfolder. |
-| `cleanup` | sibling `<basename>-*` folders of the workspace folder | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set) or the plain `SSH_REMOTE_TEMP_DIR`. It does **not** exclude the live folder or the `${SSH_REMOTE_DIR}_old_*` folders: they are only safe when their names don't match `<basename>-*` (see [Cleanup](#cleanup)). Exits `0` when the staging folder's parent does not exist. |
+| `cleanup` | sibling `<basename>-*` folders of the workspace folder | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set) or the plain `SSH_REMOTE_TEMP_DIR`. When `SSH_REMOTE_DIR` is set and is in the same parent folder, it also never removes `SSH_REMOTE_DIR` or the `${SSH_REMOTE_DIR}_old_*` folders, even when their names match `<basename>-*` (see [Cleanup](#cleanup)). Exits `0` when the staging folder's parent does not exist. |
 
 "Target folder" is the workspace folder plus `DEPLOY_PATH` (see [Staging folder](#staging-folder)).
 
@@ -131,9 +131,8 @@ ssh -p <port> <user>@<host> '
 
 The `_old_<timestamp>` suffix is a Unix timestamp, so `sort` orders the folders by age.
 
-- `cleanup` does not remove the `${SSH_REMOTE_DIR}_old_*` folders (as long as their names
-  follow the [naming rule](#cleanup)), so with `KEEP_OLD=true` they pile up until the
-  caller prunes them.
+- `cleanup` does not remove the `${SSH_REMOTE_DIR}_old_*` folders, so with `KEEP_OLD=true`
+  they pile up until the caller prunes them.
 - Without `KEEP_OLD=true`, the old folder is deleted by `release`: the only rollback is
   redeploying the previous commit.
 
@@ -152,23 +151,25 @@ exact one. `-name` takes a glob, so if the basename of `SSH_REMOTE_TEMP_DIR` con
 `?` or `[`, more folders may match. Run it after `release`, in its own job that requires
 the release job (see [CircleCI example](#circleci-example)).
 
-**Naming rule:** `cleanup` has no exclusion for `SSH_REMOTE_DIR`. `SSH_REMOTE_DIR` (and so
-`${SSH_REMOTE_DIR}_old_*`) **must not** match `<basename of SSH_REMOTE_TEMP_DIR>-*` in the
-same parent folder. With `SSH_REMOTE_TEMP_DIR=/var/www/app` and
-`SSH_REMOTE_DIR=/var/www/app-live`, both `app-live` and every `app-live_old_<timestamp>`
-match `app-*`: the `_old_*` copies kept by `KEEP_OLD=true` are old by definition, so
-`cleanup` deletes them and breaks rollback, and the live folder itself is removed once it is
-older than `CLEANUP_MAX_AGE_MINUTES` (e.g. when `cleanup` runs outside a deploy). A safe
-layout keeps both folders under a parent of their own, with names that cannot match each
-other:
+**Live folder:** when `SSH_REMOTE_DIR` is set and its parent folder (trailing slash
+ignored) is the parent of `SSH_REMOTE_TEMP_DIR`, `cleanup` adds
+`! -name '<basename of SSH_REMOTE_DIR>' ! -name '<basename of SSH_REMOTE_DIR>_old_*'` to
+the `find`. So with `SSH_REMOTE_TEMP_DIR=/var/www/app` and
+`SSH_REMOTE_DIR=/var/www/app-live`, neither `app-live` nor the `app-live_old_<timestamp>`
+copies kept by `KEEP_OLD=true` are removed, even though they match `app-*`. When
+`SSH_REMOTE_DIR` is in another parent folder no exclusion is added, since it cannot match;
+when it is unset, nothing is excluded besides the workspace folder, so set it for
+`cleanup` if the live folder shares the staging parent. These exclusions are globs too: if
+the basename of `SSH_REMOTE_DIR` contains `*`, `?` or `[`, more folders may be kept
+(never fewer).
+
+**Recommended layout:** keep both folders under a parent of their own, with names that
+cannot match each other. It is not required, but it is clearer:
 
 ```bash
 SSH_REMOTE_DIR=/srv/app/live
 SSH_REMOTE_TEMP_DIR=/srv/app/staging   # workspace folders: /srv/app/staging-<id>
 ```
-
-A fix in the script is tracked in
-[darthjee/docker#249](https://github.com/darthjee/docker/issues/249).
 
 ### Pitfalls
 
@@ -199,7 +200,7 @@ A fix in the script is tracked in
 | `SSH_HOST` | yes, for remote actions | | Remote host. |
 | `SSH_PORT` | no | `22` | Remote ssh port. |
 | `SSH_REMOTE_TEMP_DIR` | yes, for remote actions | | Staging folder base path. |
-| `SSH_REMOTE_DIR` | yes, for `copy_files` and `release` | | Live folder. |
+| `SSH_REMOTE_DIR` | yes, for `copy_files` and `release` | | Live folder. Optional for `cleanup`, which then keeps it and its `_old_*` folders. |
 | `CIRCLE_WORKFLOW_WORKSPACE_ID` | no | | Suffix of the workspace folder (set by CircleCI). |
 | `DEPLOY_PATH` | no | | Path inside the workspace folder; for `link`, the link path. |
 | `SOURCE` | yes, for `upload` and `link` | | Local path to upload (`upload`) or remote path the link points to (`link`). |
