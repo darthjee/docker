@@ -1,0 +1,8 @@
+#!/bin/sh
+# Prints $DATE_STUB when set, otherwise delegates to the real date.
+if [ -n "${DATE_STUB:-}" ]; then
+  echo "$DATE_STUB"
+  exit 0
+fi
+
+exec /bin/date "$@"
