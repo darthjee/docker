@@ -35,6 +35,8 @@ The `scripts` image is a repository of shared shell scripts. These scripts are e
 - **Copied into other images** during their Docker build, or
 - **Used during the image build process** itself (e.g. sourced in a multi-stage build step).
 
+For `deploy_frontend.sh` (deploys through a remote staging folder), see [deploy_frontend.sh](docs/agents/deploy_frontend.md).
+
 ## `version` File
 
 The `version` file at the root of the repository stores the latest released version for each image, organised by category:
@@ -133,6 +135,7 @@ All project documentation lives under [`docs/agents/`](docs/agents/):
 | [Issues](docs/agents/issues/) | Detailed specs for open issues. |
 | [Contributing](docs/agents/contributing.md) | Commit guidelines, PR standards, code organization, and refactoring rules. |
 | [Image READMEs](docs/agents/image-readme.md) | Conventions for per-image `README.md` files published as Docker Hub descriptions. |
+| [deploy_frontend.sh](docs/agents/deploy_frontend.md) | Where the `deploy_frontend.sh` reference lives (the `scripts` README), and the 0.9.0/0.10.0 → 0.12.0 migration guide. |
 
 ### Issues (`docs/agents/issues/`)
 
