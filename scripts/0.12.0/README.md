@@ -52,21 +52,23 @@ tool used by `BUILD_COMMAND`) for `build`.
   work on this folder.
 
 Every remote path is single-quoted before being sent over ssh, so paths with spaces or
-shell characters are safe, and the remote login shell may be a POSIX `sh`.
+shell characters are safe, and the remote login shell may be a POSIX `sh`. For the same
+reason, `~` and globs are **not** expanded on the remote host: use absolute paths (e.g.
+`SSH_REMOTE_DIR=/home/<user>/www`, not `SSH_REMOTE_DIR=~/www`).
 
 ### Actions
 
 | Action | Operates on | What it does |
 |--------|-------------|--------------|
-| `generate_key_file` | local | Writes `SSH_PRIVATE_KEY` to `~/ssh_key` (mode 600), turning literal `\n` into newlines. When `SSH_KNOWN_HOSTS` is set, writes it the same way to `~/ssh_known_hosts`. |
+| `generate_key_file` | local | Writes `SSH_PRIVATE_KEY` to `$HOME/ssh_key` (mode 600), turning literal `\n` into newlines. When `SSH_KNOWN_HOSTS` is set, writes it the same way to `$HOME/ssh_known_hosts`. `$HOME` must be writable by the user running the script. |
 | `build` | local | Runs `BUILD_COMMAND`. When `assets/images/` exists, copies it to `dist/assets/images/` and deletes the `*.pbm` files there. |
 | `generate_folder` | target folder | Creates the target folder on the host (`mkdir -p`). |
-| `copy_files` | target folder | Copies `$SSH_REMOTE_DIR/$TARGET` from the live folder into the target folder. |
+| `copy_files` | target folder | Copies `$SSH_REMOTE_DIR/$TARGET` from the live folder into the target folder. It does not create the target folder: run `generate_folder` (or `upload`) first. |
 | `upload` | target folder | Creates the target folder, then uploads `SOURCE` into it with `rsync -avz`, passing `--exclude-from="$EXCLUDE_FROM"` when set. |
 | `link` | target folder | With `DEPLOY_PATH`: creates the link's parent folder and runs `ln -sfn "$SOURCE" <target folder>`, so `DEPLOY_PATH` is the link path inside staging. Without `DEPLOY_PATH` but with `TARGET`: `ln -sfn "$SOURCE" "$TARGET"`. With neither, exits `1`. |
 | `run` | target folder | Runs `cd <target folder> && $COMMAND` on the host; the command's exit status is the action's. |
 | `release` | **workspace folder** → live folder | Checks that the workspace folder exists (and fails before touching anything if it doesn't), moves the live folder aside to `${SSH_REMOTE_DIR}_old_<timestamp>` when it exists, moves the workspace folder to `SSH_REMOTE_DIR` and removes the old folder unless `KEEP_OLD=true`. **`DEPLOY_PATH` is ignored:** `release` always publishes the whole workspace folder, never only the `DEPLOY_PATH` subfolder. |
-| `cleanup` | sibling `<basename>-*` folders of the workspace folder | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set), the plain `SSH_REMOTE_TEMP_DIR`, the live folder or the `${SSH_REMOTE_DIR}_old_*` folders. Exits `0` when the staging folder's parent does not exist. |
+| `cleanup` | sibling `<basename>-*` folders of the workspace folder | Removes the `${SSH_REMOTE_TEMP_DIR%/}-*` folders (direct matches only) whose modification time is older than `CLEANUP_MAX_AGE_MINUTES`, such as the ones left by workflows that failed before `release`. It never removes the current workspace folder (when `CIRCLE_WORKFLOW_WORKSPACE_ID` is set) or the plain `SSH_REMOTE_TEMP_DIR`. It does **not** exclude the live folder or the `${SSH_REMOTE_DIR}_old_*` folders: they are only safe when their names don't match `<basename>-*` (see [Cleanup](#cleanup)). Exits `0` when the staging folder's parent does not exist. |
 
 "Target folder" is the workspace folder plus `DEPLOY_PATH` (see [Staging folder](#staging-folder)).
 
@@ -129,8 +131,9 @@ ssh -p <port> <user>@<host> '
 
 The `_old_<timestamp>` suffix is a Unix timestamp, so `sort` orders the folders by age.
 
-- `cleanup` never removes the `${SSH_REMOTE_DIR}_old_*` folders, so with `KEEP_OLD=true`
-  they pile up until the caller prunes them.
+- `cleanup` does not remove the `${SSH_REMOTE_DIR}_old_*` folders (as long as their names
+  follow the [naming rule](#cleanup)), so with `KEEP_OLD=true` they pile up until the
+  caller prunes them.
 - Without `KEEP_OLD=true`, the old folder is deleted by `release`: the only rollback is
   redeploying the previous commit.
 
@@ -146,8 +149,45 @@ next deploy's `cleanup` removes whatever this one left behind.
 A folder's age is its own modification time, which changes when entries are added or
 removed directly inside it: a reasonable proxy for "last touched by a deploy", but not an
 exact one. `-name` takes a glob, so if the basename of `SSH_REMOTE_TEMP_DIR` contains `*`,
-`?` or `[`, more folders may match. Run it after `release`, as the last step of the
-release job.
+`?` or `[`, more folders may match. Run it after `release`, in its own job that requires
+the release job (see [CircleCI example](#circleci-example)).
+
+**Naming rule:** `cleanup` has no exclusion for `SSH_REMOTE_DIR`. `SSH_REMOTE_DIR` (and so
+`${SSH_REMOTE_DIR}_old_*`) **must not** match `<basename of SSH_REMOTE_TEMP_DIR>-*` in the
+same parent folder. With `SSH_REMOTE_TEMP_DIR=/var/www/app` and
+`SSH_REMOTE_DIR=/var/www/app-live`, both `app-live` and every `app-live_old_<timestamp>`
+match `app-*`: the `_old_*` copies kept by `KEEP_OLD=true` are old by definition, so
+`cleanup` deletes them and breaks rollback, and the live folder itself is removed once it is
+older than `CLEANUP_MAX_AGE_MINUTES` (e.g. when `cleanup` runs outside a deploy). A safe
+layout keeps both folders under a parent of their own, with names that cannot match each
+other:
+
+```bash
+SSH_REMOTE_DIR=/srv/app/live
+SSH_REMOTE_TEMP_DIR=/srv/app/staging   # workspace folders: /srv/app/staging-<id>
+```
+
+A fix in the script is tracked in
+[darthjee/docker#249](https://github.com/darthjee/docker/issues/249).
+
+### Pitfalls
+
+- **`upload` and a trailing slash on `SOURCE`** (rsync semantics): `SOURCE=dist/` uploads
+  the folder's contents into the target folder, `SOURCE=dist` uploads the `dist` folder
+  itself (as `<target folder>/dist`).
+- **`link` with a relative `SOURCE`:** the link is created in staging and moves with it
+  when `release` runs, so a relative `SOURCE` resolves against the link's final location.
+  Use an absolute `SOURCE`.
+- **`link` over a real folder:** if `DEPLOY_PATH` already exists as a real folder in
+  staging (e.g. something was uploaded there), `ln -sfn` creates the link *inside* that
+  folder instead of replacing it.
+- **`build` in images without node:** `build` runs `npm run build` unless `BUILD_COMMAND`
+  is set; set it or skip `build`.
+- **Concurrent deploys:** two workflows deploying at once each get their own workspace
+  folder, and whichever `release` runs last wins. Two releases in the same second share
+  the `${SSH_REMOTE_DIR}_old_<timestamp>` name, so the second one's `rm -rf` deletes the
+  first one's backup. Run deploys one at a time, e.g. with a CircleCI serial group or a
+  branch filter.
 
 ### Variables
 
@@ -180,7 +220,7 @@ COPY --from=darthjee/scripts:<version> /home/scripts/sbin/deploy_frontend.sh /us
 
 Then, in `.circleci/config.yml`, upload jobs run in parallel into one staging tree (they
 share `CIRCLE_WORKFLOW_WORKSPACE_ID`), and a final job links the server-only files, runs
-the migrations in staging, releases and removes stale staging folders:
+the migrations in staging and releases; a last job removes stale staging folders:
 
 ```yaml
 jobs:
@@ -207,6 +247,11 @@ jobs:
       - run: SOURCE="$REMOTE_HOME/shared/.env" DEPLOY_PATH=config/.env deploy_frontend.sh link
       - run: COMMAND="$PHP_BIN bin/migrate" deploy_frontend.sh run
       - run: deploy_frontend.sh release
+  cleanup:
+    docker:
+      - image: <your-image>
+    steps:
+      - run: deploy_frontend.sh generate_key_file
       - run: deploy_frontend.sh cleanup
 
 workflows:
@@ -218,7 +263,20 @@ workflows:
           requires:
             - upload-backend
             - upload-frontend
+      - cleanup:
+          requires:
+            - release
 ```
+
+`cleanup` runs in its own job so that a `cleanup` failure can be retried alone. A
+re-run workflow inherits the original workflow's workspace
+([Using workspaces](https://circleci.com/docs/guides/orchestrate/workspaces/)), and
+`CIRCLE_WORKFLOW_WORKSPACE_ID` identifies that workspace
+([Project values and variables](https://circleci.com/docs/reference/variables/)), so
+"Rerun workflow from failed" keeps the same workspace folder. Had `cleanup` run in the
+release job, the rerun would repeat the whole job and `release` would fail at its first
+step, because the workspace folder has already been moved to the live folder. With a
+separate job, only `cleanup` runs again.
 
 The `SSH_*` variables (and `SSH_KNOWN_HOSTS`, to check the host key) come from the project
 or context environment variables.
