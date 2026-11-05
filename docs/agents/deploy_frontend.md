@@ -8,7 +8,7 @@ The reference is the `## deploy_frontend.sh` section of `scripts/<version>/READM
 
 - the actions (with the folder each one operates on) and the variables with their defaults;
 - the staging model (workspace folder vs. target folder);
-- `### Failure and recovery`: re-run safety per action, `release` failure modes, manual rollback with `KEEP_OLD=true`;
+- `### Failure and recovery`: re-run safety per action, `release` failure modes, `KEEP_OLD` retention (`true`, or `<n>` from 0.14.0) and manual rollback;
 - `### Cleanup`: how `cleanup` keeps `SSH_REMOTE_DIR` and its `_old_*` folders, the recommended layout for `SSH_REMOTE_DIR` vs. `SSH_REMOTE_TEMP_DIR`, and the glob-character caveat;
 - `### Pitfalls`: `SOURCE` trailing slash, `link` caveats, concurrent deploys;
 - the CircleCI example, with `cleanup` in its own job.
@@ -20,10 +20,11 @@ Read it there; this file does not repeat its tables. What follows is version his
 - The 0.10.0 script is byte-identical to 0.9.0's: the migration table below applies to both.
 - 0.11.0 → 0.12.0 only adds the `cleanup` action: callers already on 0.11.0 have no breaking changes.
 - 0.12.0 → 0.13.0: `cleanup` now never removes `SSH_REMOTE_DIR` or `${SSH_REMOTE_DIR}_old_*` when they are in the same parent folder as the staging folders. No breaking changes.
+- 0.13.0 → 0.14.0: `release` accepts `KEEP_OLD=<n>` to keep only the `n` newest `${SSH_REMOTE_DIR}_old_<digits>` folders. No breaking changes, except that an invalid `KEEP_OLD` value (anything other than unset, `true`, `false` or a non-negative integer) now makes `release` fail before touching anything, where 0.13.0 treated it as `false`.
 
-## Migration: 0.9.0 / 0.10.0 → 0.12.0 / 0.13.0
+## Migration: 0.9.0 / 0.10.0 → 0.12.0 / 0.13.0 / 0.14.0
 
-Verified against `scripts/0.9.0/home/sbin/deploy_frontend.sh` and `scripts/0.12.0/home/sbin/deploy_frontend.sh`. Everything below also applies to 0.13.0, which only changes `cleanup` (see [Migration: 0.12.0 → 0.13.0](#migration-0120--0130)).
+Verified against `scripts/0.9.0/home/sbin/deploy_frontend.sh` and `scripts/0.12.0/home/sbin/deploy_frontend.sh`. Everything below also applies to 0.13.0, which only changes `cleanup` (see [Migration: 0.12.0 → 0.13.0](#migration-0120--0130)), and to 0.14.0, which only extends `KEEP_OLD` (see [Migration: 0.13.0 → 0.14.0](#migration-0130--0140)).
 
 | # | 0.9.0 / 0.10.0 | 0.12.0 | Impact |
 |---|---|---|---|
@@ -73,6 +74,23 @@ No breaking changes. In 0.12.0, `cleanup` removed every old folder matching `<ba
 - Set `SSH_REMOTE_DIR` in the `cleanup` job too, otherwise the live folder is not excluded.
 - A `*`, `?` or `[` in the live folder's basename widens the exclusion: `cleanup` may keep more folders, never fewer.
 
+## Migration: 0.13.0 → 0.14.0
+
+Only `release` changes, and only through `KEEP_OLD`:
+
+| `KEEP_OLD` | 0.13.0 | 0.14.0 |
+|---|---|---|
+| unset, `false` | removes the previous live folder | same |
+| `0` | same as `false` (any value other than `true` was) | same as `false` |
+| `true` | keeps every `_old_*` folder | same |
+| positive integer `n` | same as `false` | keeps the `n` newest `${SSH_REMOTE_DIR}_old_<digits>` folders, including the one this release created, removes the older ones and prints `Removed old folder: <path>` for each |
+| anything else | same as `false` | `release` exits 1 with an error before any remote call |
+
+- Order is the numeric `<timestamp>` suffix, not the modification time. Folders whose suffix is not digits only (e.g. a manual `_old_backup`) are never counted or removed.
+- Check the `KEEP_OLD` value of every `release` job: a value 0.13.0 silently treated as `false` (e.g. `yes`) now fails the job.
+- If you used `KEEP_OLD=true` and pruned the `_old_*` folders by hand, switch to e.g. `KEEP_OLD=3`.
+- Pruning is the last step of `release`: if it fails, the new version is already live, and the job still fails.
+
 ## Other gotchas
 
 - **`build` needs node unless `BUILD_COMMAND` is set:** it runs `${BUILD_COMMAND:-npm run build}`. In images without node (e.g. `darthjee/tent`), set `BUILD_COMMAND` or skip `build`. It syncs `assets/images/` into `dist/` only if that folder exists. See the README's `build` action and `BUILD_COMMAND` variable rows.
@@ -82,4 +100,4 @@ No breaking changes. In 0.12.0, `cleanup` removed every old folder matching `<ba
 
 ## Out of scope here
 
-- Code fixes: bounding the `${SSH_REMOTE_DIR}_old_*` folders left by `KEEP_OLD=true` is [#250](https://github.com/darthjee/docker/issues/250).
+- A `rollback` action (move the live folder aside, move the newest `_old_*` folder back) is a possible follow-up; until then, roll back by hand as described in the README's `### Failure and recovery`, or by re-running the previous commit's workflow.
