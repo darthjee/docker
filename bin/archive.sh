@@ -40,7 +40,7 @@ function remove_from_version_file() {
 
 function remove_from_readme() {
   local image=$1
-  grep -v "^  - \[${image}:" README.md > aux
+  grep -v -F "(https://hub.docker.com/r/darthjee/${image})" README.md > aux
   mv aux README.md
 }
 
