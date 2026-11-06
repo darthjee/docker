@@ -1,6 +1,8 @@
 darthjee/node
 =============
 
+[![docker](https://img.shields.io/docker/v/darthjee/node.svg?logo=docker&label=node&sort=semver)](https://hub.docker.com/r/darthjee/node)
+
 ## About the image
 
 The `darthjee/node` image is a Node.js development image built on top of the official `node:22` image. It is intended to be used as a base for Node.js projects.

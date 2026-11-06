@@ -1,6 +1,8 @@
 darthjee/python
 ===============
 
+[![docker](https://img.shields.io/docker/v/darthjee/python.svg?logo=docker&label=python&sort=semver)](https://hub.docker.com/r/darthjee/python)
+
 ## About the image
 
 The `darthjee/python` image is a Python 3.12 development image built on top of the official `python:3.12-slim-bookworm` image. It is intended to be used as a base for Python projects managed with `pipenv`.

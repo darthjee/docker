@@ -1,6 +1,8 @@
 darthjee/rails_yarn
 ===================
 
+[![docker](https://img.shields.io/docker/v/darthjee/rails_yarn.svg?logo=docker&label=rails_yarn&sort=semver)](https://hub.docker.com/r/darthjee/rails_yarn)
+
 ## About the image
 
 The `darthjee/rails_yarn` image is a Docker image built on top of [`darthjee/ruby_331`](https://hub.docker.com/r/darthjee/ruby_331). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the gems commonly used by Ruby on Rails applications, providing a ready-to-use development environment for Rails applications with front-end asset compilation.

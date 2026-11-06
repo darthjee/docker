@@ -1,6 +1,8 @@
 darthjee/rails_gems
 ===================
 
+[![docker](https://img.shields.io/docker/v/darthjee/rails_gems.svg?logo=docker&label=rails_gems&sort=semver)](https://hub.docker.com/r/darthjee/rails_gems)
+
 ## About the image
 
 The `darthjee/rails_gems` image is a Docker image built on top of `darthjee/ruby_331`. It is designed to provide a shared foundation for developing Ruby gems that target the Rails ecosystem, coming pre-installed with Rails and its related gems as well as common development and test utilities, so that individual projects only need to install their own specific additions on top of it.

@@ -1,6 +1,8 @@
 darthjee/production_django
 ==========================
 
+[![docker](https://img.shields.io/docker/v/darthjee/production_django.svg?logo=docker&label=production_django&sort=semver)](https://hub.docker.com/r/darthjee/production_django)
+
 ## About the image
 
 The `darthjee/production_django` image is a Python 3.12 production image for Django projects, built on top of the official `python:3.12-slim-bookworm` image. Projects are managed with Poetry. It is the production counterpart of [`darthjee/django`](https://hub.docker.com/r/darthjee/django), caching only the main (non-development) dependencies. Both images share the same base and tools, but this one is not built on top of `darthjee/django`.

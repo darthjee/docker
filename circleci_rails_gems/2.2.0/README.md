@@ -1,6 +1,8 @@
 darthjee/circleci_rails_gems
 ============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_rails_gems.svg?logo=docker&label=circleci_rails_gems&sort=semver)](https://hub.docker.com/r/darthjee/circleci_rails_gems)
+
 ## About the image
 
 The `darthjee/circleci_rails_gems` image is a CircleCI-optimized Docker image built on top of `darthjee/circleci_ruby_331`. It is the CircleCI counterpart of `darthjee/rails_gems`, designed to run tests for Ruby gems that target the Rails ecosystem on circleci.com. It comes pre-installed with Rails and its related gems as well as common development and test utilities, so that individual projects only need to install their own specific additions on top of it.

@@ -1,6 +1,8 @@
 darthjee/production_taap
 ========================
 
+[![docker](https://img.shields.io/docker/v/darthjee/production_taap.svg?logo=docker&label=production_taap&sort=semver)](https://hub.docker.com/r/darthjee/production_taap)
+
 ## About the image
 
 The `darthjee/production_taap` image is a production image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/production_taa`](https://hub.docker.com/r/darthjee/production_taa), which provides Ruby 3.3.1, Node.js, Yarn, the main gems most of these Rails applications need and the AngularJS packages, and adds the `danica` and `gnuplot` gems and the `gnuplot` binary.

@@ -1,6 +1,8 @@
 darthjee/rails_bower
 ====================
 
+[![docker](https://img.shields.io/docker/v/darthjee/rails_bower.svg?logo=docker&label=rails_bower&sort=semver)](https://hub.docker.com/r/darthjee/rails_bower)
+
 ## About the image
 
 The `darthjee/rails_bower` image is a development image for Rails applications that manage their front-end assets with Bower. It is built on top of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node), which provides Ruby 3.3.1, Node.js and npm.

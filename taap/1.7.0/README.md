@@ -1,6 +1,8 @@
 darthjee/taap
 =============
 
+[![docker](https://img.shields.io/docker/v/darthjee/taap.svg?logo=docker&label=taap&sort=semver)](https://hub.docker.com/r/darthjee/taap)
+
 ## About the image
 
 The `darthjee/taap` image is a development image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa), which provides Ruby 3.3.1, Node.js, Yarn, the gems most of these Rails applications need and the AngularJS packages, and adds the `danica` and `gnuplot` gems and the `gnuplot` binary.

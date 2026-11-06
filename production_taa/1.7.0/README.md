@@ -1,6 +1,8 @@
 darthjee/production_taa
 =======================
 
+[![docker](https://img.shields.io/docker/v/darthjee/production_taa.svg?logo=docker&label=production_taa&sort=semver)](https://hub.docker.com/r/darthjee/production_taa)
+
 ## About the image
 
 The `darthjee/production_taa` image is the production counterpart of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa), without development dependencies. It is a parallel image built on top of [`darthjee/production_rails_yarn`](https://hub.docker.com/r/darthjee/production_rails_yarn). It pre-installs a set of production **Rails gems** and pre-caches a set of **AngularJS packages**. Development and test gems are excluded from the bundle.

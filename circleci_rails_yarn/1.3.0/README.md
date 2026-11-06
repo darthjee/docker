@@ -1,6 +1,8 @@
 darthjee/circleci_rails_yarn
 ============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_rails_yarn.svg?logo=docker&label=circleci_rails_yarn&sort=semver)](https://hub.docker.com/r/darthjee/circleci_rails_yarn)
+
 ## About the image
 
 The `darthjee/circleci_rails_yarn` image is the CircleCI counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn). It is a parallel image, not built on top of `darthjee/rails_yarn`: it is built on top of [`darthjee/circleci_ruby_331`](https://hub.docker.com/r/darthjee/circleci_ruby_331) (itself based on `cimg/ruby:3.3.1`). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the gems commonly used by Ruby on Rails applications, providing a ready-to-use environment for running Rails application tests and front-end builds on circleci.com.

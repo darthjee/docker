@@ -16,6 +16,8 @@ Every image README follows this skeleton:
 darthjee/<image>
 ================
 
+[![docker](https://img.shields.io/docker/v/darthjee/<image>.svg?logo=docker&label=<image>&sort=semver)](https://hub.docker.com/r/darthjee/<image>)
+
 ## About the image
 <what it is, base image (linked if darthjee/), counterpart intro, legacy note if EOL>
 <default user/uid, working directory and owner>
@@ -31,6 +33,7 @@ See the LICENSE file for more information.
 ````
 
 - The title is `darthjee/<image>`, underlined with `=` to the title's length.
+- Right under the title, separated by blank lines, comes the Docker Hub version badge, in exactly the format above: the public `https://hub.docker.com/r/darthjee/<image>` link, `label=<image>`, `sort=semver`, and a version badge only (no pulls/size badges, no color override). It is the same badge as in the root `README.md` `## Images` list, where `bin/archive.sh` relies on the `(https://hub.docker.com/r/darthjee/<image>)` link to find and remove an archived image's line.
 - `## About the image`, zero or more middle sections, `## How to use` and `## License`, in that order.
 - The license line is plain text (see [Docker Hub rendering](#docker-hub-rendering)).
 
@@ -83,6 +86,7 @@ List tools and packages by name only.
 
 - **No `darthjee/` tags**, neither the image's own nor its parent's. `bin/script.sh init` copies the README to the new version folder unchanged and only bumps the Dockerfile's `FROM` lines (`update_dependencies`), so any tag in the README silently goes stale. The Dockerfile is the source of truth; the README links the tags page instead.
 - **No tool or package versions**: list them by name only.
+- **The Docker Hub version badge is allowed** (see [Skeleton](#skeleton)): it shows the live Docker Hub version and contains no hardcoded tag, so `init` copies it without it going stale.
 - **Exception:** versions that are part of an upstream base's identity and only change with a rebuild may be stated (e.g. Python 3.12 from `python:3.12-slim-bookworm`, `circleci/python:3.7.2`).
 - **No architecture claims** (e.g. "multi-arch", `linux/arm64`).
 

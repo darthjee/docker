@@ -1,6 +1,8 @@
 darthjee/django
 ===============
 
+[![docker](https://img.shields.io/docker/v/darthjee/django.svg?logo=docker&label=django&sort=semver)](https://hub.docker.com/r/darthjee/django)
+
 ## About the image
 
 The `darthjee/django` image is a Python 3.12 development image for Django projects, built on top of the official `python:3.12-slim-bookworm` image. Projects are managed with Poetry.

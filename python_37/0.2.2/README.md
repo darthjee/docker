@@ -1,6 +1,8 @@
 darthjee/python_37
 ==================
 
+[![docker](https://img.shields.io/docker/v/darthjee/python_37.svg?logo=docker&label=python_37&sort=semver)](https://hub.docker.com/r/darthjee/python_37)
+
 ## About the image
 
 The `darthjee/python_37` image is a Python 3.7 development image built on top of the official `python:3.7.2` image. It is intended to be used as a base for Python projects managed with `pipenv`.

@@ -1,6 +1,8 @@
 darthjee/production_rails_yarn
 ==============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/production_rails_yarn.svg?logo=docker&label=production_rails_yarn&sort=semver)](https://hub.docker.com/r/darthjee/production_rails_yarn)
+
 ## About the image
 
 The `darthjee/production_rails_yarn` image is the production counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_331`](https://hub.docker.com/r/darthjee/production_ruby_331). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the production gems commonly used by Ruby on Rails applications. Development and test gems are excluded from the bundle, and the image sets `BUNDLE_WITHOUT` to `development:test`, so Bundler skips those groups too.

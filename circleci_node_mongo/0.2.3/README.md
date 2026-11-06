@@ -1,6 +1,8 @@
 darthjee/circleci_node_mongo
 ============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_node_mongo.svg?logo=docker&label=circleci_node_mongo&sort=semver)](https://hub.docker.com/r/darthjee/circleci_node_mongo)
+
 ## About the image
 
 The `darthjee/circleci_node_mongo` image is a CircleCI-optimized Docker image with Node.js 22 and the MongoDB command-line tools. It is built on top of [`darthjee/circleci_node`](https://hub.docker.com/r/darthjee/circleci_node), which is itself built on the `cimg/node` image. It is the CircleCI counterpart of [`darthjee/node_mongo`](https://hub.docker.com/r/darthjee/node_mongo) by name only (it is not built on the dev image), designed to run tests for Node.js + MongoDB projects on circleci.com.

@@ -1,6 +1,8 @@
 darthjee/production_ruby_node
 =============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/production_ruby_node.svg?logo=docker&label=production_ruby_node&sort=semver)](https://hub.docker.com/r/darthjee/production_ruby_node)
+
 ## About the image
 
 The `darthjee/production_ruby_node` image is the production counterpart of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_331`](https://hub.docker.com/r/darthjee/production_ruby_331), and adds **Node.js** and **npm** to support front-end asset compilation or server-side JavaScript execution in production environments.
