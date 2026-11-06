@@ -1,6 +1,8 @@
 darthjee/circleci_python
 ========================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_python.svg?logo=docker&label=circleci_python&sort=semver)](https://hub.docker.com/r/darthjee/circleci_python)
+
 ## About the image
 
 The `darthjee/circleci_python` image is a CircleCI-optimized Docker image with Python 3.12, built on top of the `cimg/python:3.12` image. It is the CircleCI counterpart of [`darthjee/python`](https://hub.docker.com/r/darthjee/python), designed to run tests for Python projects managed with `pipenv` on circleci.com. Both images ship Python 3.12 and `pipenv`, but this one is not built on top of `darthjee/python`.

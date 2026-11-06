@@ -1,6 +1,8 @@
 darthjee/circleci_django
 ========================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_django.svg?logo=docker&label=circleci_django&sort=semver)](https://hub.docker.com/r/darthjee/circleci_django)
+
 ## About the image
 
 The `darthjee/circleci_django` image is a CircleCI-optimized Docker image for Django projects managed with Poetry, built on top of the `cimg/python:3.12` image. It is the CircleCI counterpart of [`darthjee/django`](https://hub.docker.com/r/darthjee/django), designed to run tests for Django projects on circleci.com. Both images pre-cache the same packages, but this one is not built on top of `darthjee/django`.
