@@ -13,7 +13,7 @@ The root `README.md` `## Images` list hardcodes `[<image>:<version>](…)` links
 
 ## Expected Behavior
 
-- Every image in the root `version` file (33 images) has a live version badge in the root README and in its current image README.
+- Every image in the root `version` file (32 images) has a live version badge in the root README and in its current image README.
 - The badges always show the latest released version without any manual or scripted update.
 - `bin/archive.sh` keeps removing an archived image's line from the root README.
 - New image READMEs include the badge, as required by `docs/agents/image-readme.md`.
@@ -24,7 +24,7 @@ The root `README.md` `## Images` list hardcodes `[<image>:<version>](…)` links
 
 #### In scope
 
-1. **Root `README.md` — `## Images` list:** one badge per image listed in the root `version` file, across all four groups (Tools, Development, Circleci, Production) — 33 images, including the deprecated `python_37` and `circleci_python_37` (keep their "(deprecated, use …)" note next to the badge).
+1. **Root `README.md` — `## Images` list:** one badge per image listed in the root `version` file, across all four groups (Tools, Development, Circleci, Production) — 32 images, including the deprecated `python_37` and `circleci_python_37` (keep their "(deprecated, use …)" note next to the badge).
    - The badge **replaces** the current hardcoded `[<image>:<version>](…)` links, which are stale (e.g. `node:0.2.1` while `version` says `0.2.4`); the badge shows the live version and itself links to Docker Hub.
 2. **Image READMEs:** add the badge to `<image>/<version>/README.md` for every image, **only in the folder the `version` file points to** (the one `bin/push_description.sh` reads). The badge is version-agnostic, so `bin/script.sh init` carries it to future versions without going stale.
 3. **`docs/agents/image-readme.md`:** update the skeleton (and the related rules) so every new image README includes the badge.
@@ -98,7 +98,7 @@ darthjee/ruby_331
 
 ### Edge cases
 
-Verified live against shields.io for all 33 images in `version`:
+Verified live against shields.io for all 32 images in `version`:
 
 - **`latest` tag:** not an issue — the badge resolves to the same version as the root `version` file for every image (with and without `sort=semver`); `latest` is never shown.
 - **Underscores in labels:** `label=circleci_node_mongo` renders verbatim (the `_`-as-space rule only applies to static badge paths, not the query param).
@@ -115,7 +115,7 @@ Accepted, no action needed:
 ### Testing
 
 - No automated tests are needed (none cover READMEs or `bin/archive.sh`); this is a README-only change for the images (no `bin/script.sh pre_build`/`build`/`test` needed).
-- Check the root README rendering on GitHub (all 33 badges resolve to a version, none show "repository or tag not found").
+- Check the root README rendering on GitHub (all 32 badges resolve to a version, none show "repository or tag not found").
 - Manually check the new `remove_from_readme` match: it removes exactly the target line (e.g. `node`) and leaves `node_mongo` / `circleci_node` intact.
 - After `push_description`, check the rendered descriptions on Docker Hub.
 
