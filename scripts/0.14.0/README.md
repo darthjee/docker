@@ -3,6 +3,8 @@ darthjee/scripts
 Scripts
 =======
 
+[![docker](https://img.shields.io/docker/v/darthjee/scripts.svg?logo=docker&label=scripts&sort=semver)](https://hub.docker.com/r/darthjee/scripts)
+
 This repository contains several Docker images, each organized in its own folder and version. This documentation refers to the scripts image.
 
 ## About the image
