@@ -1,6 +1,8 @@
 darthjee/circleci_ruby_node
 ===========================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_ruby_node.svg?logo=docker&label=circleci_ruby_node&sort=semver)](https://hub.docker.com/r/darthjee/circleci_ruby_node)
+
 ## About the image
 
 The `darthjee/circleci_ruby_node` image is the CircleCI counterpart of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node). It is a parallel image, not built on top of `darthjee/ruby_node`: it is built on top of [`darthjee/circleci_ruby_331`](https://hub.docker.com/r/darthjee/circleci_ruby_331) (itself based on `cimg/ruby:3.3.1`), and adds **Node.js** and **npm** to support Node-based front-end tooling in CI pipelines.

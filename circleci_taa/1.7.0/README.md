@@ -1,6 +1,8 @@
 darthjee/circleci_taa
 =====================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_taa.svg?logo=docker&label=circleci_taa&sort=semver)](https://hub.docker.com/r/darthjee/circleci_taa)
+
 ## About the image
 
 The `darthjee/circleci_taa` image is the CircleCI counterpart of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa). It is a parallel image, not built on top of `darthjee/taa`: it is built on top of [`darthjee/circleci_rails_yarn`](https://hub.docker.com/r/darthjee/circleci_rails_yarn). It pre-installs a set of **Rails gems** and pre-caches a set of **AngularJS packages**, providing a ready-to-use environment for running Rails and AngularJS application tests on circleci.com.

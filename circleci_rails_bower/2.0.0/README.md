@@ -1,6 +1,8 @@
 darthjee/circleci_rails_bower
 =============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_rails_bower.svg?logo=docker&label=circleci_rails_bower&sort=semver)](https://hub.docker.com/r/darthjee/circleci_rails_bower)
+
 ## About the image
 
 The `darthjee/circleci_rails_bower` image is a CircleCI-optimized Docker image for Rails applications that manage their front-end assets with Bower. It is built on top of [`darthjee/circleci_ruby_node`](https://hub.docker.com/r/darthjee/circleci_ruby_node), which provides Ruby 3.3.1, Node.js and npm.

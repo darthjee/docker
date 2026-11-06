@@ -1,6 +1,8 @@
 darthjee/circleci_taap
 ======================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_taap.svg?logo=docker&label=circleci_taap&sort=semver)](https://hub.docker.com/r/darthjee/circleci_taap)
+
 ## About the image
 
 The `darthjee/circleci_taap` image is a CircleCI-optimized Docker image for Rails applications with an AngularJS front end that also need to plot charts. It is built on top of [`darthjee/circleci_taa`](https://hub.docker.com/r/darthjee/circleci_taa), which provides Ruby 3.3.1, Node.js, Yarn, the gems most of these Rails applications need and the AngularJS packages, and adds the `danica` and `gnuplot` gems and the `gnuplot` binary.

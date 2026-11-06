@@ -1,6 +1,8 @@
 darthjee/taa
 ============
 
+[![docker](https://img.shields.io/docker/v/darthjee/taa.svg?logo=docker&label=taa&sort=semver)](https://hub.docker.com/r/darthjee/taa)
+
 ## About the image
 
 The `darthjee/taa` image is a Docker image built on top of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn). It pre-installs a set of **Rails gems** and pre-caches a set of **AngularJS packages**, providing a ready-to-use development environment for Rails applications with an AngularJS front end.

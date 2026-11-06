@@ -1,6 +1,8 @@
 darthjee/ruby_node
 ==================
 
+[![docker](https://img.shields.io/docker/v/darthjee/ruby_node.svg?logo=docker&label=ruby_node&sort=semver)](https://hub.docker.com/r/darthjee/ruby_node)
+
 ## About the image
 
 The `darthjee/ruby_node` image is a Docker image built on top of [`darthjee/ruby_331`](https://hub.docker.com/r/darthjee/ruby_331). It extends the base Ruby image by adding **Node.js** and **npm**, enabling the use of Node-based front-end tooling alongside Ruby.
