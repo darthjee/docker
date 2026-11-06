@@ -1,6 +1,8 @@
 darthjee/production_ruby_331
 =============================
 
+[![docker](https://img.shields.io/docker/v/darthjee/production_ruby_331.svg?logo=docker&label=production_ruby_331&sort=semver)](https://hub.docker.com/r/darthjee/production_ruby_331)
+
 ## About the image
 
 The `darthjee/production_ruby_331` image is a production-ready Docker image built on top of the official `ruby:3.3.1` image. It is the production counterpart of `darthjee/ruby_331`, stripped of development and test dependencies to be lightweight and suitable for running in production servers. Only the core gems required to run the application are pre-installed.

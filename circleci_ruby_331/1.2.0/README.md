@@ -1,6 +1,8 @@
 darthjee/circleci_ruby_331
 ==========================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_ruby_331.svg?logo=docker&label=circleci_ruby_331&sort=semver)](https://hub.docker.com/r/darthjee/circleci_ruby_331)
+
 ## About the image
 
 The `darthjee/circleci_ruby_331` image is a CircleCI-optimized Docker image built on top of the official `cimg/ruby:3.3.1` image. It is the CircleCI counterpart of `darthjee/ruby_331`, designed to run Ruby application tests on circleci.com. It comes pre-installed with common gems and development utilities so that individual projects only need to install their own specific additions on top of it.
