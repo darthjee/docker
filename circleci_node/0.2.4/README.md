@@ -1,6 +1,8 @@
 darthjee/circleci_node
 ======================
 
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_node.svg?logo=docker&label=circleci_node&sort=semver)](https://hub.docker.com/r/darthjee/circleci_node)
+
 ## About the image
 
 The `darthjee/circleci_node` image is a CircleCI-optimized Docker image with Node.js 22, built on top of the `cimg/node` image. It is the CircleCI counterpart of [`darthjee/node`](https://hub.docker.com/r/darthjee/node), designed to run tests for Node.js projects on circleci.com; both images pre-cache the same packages.

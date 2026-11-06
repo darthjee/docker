@@ -1,6 +1,8 @@
 darthjee/node_mongo
 ===================
 
+[![docker](https://img.shields.io/docker/v/darthjee/node_mongo.svg?logo=docker&label=node_mongo&sort=semver)](https://hub.docker.com/r/darthjee/node_mongo)
+
 ## About the image
 
 The `darthjee/node_mongo` image is a Node.js 22 development image with the MongoDB command-line tools. It is built on top of [`darthjee/node`](https://hub.docker.com/r/darthjee/node), which is itself built on the official `node:22` image. It is intended to be used as a base for Node.js projects that need to talk to MongoDB.
