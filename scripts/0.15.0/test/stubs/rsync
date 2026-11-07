@@ -1,0 +1,12 @@
+#!/bin/sh
+# Records its arguments as one line in $STUB_LOG: "rsync [arg1] [arg2] ..."
+# Exits with $RSYNC_STUB_EXIT (default 0).
+{
+  printf 'rsync'
+  for arg in "$@"; do
+    printf ' [%s]' "$arg"
+  done
+  printf '\n'
+} >> "${STUB_LOG:?STUB_LOG is required}"
+
+exit "${RSYNC_STUB_EXIT:-0}"
