@@ -1,13 +1,12 @@
-FROM darthjee/scripts:0.11.0 as scripts
+FROM darthjee/scripts:0.15.0 AS scripts
 ######################################
 
-FROM cimg/ruby:3.3.1 as base
+FROM cimg/ruby:3.4.12 AS base
 
 USER root
 
-RUN gem install bundler:2.6.8; \
-    chown circleci.circleci /home/circleci/.rubygems/ -R ; \
-    curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /usr/local/bin/cc-test-reporter && chmod +x /usr/local/bin/cc-test-reporter; \
+RUN gem install bundler:4.0.24; \
+    chown circleci:circleci /home/circleci/.rubygems/ -R ; \
     chown circleci:circleci -R /home/circleci/project/
 
 USER circleci
@@ -16,14 +15,14 @@ WORKDIR /home/circleci/project/
 
 ######################################
 
-FROM base as builder
+FROM base AS builder
 
 COPY --chown=circleci:circleci home/* /home/circleci/project/
 
 COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/bundle_builder.sh /usr/local/sbin/bundle_builder.sh
 
-ENV HOME_DIR /home/circleci
-ENV BUNDLE_FOLDER /home/circleci/.rubygems
+ENV HOME_DIR=/home/circleci
+ENV BUNDLE_FOLDER=/home/circleci/.rubygems
 RUN bundle_builder.sh
 
 #######################
