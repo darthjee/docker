@@ -19,7 +19,7 @@
 | `.circleci/` | CircleCI config: tag-triggered `release-<image>` jobs, ordered by image dependency. |
 | `.claude/` | Claude Code config: specialist agents (`agents/`), per-agent check scripts (`scripts/`), repo config (`configuration/`) and local state (`state/`). |
 | `.github/` | PR and commit message templates, and the Copilot instructions pointer. |
-| `ruby_331/`, `ruby_node/` | Ruby development images. |
+| `ruby_331/`, `ruby_3412/`, `ruby_node/` | Ruby development images. |
 | `rails_bower/`, `rails_gems/`, `rails_yarn/` | Rails development images built on top of Ruby images. |
 | `node/`, `node_mongo/` | Node.js development images. |
 | `python/` | Python development image (pipenv). |

@@ -42,6 +42,12 @@ workflows:
           filters: *tag_only
 
       - release:
+          name: release-ruby_3412
+          image: ruby_3412
+          requires: [release-scripts]
+          filters: *tag_only
+
+      - release:
           name: release-ruby_node
           image: ruby_node
           requires: [release-ruby_331]
@@ -113,6 +119,12 @@ workflows:
           filters: *tag_only
 
       - release:
+          name: release-circleci_ruby_3412
+          image: circleci_ruby_3412
+          requires: [release-scripts]
+          filters: *tag_only
+
+      - release:
           name: release-circleci_ruby_node
           image: circleci_ruby_node
           requires: [release-circleci_ruby_331]
@@ -180,6 +192,12 @@ workflows:
       - release:
           name: release-production_ruby_331
           image: production_ruby_331
+          requires: [release-scripts]
+          filters: *tag_only
+
+      - release:
+          name: release-production_ruby_3412
+          image: production_ruby_3412
           requires: [release-scripts]
           filters: *tag_only
 

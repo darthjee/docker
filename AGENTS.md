@@ -13,7 +13,7 @@ This repository is a collection of Docker images used across multiple projects. 
 There are four categories of images:
 
 - **Tool images** – Utility images (e.g. `scripts`) that have no CircleCI or production counterparts.
-- **Development images** – Full development environments (e.g. `ruby_331`, `rails_gems`, `node`, `django`, `taa`, `taap`).
+- **Development images** – Full development environments (e.g. `ruby_331`, `ruby_3412`, `rails_gems`, `node`, `django`, `taa`, `taap`).
 - **CircleCI images** – Variants prefixed with `circleci_` (e.g. `circleci_ruby_331`), optimized for running tests on circleci.com. They are **parallel** images based on `cimg` (CircleCI base images), not built on top of the development image.
 - **Production images** – Variants prefixed with `production_` (e.g. `production_ruby_331`), stripped of development dependencies to be lightweight and suitable for running in production servers. They are **parallel** images that share the same base image as their development counterpart but do not install development dependencies.
 
@@ -90,6 +90,7 @@ Helper scripts in `bin/`: `build.sh`, `release.sh`, `test.sh`, `init.sh`, `copy_
 │       └── test/
 ├── circleci_ruby_331/       # CircleCI counterpart
 ├── production_ruby_331/     # Production counterpart
+├── ruby_3412/               # Ruby 3.4.12 development image (+ circleci_/production_ counterparts)
 └── ...                      # Other images follow the same pattern
 ```
 
