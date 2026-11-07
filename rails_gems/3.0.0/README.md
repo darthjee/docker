@@ -5,7 +5,9 @@ darthjee/rails_gems
 
 ## About the image
 
-The `darthjee/rails_gems` image is a Docker image built on top of `darthjee/ruby_331`. It is designed to provide a shared foundation for developing Ruby gems that target the Rails ecosystem, coming pre-installed with Rails and its related gems as well as common development and test utilities, so that individual projects only need to install their own specific additions on top of it.
+The `darthjee/rails_gems` image is a Docker image built on top of [`darthjee/ruby_3412`](https://hub.docker.com/r/darthjee/ruby_3412), which is itself based on the official `ruby:3.4.12` image. It is designed to provide a shared foundation for developing Ruby gems that target the Rails ecosystem, coming pre-installed with Rails 7.2 and its related gems as well as common development and test utilities, so that individual projects only need to install their own specific additions on top of it.
+
+The image runs as the `app` user (uid 1000), with `/home/app/app` as its working directory, owned by `app`. The image's `Gemfile` and `Gemfile.lock` are available in that directory.
 
 ## Pre-installed gems
 
@@ -26,7 +28,6 @@ The following gems are pre-installed in the image:
 - `rack`
 - `rails`
 - `nokogiri`
-- `rails-controller-testing`
 - `sqlite3`
 
 ### Development and test
@@ -35,6 +36,8 @@ The following gems are pre-installed in the image:
 - `pry`
 - `pry-nav`
 - `simplecov`
+- `simplecov-html`
+- `simplecov-lcov`
 - `rubycritic`
 - `yard`
 - `yardstick`
@@ -44,16 +47,20 @@ The following gems are pre-installed in the image:
 - `reek`
 - `rubocop`
 - `rubocop-rspec`
+- `rubocop-factory_bot`
+- `rubocop-rails`
+- `rubocop-rake`
+- `rubocop-rspec_rails`
 
 ### Test
 
-- `minitest`
 - `rspec`
 - `rspec-core`
 - `rspec-expectations`
 - `rspec-mocks`
 - `rspec-rails`
 - `rspec-support`
+- `rails-controller-testing`
 
 ## How to use
 
