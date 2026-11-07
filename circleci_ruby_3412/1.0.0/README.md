@@ -1,11 +1,13 @@
-darthjee/circleci_ruby_331
-==========================
+darthjee/circleci_ruby_3412
+===========================
 
-[![docker](https://img.shields.io/docker/v/darthjee/circleci_ruby_331.svg?logo=docker&label=circleci_ruby_331&sort=semver)](https://hub.docker.com/r/darthjee/circleci_ruby_331)
+[![docker](https://img.shields.io/docker/v/darthjee/circleci_ruby_3412.svg?logo=docker&label=circleci_ruby_3412&sort=semver)](https://hub.docker.com/r/darthjee/circleci_ruby_3412)
 
 ## About the image
 
-The `darthjee/circleci_ruby_331` image is a CircleCI-optimized Docker image built on top of the official `cimg/ruby:3.3.1` image. It is the CircleCI counterpart of `darthjee/ruby_331`, designed to run Ruby application tests on circleci.com. It comes pre-installed with common gems and development utilities so that individual projects only need to install their own specific additions on top of it.
+The `darthjee/circleci_ruby_3412` image is the CircleCI counterpart of [`darthjee/ruby_3412`](https://hub.docker.com/r/darthjee/ruby_3412). It is not built on top of the dev image: it is a parallel image built on the official `cimg/ruby:3.4.12` image, which already provides git and the usual CircleCI tooling. It is designed to run Ruby application tests on circleci.com, coming pre-installed with common gems and development utilities so that individual projects only need to install their own specific additions on top of it.
+
+The image runs as the `circleci` user, with `/home/circleci/project` as its working directory, owned by `circleci`.
 
 ## Pre-installed gems
 
@@ -34,6 +36,7 @@ The following gems are pre-installed in the image:
 - `reek`
 - `rubocop`
 - `rubocop-rspec`
+- `rubocop-rake`
 
 ### Test
 
@@ -55,13 +58,26 @@ The following helper scripts are available inside the image:
 
 ## How to use
 
-This image is intended to be used as a base for CircleCI pipelines in Ruby projects. To build on top of it, reference it in your `.circleci/config.yml` or `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/circleci_ruby_331/tags):
+This image is intended to be used as an executor for CircleCI pipelines in Ruby projects. Reference it in your `.circleci/config.yml` (see the available tags at https://hub.docker.com/r/darthjee/circleci_ruby_3412/tags):
 
-```dockerfile
-FROM darthjee/circleci_ruby_331:<version>
+```yaml
+jobs:
+  test:
+    docker:
+      - image: darthjee/circleci_ruby_3412:<version>
+    steps:
+      - checkout
+      - run: bundle install
+      - run: bundle exec rspec
 ```
 
-Projects can then install their own specific gems on top of the shared base, taking advantage of Docker layer caching to speed up CI pipelines.
+It can also be used as a base in a `Dockerfile`:
+
+```dockerfile
+FROM darthjee/circleci_ruby_3412:<version>
+```
+
+Projects can then install their own specific gems on top of the shared base, taking advantage of the pre-installed gems to speed up CI pipelines.
 
 ## License
 

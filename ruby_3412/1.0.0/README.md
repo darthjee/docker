@@ -1,11 +1,13 @@
-darthjee/ruby_331
-=================
+darthjee/ruby_3412
+==================
 
-[![docker](https://img.shields.io/docker/v/darthjee/ruby_331.svg?logo=docker&label=ruby_331&sort=semver)](https://hub.docker.com/r/darthjee/ruby_331)
+[![docker](https://img.shields.io/docker/v/darthjee/ruby_3412.svg?logo=docker&label=ruby_3412&sort=semver)](https://hub.docker.com/r/darthjee/ruby_3412)
 
 ## About the image
 
-The `darthjee/ruby_331` image is a base Docker image built on top of the official `ruby:3.3.1` image. It is designed to be a shared foundation for various Ruby projects, coming pre-installed with common gems and development utilities so that individual projects only need to install their own specific additions on top of it.
+The `darthjee/ruby_3412` image is a base Docker image built on top of the official `ruby:3.4.12` image. It is designed to be a shared foundation for various Ruby projects, coming pre-installed with common gems and development utilities so that individual projects only need to install their own specific additions on top of it.
+
+The image runs as the `app` user (uid 1000), with `/home/app/app` as its working directory, owned by `app`.
 
 ## Pre-installed gems
 
@@ -34,6 +36,7 @@ The following gems are pre-installed in the image:
 - `reek`
 - `rubocop`
 - `rubocop-rspec`
+- `rubocop-rake`
 
 ### Test
 
@@ -54,10 +57,10 @@ The following helper scripts are available inside the image:
 
 ## How to use
 
-This image is intended to be used as a base for other Docker images in Ruby projects. To build on top of it, reference it in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/ruby_331/tags):
+This image is intended to be used as a base for other Docker images in Ruby projects. To build on top of it, reference it in your `Dockerfile` (see the available tags at https://hub.docker.com/r/darthjee/ruby_3412/tags):
 
 ```dockerfile
-FROM darthjee/ruby_331:<version>
+FROM darthjee/ruby_3412:<version>
 ```
 
 Projects can then install their own specific gems on top of the shared base, taking advantage of Docker layer caching to speed up builds and CI pipelines.
