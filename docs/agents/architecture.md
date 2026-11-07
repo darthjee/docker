@@ -22,6 +22,11 @@ ruby:3.3.1 (upstream)
 │   └── circleci_ruby_node/
 └── production_ruby_331/ ← prod (same upstream as ruby_331, minus dev deps)
     └── production_ruby_node/
+
+ruby:3.4.12 (upstream)
+├── ruby_3412/          ← dev
+├── circleci_ruby_3412/ ← CI (based on cimg/ruby:3.4.12)
+└── production_ruby_3412/ ← prod
 ```
 
 Each image in a hierarchy installs only the delta relative to its parent, so layers accumulate rather than duplicate.

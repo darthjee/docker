@@ -22,7 +22,7 @@ Delegate implementation, exploration, and planning work to the right agent. Neve
 
 | Agent | Scope |
 |-------|-------|
-| `ruby` | `ruby_331/`, `rails_gems/` + circleci_/production_ counterparts — pure-Ruby images |
+| `ruby` | `ruby_331/`, `ruby_3412/`, `rails_gems/` + circleci_/production_ counterparts — pure-Ruby images |
 | `ruby-node` | `ruby_node/`, `rails_bower/`, `rails_yarn/`, `taa/`, `taap/` + circleci_/production_ counterparts — Ruby+Node hybrid images |
 | `node` | `node/`, `node_mongo/` + circleci_ counterparts — pure-Node images |
 | `python` | `python/`, `python_37/` (deprecated), `django/` + circleci_/production_ counterparts — Python images |
