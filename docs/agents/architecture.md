@@ -25,7 +25,9 @@ ruby:3.3.1 (upstream)
 
 ruby:3.4.12 (upstream)
 ├── ruby_3412/          ← dev
+│   └── rails_gems/     ← dev, adds Rails gems
 ├── circleci_ruby_3412/ ← CI (based on cimg/ruby:3.4.12)
+│   └── circleci_rails_gems/
 └── production_ruby_3412/ ← prod
 ```
 

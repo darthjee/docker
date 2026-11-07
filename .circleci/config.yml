@@ -84,7 +84,7 @@ workflows:
       - release:
           name: release-rails_gems
           image: rails_gems
-          requires: [release-scripts, release-ruby_331]
+          requires: [release-scripts, release-ruby_3412]
           filters: *tag_only
 
       - release:
@@ -161,7 +161,7 @@ workflows:
       - release:
           name: release-circleci_rails_gems
           image: circleci_rails_gems
-          requires: [release-scripts, release-circleci_ruby_331]
+          requires: [release-scripts, release-circleci_ruby_3412]
           filters: *tag_only
 
       - release:
