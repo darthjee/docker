@@ -11,6 +11,7 @@ This repository contains several Docker images, each organized in its own folder
 
 The scripts image is a collection of auxiliary scripts, organized to facilitate both the building of other Docker images and development inside containers.
 
+It is built on Alpine Linux (`alpine`) and ships `bash`, `curl` and `jq`, so its scripts can also be run directly from the image (e.g. `docker run --rm darthjee/scripts:<version> bash sbin/docker_hub.sh ...`). The scripts live in `/home/scripts`, which is also the working directory; the image runs as `root`.
 
 ### Scripts structure
 
@@ -307,7 +308,7 @@ You can use the scripts directly in your Dockerfiles or during development, as n
 ## Usage example
 
 ```dockerfile
-FROM darthjee/scripts:latest as scripts
+FROM darthjee/scripts:<version> as scripts
 FROM <base_image> as base
 
 # Base building
