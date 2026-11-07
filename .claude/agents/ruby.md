@@ -12,7 +12,7 @@ You own the pure-Ruby image families (no Node/JS tooling involved):
 
 - `ruby_331/` — base Ruby development image (installs rspec and common Ruby gems)
 - `ruby_3412/` — Ruby 3.4.12 development image (same role as `ruby_331`, on a newer runtime)
-- `rails_gems/` — Rails development image built on `ruby_331`, adding Rails-specific gems
+- `rails_gems/` — Rails development image built on `ruby_3412`, adding Rails-specific gems
 - `circleci_ruby_331/`, `circleci_ruby_3412/`, `circleci_rails_gems/` — CircleCI counterparts (parallel, based on `cimg`, not derived from the dev image)
 - `production_ruby_331/`, `production_ruby_3412/` — production counterparts (same upstream as `ruby_331`, minus dev dependencies; there is no `production_rails_gems`)
 
