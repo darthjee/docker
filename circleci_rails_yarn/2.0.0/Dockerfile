@@ -1,20 +1,20 @@
-FROM darthjee/scripts:0.15.0 as scripts
-FROM darthjee/circleci_ruby_331:1.2.0 as base
+FROM darthjee/scripts:0.15.0 AS scripts
+FROM darthjee/circleci_ruby_node:2.0.0 AS base
 
 USER root
 
-RUN curl -sL https://deb.nodesource.com/setup_22.x | /bin/bash ; \
-    apt-get update && apt-get install -y nodejs ncat telnet; \
-    curl -L https://npmjs.org/install.sh | /bin/bash; \
-    npm install yarn -g; \
-    mkdir -p /home/circleci/.cache/yarn; \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends telnet && \
+    rm -rf /var/lib/apt/lists/* && \
+    npm install -g yarn@1.22.22 && \
+    mkdir -p /home/circleci/.cache/yarn && \
     chown circleci:circleci /home/circleci/.cache -R
 
 USER circleci
 
 ######################################
 
-FROM base as builder
+FROM base AS builder
 
 COPY --chown=circleci:circleci home/* /home/circleci/project/
 ENV HOME_DIR=/home/circleci
@@ -35,4 +35,3 @@ FROM base
 
 COPY --chown=circleci:circleci --from=builder /home/circleci/bundle/ /home/circleci/.rubygems/
 COPY --chown=circleci:circleci --from=builder /home/circleci/yarn/new/ /home/circleci/.cache/yarn/v6/
-

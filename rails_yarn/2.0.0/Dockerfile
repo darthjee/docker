@@ -1,21 +1,21 @@
-FROM darthjee/scripts:0.15.0 as scripts
-FROM darthjee/ruby_331:1.2.0 as base
+FROM darthjee/scripts:0.15.0 AS scripts
+FROM darthjee/ruby_node:2.0.0 AS base
 
 USER root
 
-RUN curl -sL https://deb.nodesource.com/setup_22.x | /bin/bash ; \
-    apt-get update && apt-get install -y nodejs ncat telnet; \
-    curl -L https://npmjs.org/install.sh | /bin/bash; \
-    npm install yarn -g;
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends telnet && \
+    rm -rf /var/lib/apt/lists/* && \
+    npm install -g yarn@1.22.22
 
 USER app
 
 ######################################
 
-FROM base as builder
+FROM base AS builder
 
 COPY --chown=app:app home/* /home/app/app/
-ENV HOME_DIR /home/app
+ENV HOME_DIR=/home/app
 
 USER root
 COPY --chown=app:app --from=scripts /home/scripts/builder/yarn_builder.sh /usr/local/sbin/yarn_builder.sh
