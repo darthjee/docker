@@ -53,6 +53,21 @@ This same process must be followed when **planning how to resolve an issue**: in
 
 Each image should install only the **delta** relative to its parent image. If a dependency belongs to the base (e.g. `ruby_331`), it must not be re-installed in a child image (e.g. `ruby_node`).
 
+#### Dependency versions in inherited images
+
+**Why.** The builders in the `scripts` image copy into the final image only what is new relative to the base, and they compare by name **and** version. `bundle_builder.sh` copies `gems/<name>-<version>` only when that exact folder is missing from the base's bundle. `yarn_builder.sh` does the same with yarn cache entries, and `poetry_builder.sh` plays the same role for the Python/django family. So if a child uses a different version of a dependency its parent already ships, that version is copied as new. The final image then carries **both** copies, and the parent's copy stays in the lower layer. If the child's version is older, it also silently downgrades what the parent provides.
+
+**Rule.** This covers every kind of dependency: gems, npm/yarn packages, pip/poetry packages, system packages and so on. It applies to any image built on top of another, and to its `circleci_`/`production_` counterparts.
+
+1. A dependency shared with the parent uses **exactly the parent's version**.
+2. An **older** version is never allowed.
+3. A **newer** version is a last resort. When a child needs one, first decide which case applies:
+   - **The base image needs a new version.** The newer dependency belongs in the parent. Bump the parent image (a new parent version, see [Versioning](#versioning)) and rebase the child onto it.
+   - **It is a fix specific to the child.** A patch or security fix that only the child needs may pin the newer version in the child. This accepts that the parent's copy stays in the image too. Record the reason in the issue/PR, and in the image README where it makes sense.
+4. Seed the child's lock file (`Gemfile.lock`, `yarn.lock`, `package-lock.json`, `poetry.lock`, …) from the parent's lock file, so transitive dependencies match too.
+
+**Example.** `taap` 2.0.0 starts from `taa` 2.0.0's `Gemfile` and `Gemfile.lock`, keeps every shared gem at `taa`'s version, and adds only `danica`/`gnuplot` on top (#263).
+
 ### Multi-Stage Builds
 
 All Dockerfiles must use multi-stage builds:
