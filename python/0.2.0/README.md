@@ -13,7 +13,7 @@ The slim base ships no compiler toolchain; projects whose dependencies need to b
 
 ## Tools
 
-- `pipenv` — pinned to `2026.10.6`, installed globally with `pip`
+- `pipenv` — pinned, installed globally with `pip`
 
 ## How to use
 

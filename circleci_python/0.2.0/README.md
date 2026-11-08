@@ -13,7 +13,7 @@ The `cimg/python` base already provides git, a compiler toolchain and the usual 
 
 ## Tools
 
-- `pipenv` — pinned to `2026.10.6`, installed with `pip`
+- `pipenv` — pinned, installed with `pip`
 
 ## How to use
 
