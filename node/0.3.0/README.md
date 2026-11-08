@@ -5,7 +5,7 @@ darthjee/node
 
 ## About the image
 
-The `darthjee/node` image is a Node.js development image built on top of the official `node:22` image. It is intended to be used as a base for Node.js projects.
+The `darthjee/node` image is a Node.js development image built on top of the official `node:22.23.4` image. It is intended to be used as a base for Node.js projects.
 
 Its working directory is `/home/node/app`, which is owned by the `node` user (the image's default user is `root`; switch with `USER node` if needed).
 

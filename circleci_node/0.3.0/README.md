@@ -5,7 +5,7 @@ darthjee/circleci_node
 
 ## About the image
 
-The `darthjee/circleci_node` image is a CircleCI-optimized Docker image with Node.js 22, built on top of the `cimg/node` image. It is the CircleCI counterpart of [`darthjee/node`](https://hub.docker.com/r/darthjee/node), designed to run tests for Node.js projects on circleci.com; both images pre-cache the same packages.
+The `darthjee/circleci_node` image is a CircleCI-optimized Docker image with Node.js 22, built on top of the `cimg/node:22.23.4` image. It is the CircleCI counterpart of [`darthjee/node`](https://hub.docker.com/r/darthjee/node), designed to run tests for Node.js projects on circleci.com; both images pre-cache the same packages.
 
 It runs as the `circleci` user, and its working directory is `/home/circleci/project`, owned by `circleci`.
 
