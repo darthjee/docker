@@ -36,6 +36,7 @@ bin/script.sh test <image>
 ## Conventions
 
 - Each image installs only the **delta** relative to its parent image — do not re-install a dependency that already lives in `node` when working on `node_mongo`.
+- Shared dependencies use exactly the parent image's version: never older, and newer only after deciding whether the parent needs a new version or it is a child-only fix. Seed lock files (`package-lock.json`/`yarn.lock`) from the parent's. See [Dependency versions in inherited images](../../docs/agents/contributing.md#dependency-versions-in-inherited-images).
 - Dockerfiles use multi-stage builds: a build stage compiles/installs, the final stage copies only the resulting artifacts.
 - Update the `version` file when releasing a new version of one of these images.
 - If a `production_node*` image is introduced in the future, add it to this agent's scope and to `.circleci/config.yml`'s release workflow.

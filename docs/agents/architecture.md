@@ -34,7 +34,7 @@ ruby:3.4.12 (upstream)
         └── production_rails_yarn/ ← adds Yarn (since 2.0.0)
 ```
 
-Each image in a hierarchy installs only the delta relative to its parent, so layers accumulate rather than duplicate.
+Each image in a hierarchy installs only the delta relative to its parent, so layers accumulate rather than duplicate. The delta is computed by dependency name and version, so a child must use its parent's dependency versions, or justify a newer one. See [Dependency versions in inherited images](contributing.md#dependency-versions-in-inherited-images).
 
 ## Multi-Stage Builds
 
