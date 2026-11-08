@@ -1,5 +1,5 @@
-FROM darthjee/scripts:0.15.0 as scripts
-FROM node:22 as base
+FROM darthjee/scripts:0.15.0 AS scripts
+FROM node:22.23.4 AS base
 
 USER root
 RUN mkdir -p /home/node/app; \
@@ -9,7 +9,7 @@ WORKDIR /home/node/app
 
 ######################################
 
-FROM base as builder
+FROM base AS builder
 
 ADD home/*  /home/node/app/
 

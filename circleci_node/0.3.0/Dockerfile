@@ -1,5 +1,5 @@
-FROM darthjee/scripts:0.15.0 as scripts
-FROM cimg/node:22.14.0 as base
+FROM darthjee/scripts:0.15.0 AS scripts
+FROM cimg/node:22.23.4 AS base
 
 USER root
 
@@ -12,7 +12,7 @@ USER circleci
 
 ######################################
 
-FROM base as builder
+FROM base AS builder
 
 USER root
 
