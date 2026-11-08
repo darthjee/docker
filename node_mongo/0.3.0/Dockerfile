@@ -2,8 +2,9 @@ FROM darthjee/node:0.3.0
 
 USER root
 
-ARG MONGODB_SERIES=8.0
-ARG MONGODB_TOOLS_VERSION=100.20.0
+ARG MONGODB_SERIES=9.0
+ARG MONGOSH_VERSION=2.14.1
+ARG MONGODB_TOOLS_VERSION=100.20.1
 
 # mongosh comes from MongoDB's Debian apt repo (amd64 + arm64).
 # MongoDB's Debian repo does not ship mongodb-database-tools for arm64 and
@@ -24,7 +25,7 @@ RUN apt-get update && \
     curl -fsSL -o /tmp/mongodb-database-tools.deb \
       "https://fastdl.mongodb.org/tools/db/mongodb-database-tools-${TOOLS_PLATFORM}-${MONGODB_TOOLS_VERSION}.deb" && \
     apt-get update && \
-    apt-get install -y --no-install-recommends mongodb-mongosh /tmp/mongodb-database-tools.deb && \
+    apt-get install -y --no-install-recommends "mongodb-mongosh=${MONGOSH_VERSION}" /tmp/mongodb-database-tools.deb && \
     rm -f /tmp/mongodb-database-tools.deb && \
     rm -rf /var/lib/apt/lists/*
 
