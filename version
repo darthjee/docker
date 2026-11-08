@@ -11,7 +11,7 @@ rails_gems=3.0.0
 ruby_331=1.2.0
 ruby_3412=1.0.0
 ruby_node=2.0.0
-taa=1.7.0
+taa=2.0.0
 taap=1.7.0
 django=0.1.0
 # Circleci
@@ -25,7 +25,7 @@ circleci_rails_gems=3.0.0
 circleci_ruby_331=1.2.0
 circleci_ruby_3412=1.0.0
 circleci_ruby_node=2.0.0
-circleci_taa=1.7.0
+circleci_taa=2.0.0
 circleci_taap=1.7.0
 circleci_django=0.1.0
 # Production
@@ -34,6 +34,6 @@ production_rails_yarn=2.0.0
 production_ruby_331=1.2.0
 production_ruby_3412=1.0.0
 production_ruby_node=2.0.0
-production_taa=1.7.0
+production_taa=2.0.0
 production_taap=1.7.0
 production_django=0.1.0
