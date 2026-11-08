@@ -5,7 +5,7 @@ darthjee/ruby_node
 
 ## About the image
 
-The `darthjee/ruby_node` image is a Docker image built on top of [`darthjee/ruby_331`](https://hub.docker.com/r/darthjee/ruby_331). It extends the base Ruby image by adding **Node.js** and **npm**, enabling the use of Node-based front-end tooling alongside Ruby.
+The `darthjee/ruby_node` image is a Docker image built on top of [`darthjee/ruby_3412`](https://hub.docker.com/r/darthjee/ruby_3412) (Ruby 3.4.12). It extends the base Ruby image by adding **Node.js 24** and **npm**, enabling the use of Node-based front-end tooling alongside Ruby.
 
 This image is intended for development environments where both Ruby and front-end asset compilation are required.
 
@@ -13,10 +13,10 @@ The image runs as the `app` user (uid 1000), with `/home/app/app` as the working
 
 ## What is added
 
-On top of everything provided by `darthjee/ruby_331`, this image installs:
+On top of everything provided by `darthjee/ruby_3412`, this image installs:
 
-- **Node.js** – JavaScript runtime, installed from NodeSource.
-- **npm** – Node package manager.
+- **Node.js 24** – JavaScript runtime, installed from NodeSource.
+- **npm** – Node package manager, the version bundled with the NodeSource `nodejs` package.
 - **ncat** – networking utility (e.g. to wait for services to be reachable).
 
 ## How to use

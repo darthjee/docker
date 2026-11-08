@@ -5,16 +5,16 @@ darthjee/production_ruby_node
 
 ## About the image
 
-The `darthjee/production_ruby_node` image is the production counterpart of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_331`](https://hub.docker.com/r/darthjee/production_ruby_331), and adds **Node.js** and **npm** to support front-end asset compilation or server-side JavaScript execution in production environments.
+The `darthjee/production_ruby_node` image is the production counterpart of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_3412`](https://hub.docker.com/r/darthjee/production_ruby_3412) (Ruby 3.4.12), and adds **Node.js 24** and **npm** to support front-end asset compilation or server-side JavaScript execution in production environments.
 
 The image runs as the `app` user (uid 1000), with `/home/app/app` as the working directory, owned by `app`.
 
 ## What is added
 
-On top of everything provided by `darthjee/production_ruby_331`, this image installs:
+On top of everything provided by `darthjee/production_ruby_3412`, this image installs:
 
-- **Node.js** – JavaScript runtime, installed from NodeSource.
-- **npm** – Node package manager.
+- **Node.js 24** – JavaScript runtime, installed from NodeSource.
+- **npm** – Node package manager, the version bundled with the NodeSource `nodejs` package.
 - **ncat** – networking utility (e.g. to wait for services to be reachable).
 
 ## How to use
