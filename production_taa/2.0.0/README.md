@@ -5,9 +5,11 @@ darthjee/production_taa
 
 ## About the image
 
-The `darthjee/production_taa` image is the production counterpart of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa), without development dependencies. It is a parallel image built on top of [`darthjee/production_rails_yarn`](https://hub.docker.com/r/darthjee/production_rails_yarn). It pre-installs a set of production **Rails gems** and pre-caches a set of **AngularJS packages**. Development and test gems are excluded from the bundle.
+The `darthjee/production_taa` image is the production counterpart of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa), without development dependencies. It is a parallel image built on top of [`darthjee/production_rails_yarn`](https://hub.docker.com/r/darthjee/production_rails_yarn), which provides Ruby 3.4.12 and Node.js 24. It pre-installs a set of production **Rails gems** and pre-caches a set of **AngularJS packages**. Development and test gems are excluded from the bundle.
 
 The image runs as the `app` user (uid 1000), with `/home/app/app` as the working directory, owned by `app`. The `tmp/pids` directory (owned by `app`) inside the working directory, needed to run Puma, is provided by the base image.
+
+> **Note:** This image moved from Ruby 3.3.1 to Ruby 3.4.12 and to Node.js 24, inherited from `darthjee/production_rails_yarn`, and its pre-installed gems were upgraded along with the base (including Rails 7.2 patch releases and Rack 3.2). Check that your project runs on Ruby 3.4 and Node.js 24 before upgrading.
 
 ## What is added
 

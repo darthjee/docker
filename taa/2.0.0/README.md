@@ -5,9 +5,11 @@ darthjee/taa
 
 ## About the image
 
-The `darthjee/taa` image is a Docker image built on top of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn). It pre-installs a set of **Rails gems** and pre-caches a set of **AngularJS packages**, providing a ready-to-use development environment for Rails applications with an AngularJS front end.
+The `darthjee/taa` image is a Docker image built on top of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn), which provides Ruby 3.4.12 and Node.js 24. It pre-installs a set of **Rails gems** and pre-caches a set of **AngularJS packages**, providing a ready-to-use development environment for Rails applications with an AngularJS front end.
 
 The image runs as the `app` user (uid 1000), with `/home/app/app` as the working directory, owned by `app`.
+
+> **Note:** This image moved from Ruby 3.3.1 to Ruby 3.4.12 and to Node.js 24, inherited from `darthjee/rails_yarn`, and its pre-installed gems were upgraded along with the base (including Rails 7.2 patch releases, Rack 3.2 and RSpec Rails 8.1). Check that your project runs on Ruby 3.4 and Node.js 24 before upgrading.
 
 ## What is added
 

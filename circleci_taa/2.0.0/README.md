@@ -5,9 +5,11 @@ darthjee/circleci_taa
 
 ## About the image
 
-The `darthjee/circleci_taa` image is the CircleCI counterpart of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa). It is a parallel image, not built on top of `darthjee/taa`: it is built on top of [`darthjee/circleci_rails_yarn`](https://hub.docker.com/r/darthjee/circleci_rails_yarn). It pre-installs a set of **Rails gems** and pre-caches a set of **AngularJS packages**, providing a ready-to-use environment for running Rails and AngularJS application tests on circleci.com.
+The `darthjee/circleci_taa` image is the CircleCI counterpart of [`darthjee/taa`](https://hub.docker.com/r/darthjee/taa). It is a parallel image, not built on top of `darthjee/taa`: it is built on top of [`darthjee/circleci_rails_yarn`](https://hub.docker.com/r/darthjee/circleci_rails_yarn), which provides Ruby 3.4.12 and Node.js 24. It pre-installs a set of **Rails gems** and pre-caches a set of **AngularJS packages**, providing a ready-to-use environment for running Rails and AngularJS application tests on circleci.com.
 
 The image runs as the `circleci` user, with `/home/circleci/project` as the working directory, owned by `circleci`.
+
+> **Note:** This image moved from Ruby 3.3.1 to Ruby 3.4.12 and to Node.js 24, inherited from `darthjee/circleci_rails_yarn`, and its pre-installed gems were upgraded along with the base (including Rails 7.2 patch releases, Rack 3.2 and RSpec Rails 8.1). Check that your project runs on Ruby 3.4 and Node.js 24 before upgrading.
 
 ## What is added
 
