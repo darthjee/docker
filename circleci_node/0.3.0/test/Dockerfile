@@ -1,0 +1,11 @@
+ARG DOCKER_ID_USER
+ARG IMAGE
+ARG VERSION
+
+FROM $DOCKER_ID_USER/$IMAGE:$VERSION
+
+ARG IMAGE
+ARG VERSION
+
+COPY --chown=circleci:circleci $IMAGE/$VERSION/home ./
+COPY --chown=circleci:circleci $IMAGE/$VERSION/test /home/test
