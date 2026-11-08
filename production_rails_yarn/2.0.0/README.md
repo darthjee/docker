@@ -5,18 +5,16 @@ darthjee/production_rails_yarn
 
 ## About the image
 
-The `darthjee/production_rails_yarn` image is the production counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_331`](https://hub.docker.com/r/darthjee/production_ruby_331). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the production gems commonly used by Ruby on Rails applications. Development and test gems are excluded from the bundle, and the image sets `BUNDLE_WITHOUT` to `development:test`, so Bundler skips those groups too.
+The `darthjee/production_rails_yarn` image is the production counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn), without development dependencies. It is a parallel image built on top of [`darthjee/production_ruby_node`](https://hub.docker.com/r/darthjee/production_ruby_node), which provides Ruby 3.4.12 and Node.js 24. It adds **Yarn**, pre-caches a set of front-end packages and pre-installs the production gems commonly used by Ruby on Rails applications. Development and test gems are excluded from the bundle, and the image sets `BUNDLE_WITHOUT` to `development:test`, so Bundler skips those groups too.
 
 The image runs as the `app` user (uid 1000), with `/home/app/app` as the working directory, owned by `app`. It also creates the `tmp/pids` directory (owned by `app`) inside the working directory, as needed to run Puma.
 
 ## What is added
 
-On top of everything provided by `darthjee/production_ruby_331`, this image installs:
+On top of everything provided by `darthjee/production_ruby_node` (Ruby, Node.js, npm and ncat), this image installs:
 
-- **Node.js** – JavaScript runtime, installed from NodeSource.
-- **npm** – Node package manager.
-- **Yarn** – JavaScript package manager, installed globally via npm.
-- **ncat** and **telnet** – networking utilities, useful for checking connectivity to other services.
+- **Yarn** – JavaScript package manager (Yarn classic), installed globally via npm.
+- **telnet** – networking utility, useful for checking connectivity to other services.
 
 ## Pre-cached packages
 
@@ -32,7 +30,7 @@ The following packages are pre-cached in the global yarn cache (`/usr/local/shar
 
 ## Pre-installed gems
 
-Only production gems are pre-installed, on top of the ones provided by `darthjee/production_ruby_331`. Development and test groups are excluded.
+Only production gems are pre-installed, on top of the ones provided by `darthjee/production_ruby_node`. Development and test groups are excluded.
 
 ### Core
 

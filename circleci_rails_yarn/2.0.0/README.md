@@ -5,18 +5,16 @@ darthjee/circleci_rails_yarn
 
 ## About the image
 
-The `darthjee/circleci_rails_yarn` image is the CircleCI counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn). It is a parallel image, not built on top of `darthjee/rails_yarn`: it is built on top of [`darthjee/circleci_ruby_331`](https://hub.docker.com/r/darthjee/circleci_ruby_331) (itself based on `cimg/ruby:3.3.1`). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the gems commonly used by Ruby on Rails applications, providing a ready-to-use environment for running Rails application tests and front-end builds on circleci.com.
+The `darthjee/circleci_rails_yarn` image is the CircleCI counterpart of [`darthjee/rails_yarn`](https://hub.docker.com/r/darthjee/rails_yarn). It is a parallel image, not built on top of `darthjee/rails_yarn`: it is built on top of [`darthjee/circleci_ruby_node`](https://hub.docker.com/r/darthjee/circleci_ruby_node) (the CircleCI counterpart of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node), based on `cimg/ruby:3.4.12`), which provides Ruby 3.4.12 and Node.js 24. It adds **Yarn**, pre-caches a set of front-end packages and pre-installs the gems commonly used by Ruby on Rails applications, providing a ready-to-use environment for running Rails application tests and front-end builds on circleci.com.
 
 The image runs as the `circleci` user, with `/home/circleci/project` as the working directory, owned by `circleci`.
 
 ## What is added
 
-On top of everything provided by `darthjee/circleci_ruby_331`, this image installs:
+On top of everything provided by `darthjee/circleci_ruby_node` (Ruby, Node.js, npm and ncat), this image installs:
 
-- **Node.js** – JavaScript runtime, installed from NodeSource.
-- **npm** – Node package manager.
-- **Yarn** – JavaScript package manager, installed globally via npm.
-- **ncat** and **telnet** – networking utilities, useful for checking connectivity to other services.
+- **Yarn** – JavaScript package manager (Yarn classic), installed globally via npm.
+- **telnet** – networking utility, useful for checking connectivity to other services.
 
 ## Pre-cached packages
 
@@ -32,7 +30,7 @@ The following packages are pre-cached in `/home/circleci/.cache/yarn/v6/`, yarn'
 
 ## Pre-installed gems
 
-The following gems are pre-installed in the image, on top of the ones provided by `darthjee/circleci_ruby_331`:
+The following gems are pre-installed in the image, on top of the ones provided by `darthjee/circleci_ruby_node`:
 
 ### Core
 

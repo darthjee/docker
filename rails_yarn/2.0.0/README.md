@@ -5,18 +5,16 @@ darthjee/rails_yarn
 
 ## About the image
 
-The `darthjee/rails_yarn` image is a Docker image built on top of [`darthjee/ruby_331`](https://hub.docker.com/r/darthjee/ruby_331). It adds **Node.js**, **npm** and **Yarn**, pre-caches a set of front-end packages and pre-installs the gems commonly used by Ruby on Rails applications, providing a ready-to-use development environment for Rails applications with front-end asset compilation.
+The `darthjee/rails_yarn` image is a Docker image built on top of [`darthjee/ruby_node`](https://hub.docker.com/r/darthjee/ruby_node), which provides Ruby 3.4.12 and Node.js 24. It adds **Yarn**, pre-caches a set of front-end packages and pre-installs the gems commonly used by Ruby on Rails applications, providing a ready-to-use development environment for Rails applications with front-end asset compilation.
 
 The image runs as the `app` user (uid 1000), with `/home/app/app` as the working directory, owned by `app`.
 
 ## What is added
 
-On top of everything provided by `darthjee/ruby_331`, this image installs:
+On top of everything provided by `darthjee/ruby_node` (Ruby, Node.js, npm and ncat), this image installs:
 
-- **Node.js** – JavaScript runtime, installed from NodeSource.
-- **npm** – Node package manager.
-- **Yarn** – JavaScript package manager, installed globally via npm.
-- **ncat** and **telnet** – networking utilities, useful for checking connectivity to other services.
+- **Yarn** – JavaScript package manager (Yarn classic), installed globally via npm.
+- **telnet** – networking utility, useful for checking connectivity to other services.
 
 ## Pre-cached packages
 
@@ -32,7 +30,7 @@ The following packages are pre-cached in the global yarn cache (`/usr/local/shar
 
 ## Pre-installed gems
 
-The following gems are pre-installed in the image, on top of the ones provided by `darthjee/ruby_331`:
+The following gems are pre-installed in the image, on top of the ones provided by `darthjee/ruby_node`:
 
 ### Core
 
