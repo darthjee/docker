@@ -5,7 +5,7 @@ darthjee/circleci_node_mongo
 
 ## About the image
 
-The `darthjee/circleci_node_mongo` image is a CircleCI-optimized Docker image with Node.js 22 and the MongoDB command-line tools. It is built on top of [`darthjee/circleci_node`](https://hub.docker.com/r/darthjee/circleci_node), which is itself built on the `cimg/node` image. It is the CircleCI counterpart of [`darthjee/node_mongo`](https://hub.docker.com/r/darthjee/node_mongo) by name only (it is not built on the dev image), designed to run tests for Node.js + MongoDB projects on circleci.com.
+The `darthjee/circleci_node_mongo` image is a CircleCI-optimized Docker image with Node.js 22 and the MongoDB command-line tools. It is built on top of [`darthjee/circleci_node`](https://hub.docker.com/r/darthjee/circleci_node), which is itself built on the `cimg/node:22.23.4` image. It is the CircleCI counterpart of [`darthjee/node_mongo`](https://hub.docker.com/r/darthjee/node_mongo) by name only (it is not built on the dev image), designed to run tests for Node.js + MongoDB projects on circleci.com.
 
 Its working directory is `/home/circleci/project`, and it runs as the `circleci` user.
 
@@ -24,7 +24,7 @@ The final user is switched from `root` to `circleci`.
 
 ## Pre-cached packages
 
-The following packages are pre-cached by the base image in the global yarn cache (`/usr/local/share/.cache/yarn/v6/`). They are not installed into any `node_modules`; they are used when a project's `package.json` asks for them and `yarn install` is run.
+The following packages are pre-cached by the base image in the yarn cache at `/home/circleci/.cache/yarn/v6/`. This is yarn's default cache dir for the `circleci` user, so nothing has to be configured. They are not installed into any `node_modules`; they are used when a project's `package.json` asks for them and `yarn install` is run.
 
 ### Dependencies
 
