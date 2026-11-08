@@ -1,9 +1,9 @@
-FROM darthjee/production_ruby_331:1.2.0
+FROM darthjee/production_ruby_3412:1.0.0
 
 USER root
 
-RUN curl -sL https://deb.nodesource.com/setup_22.x | /bin/bash ; \
-    apt-get update && apt-get install -y nodejs ncat; \
-    curl -L https://npmjs.org/install.sh | /bin/bash
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs ncat && \
+    rm -rf /var/lib/apt/lists/*
 
 USER app
