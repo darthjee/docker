@@ -1,9 +1,9 @@
-FROM darthjee/scripts:0.15.0 as scripts
-FROM darthjee/circleci_rails_yarn:2.0.0 as base
+FROM darthjee/scripts:0.15.0 AS scripts
+FROM darthjee/circleci_rails_yarn:2.0.0 AS base
 
 ######################################
 
-FROM base as builder
+FROM base AS builder
 
 COPY --chown=circleci:circleci home/* /home/circleci/project/
 ENV HOME_DIR=/home/circleci
@@ -17,7 +17,7 @@ COPY --chown=circleci:circleci --from=scripts /home/scripts/builder/yarn_builder
 ENV APP_DIR=/home/circleci/project
 # yarn_builder.sh dedupes against root's cache; seed it with the inherited
 # circleci cache so only packages new to this image end up in yarn/new/
-RUN mkdir -p /usr/local/share/.cache/yarn/v6; \
+RUN mkdir -p /usr/local/share/.cache/yarn/v6 && \
     cp -R /home/circleci/.cache/yarn/v6/. /usr/local/share/.cache/yarn/v6/
 RUN /bin/bash yarn_builder.sh
 USER circleci
