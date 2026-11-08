@@ -94,7 +94,7 @@ List tools and packages by name only.
 
 1. **Intro:** `circleci_`/`production_` READMEs open with "the CircleCI counterpart of" / "the production counterpart of [`darthjee/<dev>`](https://hub.docker.com/r/darthjee/<dev>)" and state whether they are built on top of the dev image or are counterparts by name only (parallel, e.g. built on `cimg/` or on a legacy `circleci/` base). Production intros add "without development dependencies".
 2. **One-way links:** counterparts link to the dev image; dev READMEs do not link to their counterparts, except through the optional `Variants` table.
-3. **Mirrored hierarchies link both:** e.g. `circleci_ruby_node` links its parent `circleci_ruby_331` (no version) and its dev counterpart `ruby_node`.
+3. **Mirrored hierarchies link both:** e.g. `circleci_ruby_node` links its parent `circleci_ruby_3412` (no version) and its dev counterpart `ruby_node`.
 4. **Order and reuse:** write the dev README first. Counterparts reuse its structure and wording, changing only what differs — user and working directory (e.g. `circleci` and `/home/circleci/project`), the usage example (CircleCI YAML, production-only install) and dropped dev tools. Production package/cache lists exclude dev tools.
 5. **Family sync:** a change to content shared across the family (e.g. the `pyproject.toml`/`Gemfile` copied by `update_deps`) updates the counterparts' READMEs in the same PR.
 6. **Family push:** `bin/script.sh push_description <dev>` pushes the dev image and its `circleci_`/`production_` counterparts (skipping counterparts whose folder does not exist) and skips any image whose README is missing with a warning.

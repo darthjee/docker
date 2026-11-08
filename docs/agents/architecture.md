@@ -16,19 +16,19 @@ Development, CircleCI, and production images mirror each other in parallel hiera
 
 ```
 ruby:3.3.1 (upstream)
-├── ruby_331/          ← dev
-│   └── ruby_node/     ← dev, adds Node
+├── ruby_331/          ← dev (ruby_node <= 1.6.0 was built on it)
 ├── circleci_ruby_331/ ← CI (based on cimg, not ruby_331)
-│   └── circleci_ruby_node/
 └── production_ruby_331/ ← prod (same upstream as ruby_331, minus dev deps)
-    └── production_ruby_node/
 
 ruby:3.4.12 (upstream)
 ├── ruby_3412/          ← dev
-│   └── rails_gems/     ← dev, adds Rails gems
+│   ├── rails_gems/     ← dev, adds Rails gems
+│   └── ruby_node/      ← dev, adds Node 24 (since 2.0.0)
 ├── circleci_ruby_3412/ ← CI (based on cimg/ruby:3.4.12)
-│   └── circleci_rails_gems/
+│   ├── circleci_rails_gems/
+│   └── circleci_ruby_node/
 └── production_ruby_3412/ ← prod
+    └── production_ruby_node/
 ```
 
 Each image in a hierarchy installs only the delta relative to its parent, so layers accumulate rather than duplicate.
@@ -72,7 +72,7 @@ The `version` file at the repo root is the single source of truth for the latest
 
 ## Release Pipeline
 
-Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one `release-<image>` job per image (tag-only filters), chained with `requires:` so parents release before their children (e.g. `release-ruby_node` requires `release-ruby_331`). Each job sets up QEMU and a `docker buildx` builder, runs `bin/image.sh push <image>`, then pushes the image's README as its Docker Hub description with `bin/image.sh description <image>` (a separate step, so a skipped image push does not skip it).
+Releases are triggered by pushing a git tag. `.circleci/config.yml` defines one `release-<image>` job per image (tag-only filters), chained with `requires:` so parents release before their children (e.g. `release-ruby_node` requires `release-ruby_3412`). Each job sets up QEMU and a `docker buildx` builder, runs `bin/image.sh push <image>`, then pushes the image's README as its Docker Hub description with `bin/image.sh description <image>` (a separate step, so a skipped image push does not skip it).
 
 `bin/image.sh` actions:
 

@@ -10,7 +10,7 @@ You are the Ruby+Node specialist for the orca/docker project — a collection of
 
 You own the hybrid image families that layer Node/JS tooling (yarn/bower) on top of a Ruby base:
 
-- `ruby_node/` — `ruby_331` + Node
+- `ruby_node/` — `ruby_3412` + Node (`1.x` was `ruby_331` + Node)
 - `rails_bower/` — `ruby_node` + Bower
 - `rails_yarn/` — `ruby_331` + Yarn
 - `taa/` — TAA project image, built on `rails_yarn`
