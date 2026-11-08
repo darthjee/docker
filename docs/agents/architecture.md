@@ -16,7 +16,7 @@ Development, CircleCI, and production images mirror each other in parallel hiera
 
 ```
 ruby:3.3.1 (upstream)
-├── ruby_331/          ← dev (ruby_node <= 1.6.0 was built on it)
+├── ruby_331/          ← dev (ruby_node <= 1.6.0 and rails_yarn 1.x were built on it)
 ├── circleci_ruby_331/ ← CI (based on cimg, not ruby_331)
 └── production_ruby_331/ ← prod (same upstream as ruby_331, minus dev deps)
 
@@ -24,11 +24,14 @@ ruby:3.4.12 (upstream)
 ├── ruby_3412/          ← dev
 │   ├── rails_gems/     ← dev, adds Rails gems
 │   └── ruby_node/      ← dev, adds Node 24 (since 2.0.0)
+│       └── rails_yarn/ ← dev, adds Yarn (since 2.0.0)
 ├── circleci_ruby_3412/ ← CI (based on cimg/ruby:3.4.12)
 │   ├── circleci_rails_gems/
 │   └── circleci_ruby_node/
+│       └── circleci_rails_yarn/ ← adds Yarn (since 2.0.0)
 └── production_ruby_3412/ ← prod
     └── production_ruby_node/
+        └── production_rails_yarn/ ← adds Yarn (since 2.0.0)
 ```
 
 Each image in a hierarchy installs only the delta relative to its parent, so layers accumulate rather than duplicate.
