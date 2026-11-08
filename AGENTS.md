@@ -25,7 +25,7 @@ Images are layered so that each image only installs the **difference** relative 
 
 - Ruby images install rspec and common Ruby gems.
 - Rails images are built **on top of** Ruby images and add Rails-specific dependencies.
-- CircleCI and production images **mirror** this same hierarchy in parallel. For example, `ruby_node` is based on `ruby_331`, while `production_ruby_node` is based on `production_ruby_331`. Both `ruby_331` and `production_ruby_331` share the same upstream base image (e.g. `ruby:3.3.1`).
+- CircleCI and production images **mirror** this same hierarchy in parallel. For example, `ruby_node` is based on `ruby_3412`, while `production_ruby_node` is based on `production_ruby_3412`. Both `ruby_3412` and `production_ruby_3412` share the same upstream base image (e.g. `ruby:3.4.12`).
 - Each image in a hierarchy only installs the **difference** relative to its parent, so projects share common Docker layers.
 
 ## `scripts` Image

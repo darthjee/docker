@@ -50,7 +50,7 @@ workflows:
       - release:
           name: release-ruby_node
           image: ruby_node
-          requires: [release-ruby_331]
+          requires: [release-ruby_3412]
           filters: *tag_only
 
       - release:
@@ -127,7 +127,7 @@ workflows:
       - release:
           name: release-circleci_ruby_node
           image: circleci_ruby_node
-          requires: [release-circleci_ruby_331]
+          requires: [release-circleci_ruby_3412]
           filters: *tag_only
 
       - release:
@@ -204,7 +204,7 @@ workflows:
       - release:
           name: release-production_ruby_node
           image: production_ruby_node
-          requires: [release-production_ruby_331]
+          requires: [release-production_ruby_3412]
           filters: *tag_only
 
       - release:
