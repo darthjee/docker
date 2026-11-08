@@ -3,7 +3,7 @@ scripts=0.15.0
 # Development
 node=0.3.0
 node_mongo=0.3.0
-python=0.1.0
+python=0.2.0
 python_37=0.2.2
 rails_bower=2.0.0
 rails_yarn=2.0.0
@@ -17,7 +17,7 @@ django=0.1.0
 # Circleci
 circleci_node=0.3.0
 circleci_node_mongo=0.3.0
-circleci_python=0.1.0
+circleci_python=0.2.0
 circleci_python_37=0.2.2
 circleci_rails_bower=2.0.0
 circleci_rails_yarn=2.0.0
