@@ -1,0 +1,26 @@
+{
+  "name": "Base_node_project",
+  "description": "This is used only to install default packages",
+  "author": "Fernando 'darthjee' Favini",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "4.22.3",
+    "underscore": "1.13.8"
+  },
+  "devDependencies": {
+    "express-generator": "4.16.1",
+    "sass": "1.108.1",
+    "eslint": "8.57.1",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-complexity": "1.0.2",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jasmine": "4.2.2",
+    "eslint-plugin-n": "15.7.0",
+    "eslint-plugin-promise": "6.6.0",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "4.6.2",
+    "jasmine": "5.13.0",
+    "nyc": "15.1.0",
+    "plato": "1.7.0"
+  }
+}
