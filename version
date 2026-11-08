@@ -13,7 +13,7 @@ ruby_3412=1.0.0
 ruby_node=2.0.0
 taa=2.0.0
 taap=2.0.0
-django=0.1.0
+django=0.2.0
 # Circleci
 circleci_node=0.3.0
 circleci_node_mongo=0.3.0
@@ -27,7 +27,7 @@ circleci_ruby_3412=1.0.0
 circleci_ruby_node=2.0.0
 circleci_taa=2.0.0
 circleci_taap=2.0.0
-circleci_django=0.1.0
+circleci_django=0.2.0
 # Production
 production_rails_bower=2.0.0
 production_rails_yarn=2.0.0
@@ -36,4 +36,4 @@ production_ruby_3412=1.0.0
 production_ruby_node=2.0.0
 production_taa=2.0.0
 production_taap=2.0.0
-production_django=0.1.0
+production_django=0.2.0
