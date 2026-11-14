@@ -359,7 +359,8 @@ GEM
     simpleidn (0.3.0)
     sinclair (3.1.0)
       activesupport (~> 7.2.x)
-    sqlite3 (1.4.2)
+    sqlite3 (2.10.2-aarch64-linux-gnu)
+    sqlite3 (2.10.2-x86_64-linux-gnu)
     thor (1.5.0)
     thread_safe (0.3.6)
     timeout (0.6.1)
@@ -422,7 +423,7 @@ DEPENDENCIES
   simplecov-html (= 0.13.2)
   simplecov-lcov (= 0.9.0)
   sinclair (= 3.1.0)
-  sqlite3 (= 1.4.2)
+  sqlite3 (= 2.10.2)
   yard (= 0.9.38)
   yardstick (= 0.9.9)
 
